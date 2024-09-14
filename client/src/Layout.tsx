@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+import Background from "./shared/Background";
 import Navbar from "./shared/Navbar";
 import HomePage from "./pages/HomePage";
 import Dashboard from "./pages/Dashboard";
@@ -11,6 +12,7 @@ import Login from "./pages/Login";
 const Layout = () => {
   return (
     <Router>
+      <Background />
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />

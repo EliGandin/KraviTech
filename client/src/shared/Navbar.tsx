@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import { userAtom } from "@/state/atoms/userAtom";
-import Login from "@/pages/Login";
 
 const Navbar = () => {
   const user = useRecoilValue(userAtom);
@@ -29,7 +28,7 @@ const Navbar = () => {
             </NavigationMenuList>
           </>
         ) : (
-          <Login />
+          <Link to={"/login"}>Login</Link>
         )}
       </NavigationMenuList>
     </NavigationMenu>
