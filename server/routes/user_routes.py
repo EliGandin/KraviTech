@@ -1,6 +1,7 @@
-from typing import Optional
+from typing import Optional, cast
 
 from fastapi import APIRouter, status, Depends, HTTPException
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from database.db import get_db
@@ -24,45 +25,44 @@ async def login(user: UserLogin):
 
 @user_router.post("/signup/mentor", status_code=status.HTTP_201_CREATED)
 async def mentor_signup(mentor: MentorCreate, db: Session = Depends(get_db)):
-    try:
-        existing_user = db.query(User).filter(User.email == mentor.email).first()
-        if existing_user:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists.")
+    existing_user = db.query(User).where(cast(User.email, str) == mentor.email)
 
-        new_mentor = Mentor(
-            name=mentor.name,
-            email=mentor.email,
-            password=mentor.password,
-            field=mentor.field,
-            company=mentor.company,
-            position=mentor.position,
-            experience=mentor.experience
-        )
+    if existing_user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists.")
 
-        db.add(new_mentor)
-        db.commit()
-        return { "message": "Mentor created successfully", "id": new_mentor.id }
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to create mentor: {str(e)}")
+    new_mentor = Mentor(
+        name=mentor.name,
+        email=mentor.email,
+        password=mentor.password,
+        field=mentor.field,
+        company=mentor.company,
+        position=mentor.position,
+        experience=mentor.experience
+    )
+
+    db.add(new_mentor)
+    db.commit()
+
+    return {"message": "Mentor created successfully", "id": new_mentor.id}
+
 
 @user_router.post("/signup/menti", status_code=status.HTTP_201_CREATED)
-async def menti_signup(menti: MentiCreate,db: Session = Depends(get_db)):
-    try:
-        # TODO: Implement search
-        new_menti = Menti(
-            name=menti.name,
-            email=menti.email,
-            password=menti.password,
-            education=menti.education,
-            experience=menti.experience,
-            goals=menti.goals
-        )
+async def menti_signup(menti: MentiCreate, db: Session = Depends(get_db)):
+    existing_user = db.query(User).where(cast(User.email, str) == menti.email)
 
-        db.add(new_menti)
-        db.commit()
-        return { "message": "Menti created successfully", "id": new_menti.id }
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to create menti: {str(e)}")
+    if existing_user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists.")
 
+    new_menti = Menti(
+        name=menti.name,
+        email=menti.email,
+        password=menti.password,
+        education=menti.education,
+        experience=menti.experience,
+        goals=menti.goals
+    )
+
+    db.add(new_menti)
+    db.commit()
+
+    return {"message": "Menti created successfully", "id": new_menti.id}
