@@ -7,8 +7,10 @@ from database.db import get_db
 from globals.enums.experience_enum import Experience
 from globals.enums.field_enum import Field
 from globals.enums.role_enum import Role
+from models.menti_model import Menti
 from models.mentor_model import Mentor
 from models.user_model import User
+from schemas.menti_schema import MentiCreate
 from schemas.mentor_schema import MentorCreate
 from schemas.user_schema import UserLogin
 
@@ -42,8 +44,25 @@ async def mentor_signup(mentor: MentorCreate, db: Session = Depends(get_db)):
         return { "message": "Mentor created successfully", "id": new_mentor.id }
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=400, detail=f"Failed to create mentor: {str(e)}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to create mentor: {str(e)}")
 
 @user_router.post("/signup/menti", status_code=status.HTTP_201_CREATED)
-async def menti_signup():
-    pass
+async def menti_signup(menti: MentiCreate,db: Session = Depends(get_db)):
+    try:
+        # TODO: Implement search
+        new_menti = Menti(
+            name=menti.name,
+            email=menti.email,
+            password=menti.password,
+            education=menti.education,
+            experience=menti.experience,
+            goals=menti.goals
+        )
+
+        db.add(new_menti)
+        db.commit()
+        return { "message": "Menti created successfully", "id": new_menti.id }
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to create menti: {str(e)}")
+
