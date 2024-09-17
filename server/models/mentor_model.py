@@ -2,7 +2,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 
 from globals.enums.role_enum import Role
-from models.base import Base
 from globals.enums.field_enum import Field
 from globals.enums.experience_enum import Experience
 from models.user_model import User
@@ -24,7 +23,7 @@ class Mentor(User):
         "inherit_condition": id == User.id,
     }
 
-    def __init__(self, name, email, password, field=None, company=None, position=None, experience=None):
+    def __init__(self, name, email, password, field, experience, company=None, position=None):
         super().__init__(name=name, email=email, password=password, role=Role.MENTOR)
         self.field = field
         self.company = company
