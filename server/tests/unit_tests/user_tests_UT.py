@@ -64,6 +64,18 @@ def test_mentor_signup_user_exists(mock_db_session):
     assert response.json()["detail"] == "User already exists."
 
 
+def test_mentor_signup_missing_fields(mock_db_session):
+    incomplete_mentor_data = {
+        "field": "data",
+        "experience": "high"
+    }
+
+    response = client.post("user/signup/mentor", json=incomplete_mentor_data)
+
+    assert response.status_code == 400
+    assert response.json()["message"] == "Invalid input"
+
+
 def test_menti_signup_success(mock_db_session):
     menti_data = {
         "name": "Test Menti",
@@ -107,3 +119,15 @@ def test_menti_signup_user_exists(mock_db_session):
 
     assert response.status_code == 400
     assert response.json()["detail"] == "User already exists."
+
+
+def test_menti_signup_missing_fields(mock_db_session):
+    incomplete_menti_data = {
+        "field": "data",
+        "experience": "high"
+    }
+
+    response = client.post("user/signup/menti", json=incomplete_menti_data)
+
+    assert response.status_code == 400
+    assert response.json()["message"] == "Invalid input"
