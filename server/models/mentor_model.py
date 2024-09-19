@@ -19,7 +19,7 @@ class Mentor(User):
     user = relationship("User", back_populates="mentor")
 
     __mapper_args__ = {
-        "polymorphic_identity": "mentor",
+        "polymorphic_identity": Role.MENTOR,
         "inherit_condition": id == User.id,
     }
 

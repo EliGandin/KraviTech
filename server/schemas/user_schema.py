@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional
+from typing import Optional, Union
 
 from globals.enums.role_enum import Role
 
@@ -18,6 +18,10 @@ class UserLogin(BaseModel):
 class UserCreate(UserBase):
     pass
 
+
+class UserResponse(BaseModel):
+    message: str
+    id:int
 
 class UserUpdate(BaseModel):
     name: Optional[str]

@@ -16,7 +16,8 @@ class Menti(User):
     user = relationship("User", back_populates="menti")
 
     __mapper_args__ = {
-        'polymorphic_identity': 'menti',
+        'polymorphic_identity': Role.MENTI,
+        "inherit_condition": id == User.id,
     }
 
     def __init__(self, name, email, password, education=None, experience=None, goals=None):
