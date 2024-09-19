@@ -13,10 +13,10 @@ class User(Base):
     name = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
-    role = Column(Enum(Role), nullable=False)
+    role = Column(Enum(Role), nullable=True)
 
     mentor = relationship("Mentor", uselist=False, back_populates="user")
-    # mentee = relationship("Mentee", uselist=False, back_populates="user")
+    menti = relationship("Menti", uselist=False, back_populates="user")
 
     __mapper_args__ = {
         'polymorphic_identity': 'user',

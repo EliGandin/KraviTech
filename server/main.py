@@ -1,9 +1,11 @@
 import logging
 
 from fastapi import FastAPI, HTTPException
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
 from database.db import check_db_connection, engine
+from globals.validation_handler import validation_exception_handler
 
 from routes import user_routes
 from models.user_model import Base
@@ -22,6 +24,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.include_router(user_routes.user_router, prefix="/user", tags=["user"])
 
 
