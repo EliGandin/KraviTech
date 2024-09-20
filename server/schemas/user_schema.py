@@ -15,6 +15,7 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
+
 class UserCreate(UserBase):
     pass
 
@@ -28,6 +29,12 @@ class UserUpdate(BaseModel):
     email: Optional[EmailStr]
     password: Optional[str]
 
+
+class UserLoginResponse(BaseModel):
+    name: str
+    id: int
+    role: Role
+    message: str
 
 class UserInDB(UserBase):
     id: int

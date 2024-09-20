@@ -1,6 +1,8 @@
-from unittest.mock import MagicMock
+import os
+from unittest.mock import MagicMock, patch
 
 import pytest
+from dotenv import load_dotenv
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
@@ -18,6 +20,43 @@ def mock_db_session():
 @pytest.fixture(autouse=True)
 def override_get_db(mock_db_session):
     app.dependency_overrides[get_db] = lambda: mock_db_session
+
+
+def test_login_success(mock_db_session):
+    login_data = {
+        "email": "test@test.com",
+        "password": "1234"
+        }
+
+    mock_db_session.query(User).filter().first.return_value = None
+    mock_user = MagicMock()
+    mock_user.id = 1
+    mock_user.name = "Test User"
+    mock_user.role = "menti"
+
+    mock_db_session.query.return_value.filter.return_value.first.return_value = mock_user
+
+    response = client.post("user/login", json=login_data)
+
+    assert response.status_code == 200
+    assert response.json()["message"] == "User logged in successfully"
+    assert response.json()["id"] == mock_db_session.query(User).filter().first.return_value.id
+    assert response.json()["name"] == mock_db_session.query(User).filter().first.return_value.name
+    assert response.json()["role"] == mock_db_session.query(User).filter().first.return_value.role
+
+
+def test_login_user_not_found(mock_db_session):
+    login_data = {
+        "email": "test@test.com",
+        "password": "1234"
+    }
+
+    mock_db_session.query(User).filter().first.return_value = None
+
+    response = client.post("user/login", json=login_data)
+
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Incorrect email or password"
 
 
 def test_mentor_signup_success(mock_db_session):

@@ -5,12 +5,10 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
 from database.db import check_db_connection, engine
-from globals.validation_handler import validation_exception_handler
+from globals.validation.validation_handler import validation_exception_handler
 
 from routes import user_routes
 from models.user_model import Base
-from models.mentor_model import Mentor
-from models.menti_model import Menti
 
 logging.basicConfig(level=logging.INFO)
 
