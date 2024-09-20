@@ -33,4 +33,5 @@ jobs:
 
       - name: Run tests
         run: |
+          echo "DATABASE_URL is: $DATABASE_URL"  # Print the variable directly
           pytest server/tests/unit_tests/user_tests_UT.py
