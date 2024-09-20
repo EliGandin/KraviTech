@@ -12,8 +12,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
           python-version: "3.9"
+
+      - name: Set up environment variables
+        env:
+          KRAVI_TECH_TEST: ${{ secrets.KraviTech_Test }}
+        run: |
+          echo "KRAVI_TECH_TEST=${KRAVI_TECH_TEST}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
