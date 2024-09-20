@@ -5,8 +5,8 @@ on:
     branches:
       - main
 env:
-  KRAVI_TECH_TEST: ${{ secrets.KraviTech_Test }}
-  DATABASE_URL: ${{ secrets.DATABASE_URL }} # Add this line
+  # KRAVI_TECH_TEST: ${{ secrets.KraviTech_Test }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
 jobs:
   tests:
@@ -23,7 +23,6 @@ jobs:
 
       - name: Set up environment variables
         run: |
-          echo "DATABASE_URL is: $DATABASE_URL"  # Print the variable directly
           echo "KRAVI_TECH_TEST=${KRAVI_TECH_TEST}" >> $GITHUB_ENV
           echo "DATABASE_URL=${DATABASE_URL}" >> $GITHUB_ENV  # Add this line
 
