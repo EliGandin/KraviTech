@@ -133,3 +133,5 @@ dist
 venv
 __pychache__
 .pytest_cache
+__pycache__/
+*.py[cod]
