@@ -19,9 +19,6 @@ jobs:
           python-version: "3.9"
 
       - name: Set up environment variables
-        env:
-          KRAVI_TECH_TEST: ${{ secrets.KraviTech_Test }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }} # Add this line
         run: |
           echo "KRAVI_TECH_TEST=${KRAVI_TECH_TEST}" >> $GITHUB_ENV
           echo "DATABASE_URL=${DATABASE_URL}" >> $GITHUB_ENV  # Add this line
