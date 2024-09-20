@@ -132,3 +132,4 @@ dist
 .idea
 venv
 __pychache__
+.pytest_cache
