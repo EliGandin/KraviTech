@@ -25,5 +25,6 @@ jobs:
 
       - name: Run tests
         run: |
+          cd client
           npm test
           echo "__test passed!__ ✅" >> $GITHUB_STEP_SUMMARY
