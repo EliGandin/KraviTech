@@ -13,15 +13,21 @@ class Menti(User):
     education = Column(String)
     experience = Column(String)
     goals = Column(String)
+    comments = Column(String, nullable=True)
+    mentor_id = Column(Integer, ForeignKey('mentors.id'), nullable=True)
+
     user = relationship("User", back_populates="menti")
+    mentor = relationship("Mentor", back_populates="menti", primaryjoin="Menti.mentor_id == Mentor.id")
 
     __mapper_args__ = {
         'polymorphic_identity': Role.MENTI,
         "inherit_condition": id == User.id,
     }
 
-    def __init__(self, name, email, password, education=None, experience=None, goals=None):
+    def __init__(self, name, email, password, education=None, experience=None, goals=None, comments=None, mentor_id=None):
         super().__init__(name=name, email=email, password=password,role=Role.MENTI)
         self.education = education
         self.experience = experience
         self.goals = goals
+        self.comments = comments
+        self.mentor_id = mentor_id

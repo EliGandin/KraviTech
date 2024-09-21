@@ -135,3 +135,4 @@ __pychache__
 .pytest_cache
 __pycache__/
 *.py[cod]
+alembic.ini
