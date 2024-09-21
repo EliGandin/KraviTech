@@ -68,7 +68,8 @@ async def menti_signup(menti: MentiCreate, db: Session = Depends(get_db)):
         password=menti.password,
         education=menti.education,
         experience=menti.experience,
-        goals=menti.goals
+        goals=menti.goals,
+        comments=menti.comments
     )
 
     try:

@@ -8,6 +8,8 @@ class MentiCreate(UserCreate):
     education: Optional[str] = None
     experience: Optional[str] = None
     goals: Optional[str] = None
+    comments: Optional[str] = None
+    mentor_id: Optional[int] = None
     role: Role = Role.MENTI
 
 
