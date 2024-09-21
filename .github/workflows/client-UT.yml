@@ -20,6 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd client
           npm install
 
       - name: Run tests
