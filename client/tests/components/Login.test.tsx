@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import { describe, test, expect } from "@jest/globals";
 import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/jest-dom";
@@ -27,7 +28,7 @@ describe("Login Component - Successful Submission", () => {
     jest.spyOn(console, "log").mockImplementation(() => {});
   });
 
-  test("submits the form successfully with valid data and validates status code", async () => {
+  test("submits the form successfully with valid data", async () => {
     (userLogin as jest.Mock).mockResolvedValue({
       id: 1,
       name: "John Doe",
@@ -35,16 +36,20 @@ describe("Login Component - Successful Submission", () => {
       message: "Login successful",
     });
 
-    render(<Login />);
+    render(
+      <Router>
+        <Login />
+      </Router>,
+    );
 
-    fireEvent.change(screen.getByPlaceholderText("Email"), {
+    fireEvent.change(screen.getByPlaceholderText("m@example.com"), {
       target: { value: "test@example.com" },
     });
     fireEvent.change(screen.getByPlaceholderText("Password"), {
       target: { value: "password123" },
     });
 
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByRole("button", { name: "Login" }));
 
     await waitFor(() => {
       expect(mockMutate).toHaveBeenCalled();
@@ -71,16 +76,20 @@ describe("Login Component - Successful Submission", () => {
 
     (userLogin as jest.Mock).mockResolvedValue(mockErrorResponse);
 
-    render(<Login />);
+    render(
+      <Router>
+        <Login />
+      </Router>,
+    );
 
-    fireEvent.change(screen.getByPlaceholderText("Email"), {
-      target: { value: "wrong@example.com" },
+    fireEvent.change(screen.getByPlaceholderText("m@example.com"), {
+      target: { value: "test@example.com" },
     });
     fireEvent.change(screen.getByPlaceholderText("Password"), {
       target: { value: "wrongpassword" },
     });
 
-    fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Login" }));
 
     await waitFor(async () => {
       const response = await userLogin({

@@ -1,31 +1,37 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { useSetRecoilState } from "recoil";
 
 import { userLogin } from "@/services/loginServices";
+import { userAtom } from "@/state/atoms/userAtom";
+import { UserResponseInterface } from "@/global/interfaces/userInterfaces";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(4, { message: "Must be 5 or more characters long" }),
+  password: z.string().min(4, { message: "Must be 4 or more characters long" }),
 });
 
 const Login = () => {
+  const setUser = useSetRecoilState(userAtom);
+  // const navigate = useNavigate();
+
   const { mutate } = useMutation({
     mutationKey: ["login"],
     mutationFn: userLogin,
-    onSuccess: () => {
-      console.log("Login successful");
+    onSuccess: (data: UserResponseInterface) => {
+      if (!data) {
+        return;
+      }
+
+      setUser(data);
+      // navigate(`/app/${data.role}`); //TODO: FIX ROUTES
     },
     onError: (error) => {
       console.error(error);
@@ -41,53 +47,69 @@ const Login = () => {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
     mutate(data);
   }
 
   return (
-    <div className="m-auto mt-16 flex w-1/2 flex-row items-center justify-center rounded-lg bg-slate-100 p-5">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/3 space-y-6"
-        >
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <Card className="mx-auto mt-6 max-w-sm">
+      <CardHeader>
+        <CardTitle className="text-2xl">Login</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+          <div className="grid gap-2">
+            <Label>Email</Label>
+            <Controller
+              name="email"
+              control={form.control}
+              render={({ field }) => (
+                <Input placeholder="m@example.com" {...field} />
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input placeholder="Password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+            {form.formState.errors.email && (
+              <p className="text-red-500">
+                {form.formState.errors.email.message}
+              </p>
             )}
-          />
-
-          <div className="flex justify-center">
-            <Button className="mx-auto" type="submit">
-              Submit
-            </Button>
           </div>
+          <div className="grid gap-2">
+            <div className="flex items-center">
+              <Label htmlFor="password">Password</Label>
+              <Link to="#" className="ml-auto inline-block text-sm underline">
+                Forgot your password?
+              </Link>
+            </div>
+            <Controller
+              name="password"
+              control={form.control}
+              render={({ field }) => (
+                <Input placeholder="Password" type="password" {...field} />
+              )}
+            />
+
+            {form.formState.errors.password && (
+              <p className="text-red-500">
+                {form.formState.errors.password.message}
+              </p>
+            )}
+          </div>
+          <Button type="submit" className="w-full">
+            Login
+          </Button>
+
+          <Button variant="outline" className="w-full">
+            Login with Google
+          </Button>
         </form>
-      </Form>
-    </div>
+        <div className="mt-4 text-center text-sm">
+          Don&apos;t have an account?{" "}
+          <Link to="#" className="underline">
+            Sign up
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
