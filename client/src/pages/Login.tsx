@@ -11,6 +11,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useMutation } from "@tanstack/react-query";
+
+import { userLogin } from "@/services/loginServices";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -18,6 +21,17 @@ const FormSchema = z.object({
 });
 
 const Login = () => {
+  const { mutate } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: userLogin,
+    onSuccess: () => {
+      console.log("Login successful");
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -28,6 +42,7 @@ const Login = () => {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
+    mutate(data);
   }
 
   return (
