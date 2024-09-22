@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "jest --watchAll --coverage --verbose",
+    "test": "jest --coverage --verbose",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
