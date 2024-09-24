@@ -11,7 +11,7 @@ import { useSetRecoilState } from "recoil";
 
 import { userLogin } from "@/services/loginServices";
 import { userAtom } from "@/state/atoms/userAtom";
-import { UserResponseInterface } from "@/global/interfaces/userInterfaces";
+import { ILoginResponse } from "@/global/interfaces/userInterfaces";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -25,7 +25,7 @@ const Login = () => {
   const { mutate } = useMutation({
     mutationKey: ["login"],
     mutationFn: userLogin,
-    onSuccess: (data: UserResponseInterface) => {
+    onSuccess: (data: ILoginResponse) => {
       if (!data) {
         return;
       }
@@ -63,7 +63,7 @@ const Login = () => {
               name="email"
               control={form.control}
               render={({ field }) => (
-                <Input placeholder="m@example.com" {...field} />
+                <Input id="email" placeholder="m@example.com" {...field} />
               )}
             />
 

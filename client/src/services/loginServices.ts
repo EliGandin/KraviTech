@@ -1,11 +1,7 @@
-import {
-  UserLoginInterface,
-  UserResponseInterface,
-} from "@/global/interfaces/userInterfaces";
 import axios from "axios";
 
-export const userLogin = async (
-  data: UserLoginInterface,
-): Promise<UserResponseInterface> => {
+import { ILoginResponse, IUserLogin } from "@/global/interfaces/userInterfaces";
+
+export const userLogin = async (data: IUserLogin): Promise<ILoginResponse> => {
   return await axios.post("http://localhost:8000/user/login", data);
 };
