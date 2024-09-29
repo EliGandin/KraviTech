@@ -7,6 +7,7 @@ from globals.enums.role_enum import Role
 class UserBase(BaseModel):
     name: str
     email: EmailStr
+    phone_number: Optional[str]
     password: str
     role: Role
 
