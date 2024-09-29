@@ -41,7 +41,7 @@ async def mentor_signup(mentor: MentorCreate):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             detail=f"An error occurred while creating Menti")
 
-    return {"message": "Menti created successfully", "id": new_mentor_id}
+    return {"message": "Mentor created successfully", "id": new_mentor_id}
 
 
 @user_router.post("/signup/menti", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
