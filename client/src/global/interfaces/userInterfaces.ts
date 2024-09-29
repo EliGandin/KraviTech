@@ -11,12 +11,12 @@ export interface ILoginResponse {
 }
 
 export interface IMentiSignup {
-  name: string;
+  fullName: string;
   email: string;
   phoneNumber: string;
   password: string;
-  education: string | null;
-  experience: string | null;
+  education?: string;
+  experience?: string;
   goals: string;
-  comments: string | null;
+  comments?: string;
 }

@@ -4,19 +4,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
+import Swal from "sweetalert2";
 
-const formSchema = z
+import { mentiSignup } from "@/services/signupServices";
+
+const MentiSignupFormSchema = z
   .object({
-    firstName: z.string({ required_error: "Name is required" }),
-    lastName: z.string(),
+    fullName: z.string({ required_error: "Full name is required" }),
     email: z.string().email(),
     password: z
       .string()
       .min(4, { message: "Password must be at least 4 characters long" }),
-    confirmPassword: z.string(),
+    confirmPassword: z.string().optional(),
     phoneNumber: z.string(),
     goals: z.string(),
     education: z.string().optional(),
@@ -29,11 +32,27 @@ const formSchema = z
   });
 
 const SignupMenti = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  //   const navigate = useNavigate();
+  const { mutate } = useMutation({
+    mutationKey: ["signupMenti"],
+    mutationFn: mentiSignup,
+    onSuccess: () => {
+      Swal.fire({
+        title:
+          "Your signup has been registered is now pending moderator activation",
+        icon: "success",
+      });
+      //   navigate(`/login`); //TODO: FIX ROUTES
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const form = useForm<z.infer<typeof MentiSignupFormSchema>>({
+    resolver: zodResolver(MentiSignupFormSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      fullName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -41,35 +60,27 @@ const SignupMenti = () => {
     },
   });
 
+  function onSubmit(data: z.infer<typeof MentiSignupFormSchema>) {
+    console.log(data);
+    mutate(data);
+  }
+
   return (
     <Card className="mx-auto mt-6 w-1/2">
       <CardHeader>
         <CardTitle className="text-xl">Sign Up</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label>First name</Label>
-              <Controller
-                name="firstName"
-                control={form.control}
-                render={({ field }) => (
-                  <Input placeholder="Israel" {...field} />
-                )}
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <Label>Last name</Label>
-              <Controller
-                name="lastName"
-                control={form.control}
-                render={({ field }) => (
-                  <Input placeholder="Israeli" {...field} />
-                )}
-              />
-            </div>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+          <div className="grid gap-2">
+            <Label>Full name</Label>
+            <Controller
+              name="fullName"
+              control={form.control}
+              render={({ field }) => (
+                <Input placeholder="Israel Israeli" {...field} />
+              )}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -103,14 +114,24 @@ const SignupMenti = () => {
                 name="password"
                 control={form.control}
                 render={({ field }) => (
-                  <Input placeholder="Password" {...field} />
+                  <Input type="password" placeholder="Password" {...field} />
                 )}
               />
             </div>
 
             <div className="grid gap-2">
               <Label>Confirm Password</Label>
-              <Input placeholder="Confirm Password" />
+              <Controller
+                name="confirmPassword"
+                control={form.control}
+                render={({ field }) => (
+                  <Input
+                    type="password"
+                    placeholder="Confirm Password"
+                    {...field}
+                  />
+                )}
+              />
             </div>
           </div>
 
@@ -152,7 +173,7 @@ const SignupMenti = () => {
           <div>
             <Label>Comments</Label>
             <Controller
-              name="goals"
+              name="comments"
               control={form.control}
               render={({ field }) => (
                 <Textarea
@@ -166,7 +187,7 @@ const SignupMenti = () => {
           <Button type="submit" className="w-full">
             Create an account
           </Button>
-        </div>
+        </form>
 
         <div className="mt-4 text-center text-sm">
           Already have an account?{" "}

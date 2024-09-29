@@ -2,6 +2,6 @@ import axios from "axios";
 
 import { IMentiSignup } from "@/global/interfaces/userInterfaces";
 
-export const userSignup = async (data: IMentiSignup): Promise<void> => {
+export const mentiSignup = async (data: IMentiSignup): Promise<void> => {
   return await axios.post("http://localhost:8000/user/signup/menti", data);
 };
