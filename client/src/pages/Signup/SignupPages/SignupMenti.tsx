@@ -1,38 +1,21 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import { Label } from "@/components/ui/label.tsx";
+import { Textarea } from "@/components/ui/textarea.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import Swal from "sweetalert2";
 
-import { mentiSignup } from "@/services/signupServices";
-
-const MentiSignupFormSchema = z
-  .object({
-    fullName: z.string({ required_error: "Full name is required" }),
-    email: z.string().email(),
-    password: z
-      .string()
-      .min(4, { message: "Password must be at least 4 characters long" }),
-    confirmPassword: z.string().optional(),
-    phoneNumber: z.string(),
-    goals: z.string(),
-    education: z.string().optional(),
-    experience: z.string().optional(),
-    comments: z.string().optional(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+import { mentiSignup } from "@/services/signupServices.ts";
+import { MentiSignupFormSchema } from "../schemas/mentiSchema.ts";
+import { mentiMapper } from "@/utils/mappers.ts";
 
 const SignupMenti = () => {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const { mutate } = useMutation({
     mutationKey: ["signupMenti"],
     mutationFn: mentiSignup,
@@ -42,17 +25,17 @@ const SignupMenti = () => {
           "Your signup has been registered is now pending moderator activation",
         icon: "success",
       });
-      //   navigate(`/login`); //TODO: FIX ROUTES
+      navigate(`/login`);
     },
     onError: (error) => {
-      console.error(error);
+      console.log(error);
     },
   });
 
   const form = useForm<z.infer<typeof MentiSignupFormSchema>>({
     resolver: zodResolver(MentiSignupFormSchema),
     defaultValues: {
-      fullName: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -61,21 +44,20 @@ const SignupMenti = () => {
   });
 
   function onSubmit(data: z.infer<typeof MentiSignupFormSchema>) {
-    console.log(data);
-    mutate(data);
+    mutate(mentiMapper(data));
   }
 
   return (
-    <Card className="mx-auto mt-6 w-1/2">
+    <Card className="mx-auto">
       <CardHeader>
-        <CardTitle className="text-xl">Sign Up</CardTitle>
+        <CardTitle className="text-xl">Menti Sign Up</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
           <div className="grid gap-2">
             <Label>Full name</Label>
             <Controller
-              name="fullName"
+              name="name"
               control={form.control}
               render={({ field }) => (
                 <Input placeholder="Israel Israeli" {...field} />
@@ -191,7 +173,7 @@ const SignupMenti = () => {
 
         <div className="mt-4 text-center text-sm">
           Already have an account?{" "}
-          <Link to="#" className="underline">
+          <Link to="/login" className="underline">
             Sign in
           </Link>
         </div>
