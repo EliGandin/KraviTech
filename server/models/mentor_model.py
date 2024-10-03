@@ -23,8 +23,8 @@ class Mentor(User):
         "inherit_condition": id == User.id,
     }
 
-    def __init__(self, name, email, password, field, experience, company=None, position=None):
-        super().__init__(name=name, email=email, password=password, role=Role.MENTOR)
+    def __init__(self, name, email, phone_number, password, field, experience, company=None, position=None):
+        super().__init__(name=name, email=email,phone_number=phone_number, password=password, role=Role.MENTOR)
         self.field = field
         self.company = company
         self.position = position

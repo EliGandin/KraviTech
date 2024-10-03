@@ -5,9 +5,6 @@ from sqlalchemy.orm import relationship
 from models.base import Base
 from globals.enums.role_enum import Role
 
-from globals.validation.user_validation import password_validation
-from models.utils.user_util import hash_password
-
 
 class User(Base):
     __tablename__ = 'users'
@@ -15,6 +12,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
+    phone_number = Column(String, nullable=False)
     password = Column(String, nullable=False)
     role = Column(Enum(Role), nullable=True)
 
@@ -26,10 +24,9 @@ class User(Base):
         'polymorphic_on': role
     }
 
-    def __init__(self, name, email, password, role):
-        password_validation(password)
-
+    def __init__(self, name, email, phone_number, password, role):
         self.name = name
         self.email = email
-        self.password = hash_password(password)
+        self.phone_number = phone_number
+        self.password = password
         self.role = role

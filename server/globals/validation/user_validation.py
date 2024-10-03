@@ -1,8 +1,13 @@
-from fastapi import HTTPException
-from starlette import status
+from globals.validation.db_validation import existing_user_validation
+from globals.validation.validation_result import ValidationResult
 
 
-def password_validation(password: str) -> bool:
+def user_validation(email: str, password: str) -> ValidationResult:
     if len(password) < 4:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password must be at least 8 characters long.")
-    return True
+        return ValidationResult(False, "Password must be at least 4 characters long")
+
+
+    if existing_user_validation(email):
+        return ValidationResult(False, "User with this email already exists")
+
+    return ValidationResult(True)

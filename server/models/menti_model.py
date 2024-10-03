@@ -24,8 +24,8 @@ class Menti(User):
         "inherit_condition": id == User.id,
     }
 
-    def __init__(self, name, email, password, education=None, experience=None, goals=None, comments=None, mentor_id=None):
-        super().__init__(name=name, email=email, password=password,role=Role.MENTI)
+    def __init__(self, name, email, phone_number, password, education=None, experience=None, goals=None, comments=None, mentor_id=None):
+        super().__init__(name=name, email=email, phone_number=phone_number, password=password,role=Role.MENTI)
         self.education = education
         self.experience = experience
         self.goals = goals
