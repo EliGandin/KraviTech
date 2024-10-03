@@ -138,11 +138,12 @@ def test_menti_signup_success(mock_create_menti, mock_db_session):
     assert response.json()["message"] == "Menti created successfully"
     assert response.json()["id"] == mock_new_menti.id
 
-
+@patch("routes.user_routes.user_validation", return_value=ValidationResult(False, "User with this email already exists"))
 def test_menti_signup_user_exists(mock_db_session):
     menti_data = {
         "name": "Test Menti",
         "email": "menti@example.com",
+        "phone_number": "0545555555",
         "password": "securepassword",
         "education": "Computer Science",
         "experience": "2 years",
@@ -150,13 +151,11 @@ def test_menti_signup_user_exists(mock_db_session):
     }
 
     mock_db_session.query(User).filter().first.return_value = True
-    mock_db_session.add = MagicMock()
-    mock_db_session.commit = MagicMock()
 
     response = client.post("user/signup/menti", json=menti_data)
 
     assert response.status_code == 400
-    assert response.json()["detail"] == "User already exists."
+    assert response.json()["detail"] == "User with this email already exists"
 
 
 def test_menti_signup_missing_fields(mock_db_session):
