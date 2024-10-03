@@ -8,8 +8,7 @@ import Tables from "./pages/Tables";
 import Mentors from "./pages/Mentors";
 import Mentis from "./pages/Mentis";
 import Login from "./pages/Login";
-import SignupMentor from "./pages/Signup/SignupMentor";
-import SignupMenti from "./pages/Signup/SignupMenti";
+import Signup from "./pages/Signup/Signup";
 
 const Layout = () => {
   return (
@@ -24,8 +23,7 @@ const Layout = () => {
         <Route path="/app/mentis" element={<Mentis />} />
 
         <Route path="/login" element={<Login />} />
-        <Route path="/signup/mentor" element={<SignupMentor />} />
-        <Route path="/signup/menti" element={<SignupMenti />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>
   );
