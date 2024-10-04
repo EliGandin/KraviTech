@@ -136,3 +136,4 @@ __pychache__
 __pycache__/
 *.py[cod]
 alembic.ini
+*.pyc
