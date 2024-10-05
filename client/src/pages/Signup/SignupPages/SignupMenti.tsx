@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button.tsx";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
@@ -40,6 +45,10 @@ const SignupMenti = () => {
       password: "",
       confirmPassword: "",
       phoneNumber: "",
+      education: "",
+      experience: "",
+      goals: "",
+      comments: "",
     },
   });
 
@@ -134,7 +143,7 @@ const SignupMenti = () => {
               name="experience"
               control={form.control}
               render={({ field }) => (
-                <Textarea placeholder="What you need help with" {...field} />
+                <Textarea placeholder="What is your experience" {...field} />
               )}
             />
             <p className="ml-2">any experience, what so ever</p>

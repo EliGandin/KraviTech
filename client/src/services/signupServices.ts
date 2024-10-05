@@ -10,7 +10,5 @@ export const mentiSignup = async (data: IMentiSignup): Promise<void> => {
 };
 
 export const mentorSignup = async (data: IMentorSignup): Promise<void> => {
-  console.log(data);
-
   return await axios.post("http://localhost:8000/user/signup/mentor", data);
 };
