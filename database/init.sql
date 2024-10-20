@@ -1,6 +1,6 @@
-CREATE TYPE experience AS ENUM ('low', 'mid', 'high');
-CREATE TYPE field AS ENUM ('data', 'hardware', 'software', 'TEST');
-CREATE TYPE role AS ENUM ('mentor', 'menti', 'admin');
+CREATE TYPE experience AS ENUM ('LOW', 'MID', 'HIGH');
+CREATE TYPE field AS ENUM ('DATA', 'HARDWARE', 'SOFTWARE', 'TEST');
+CREATE TYPE role AS ENUM ('MENTOR', 'MENTI', 'ADMIN');
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
@@ -32,18 +32,18 @@ CREATE TABLE IF NOT EXISTS  mentis (
 
 INSERT INTO users (name, email, phone_number, password, role, experience, field)
 VALUES 
-('Amit Cohen', 'amit@test.com', '0505050050', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'mentor', 'mid', 'software'),
-('Alon Levi', 'alon@test.com', '0524854877', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'mentor', 'high', 'hardware'),
-('Yuval Regev', 'yuval@test.com', '0532648574', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'menti', 'low', 'data'),
-('Dana Katz', 'dana@test.com', '0524854447', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'menti', 'mid', 'data'),
-('Mor Shavit', 'mor@test.com', '0584864877', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'mentor', 'high', 'software'),
-('Danit Yarden', 'danit@test.com', '0524851117', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'menti', 'mid', 'hardware');
+('Amit Cohen', 'amit@test.com', '0505050050', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTOR', 'MID', 'SOFTWARE'),
+('Alon Levi', 'alon@test.com', '0524854877', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTOR', 'HIGH', 'HARDWARE'),
+('Yuval Regev', 'yuval@test.com', '0532648574', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTI', 'LOW', 'DATA'),
+('Dana Katz', 'dana@test.com', '0524854447', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTI', 'MID', 'DATA'),
+('Mor Shavit', 'mor@test.com', '0584864877', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTOR', 'HIGH', 'SOFTWARE'),
+('Danit Yarden', 'danit@test.com', '0524851117', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTI', 'MID', 'HARDWARE');
 
 INSERT INTO mentors (id, field, company, position, experience)
 VALUES 
-(1, 'software', 'TechCorp', 'Senior Developer', 'mid'),
-(2, 'hardware', 'Hardware Inc.', 'Lead Engineer', 'high'),
-(5, 'software', 'InnovateSoft', 'CTO', 'high');
+(1, 'SOFTWARE', 'TechCorp', 'Senior Developer', 'MID'),
+(2, 'HARDWARE', 'Hardware Inc.', 'Lead Engineer', 'HIGH'),
+(5, 'SOFTWARE', 'InnovateSoft', 'CTO', 'HIGH');
 
 INSERT INTO mentis (id, education, experience, goals, comments, mentor_id)
 VALUES 
