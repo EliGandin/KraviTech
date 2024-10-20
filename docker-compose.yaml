@@ -1,0 +1,54 @@
+services:
+  web:
+    build:
+      context: client
+    ports:
+      - 5172:5172
+    depends_on:
+      - api
+    environment:
+      - APP_PORT=5172
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+
+  api:
+    build: ./server
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    restart: always
+    volumes:
+      - ./server:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_NAME: ${DB_NAME:-docker}
+      DATABASE_USERNAME: ${DB_USERNAME:-docker}
+      DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://docker:1234@localhost:5433/docker}
+      DATABASE_PORT: ${DATABASE_PORT:-5433}
+    env_file:
+      - ./server/.env
+
+  db:
+    image: postgres:14
+    build: ./database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME:-docker}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-1234}
+      POSTGRES_db: ${DB_NAME:-docker}
+    ports:
+      - target: 5432
+        published: ${DB_PORT:-5433}
+        protocol: tcp
+    env_file:
+      - ./server/.env
+
+volumes:
+  postgres_data:
+# secrets:
+#   server-keys:
+#     file: ./server/.env
