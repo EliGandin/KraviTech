@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { describe, test, expect } from "@jest/globals";
 import "@testing-library/jest-dom/extend-expect";
 
-import Navbar from "../../src/shared/Navbar";
+import Navbar from "../../src/components/ui/Navbar";
 import { useRecoilValue } from "recoil";
 
 jest.mock("recoil", () => {

@@ -3,7 +3,7 @@ import { z } from "zod";
 import {
   IMentiSignup,
   IMentorSignup,
-} from "@/global/interfaces/userInterfaces";
+} from "@/global/interfaces/signupInterfaces";
 import { MentorSignupFormSchema } from "@/pages/Signup/schemas/mentorSchema";
 import { MentiSignupFormSchema } from "@/pages/Signup/schemas/mentiSchema";
 

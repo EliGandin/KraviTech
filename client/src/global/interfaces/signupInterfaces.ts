@@ -2,17 +2,17 @@ interface IUser {
   name: string;
   email: string;
   phone_number: string;
-//   password: string;
+  password: string;
 }
 
-export interface IMenti extends IUser {
+export interface IMentiSignup extends IUser {
   education?: string;
   experience?: string;
   goals: string;
   comments?: string;
 }
 
-export interface IMentor extends IUser {
+export interface IMentorSignup extends IUser {
   position?: string;
   field?: string;
   company?: string;
