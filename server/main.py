@@ -8,6 +8,8 @@ from database.db import check_db_connection, engine
 from globals.validation.validation_handler import validation_exception_handler
 
 from routes import user_routes
+from routes import mentor_routes
+from routes import menti_routes
 from models.user_model import Base
 
 logging.basicConfig(level=logging.INFO)
@@ -23,7 +25,9 @@ app.add_middleware(
 )
 
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
-app.include_router(user_routes.user_router, prefix="/user", tags=["user"])
+app.include_router(user_routes.router, prefix="/user", tags=["user"])
+app.include_router(mentor_routes.router, prefix="/mentors", tags=["mentor"])
+app.include_router(menti_routes.router, prefix="/mentis", tags=["menti"])
 
 
 @app.on_event("startup")
