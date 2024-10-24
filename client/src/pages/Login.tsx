@@ -11,7 +11,7 @@ import { useSetRecoilState } from "recoil";
 
 import { userLogin } from "@/services/loginServices";
 import { userAtom } from "@/state/atoms/userAtom";
-import { ILoginResponse } from "@/global/interfaces/userInterfaces";
+import { ILoginResponse } from "@/global/interfaces/loginInterfaces";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),

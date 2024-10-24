@@ -21,7 +21,7 @@ class UserCreate(UserBase):
     pass
 
 
-class UserResponse(BaseModel):
+class UserSignupResponse(BaseModel):
     message: str
     id:int
 
@@ -35,7 +35,12 @@ class UserLoginResponse(BaseModel):
     name: str
     id: int
     role: Role
-    message: str
+
+
+class UserResponse(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
 
 class UserInDB(UserBase):
     id: int
