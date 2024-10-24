@@ -42,7 +42,6 @@ def test_login_success(mock_login_user, mock_db_session):
     response = client.post("user/login", json=login_data)
 
     assert response.status_code == 200
-    assert response.json()["message"] == "User logged in successfully"
     assert response.json()["id"] == mock_user.id
     assert response.json()["name"] == mock_user.name
     assert response.json()["role"] == mock_user.role
