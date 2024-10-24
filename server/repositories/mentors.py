@@ -9,4 +9,3 @@ def get_mentors():
     db: Session = next(get_db())
     mentors = db.query(Mentor).all()
     return mentor_mapper(mentors)
-    # return mentors
