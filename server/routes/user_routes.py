@@ -5,13 +5,13 @@ from globals.validation.user_validation import user_validation
 from repositories.login_user import login_user
 from schemas.menti_schema import MentiCreate
 from schemas.mentor_schema import MentorCreate
-from schemas.user_schema import UserLogin, UserResponse, UserLoginResponse
+from schemas.user_schema import UserLogin, UserSignupResponse, UserLoginResponse
 from services.user_initialization import create_menti, create_mentor
 
-user_router = APIRouter()
+router = APIRouter()
 
 
-@user_router.post("/login", status_code=status.HTTP_200_OK, response_model=UserLoginResponse)
+@router.post("/login", status_code=status.HTTP_200_OK, response_model=UserLoginResponse)
 async def login(user: UserLogin):
     validation = login_validation(user)
 
@@ -28,7 +28,7 @@ async def login(user: UserLogin):
     }
 
 
-@user_router.post("/signup/mentor", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
+@router.post("/signup/mentor", status_code=status.HTTP_201_CREATED, response_model=UserSignupResponse)
 async def mentor_signup(mentor: MentorCreate):
     validation = user_validation(mentor.email, mentor.password)
 
@@ -44,7 +44,7 @@ async def mentor_signup(mentor: MentorCreate):
     return {"message": "Mentor created successfully", "id": new_mentor_id}
 
 
-@user_router.post("/signup/menti", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
+@router.post("/signup/menti", status_code=status.HTTP_201_CREATED, response_model=UserSignupResponse)
 async def menti_signup(menti: MentiCreate):
     validation = user_validation(menti.email, menti.password)
 
