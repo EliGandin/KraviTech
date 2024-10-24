@@ -2,7 +2,7 @@ interface IUser {
   name: string;
   email: string;
   phone_number: string;
-//   password: string;
+  role: "mentor" | "menti" | "admin";
 }
 
 export interface IMenti extends IUser {
@@ -10,6 +10,7 @@ export interface IMenti extends IUser {
   experience?: string;
   goals: string;
   comments?: string;
+  mentor_name?: string;
 }
 
 export interface IMentor extends IUser {
