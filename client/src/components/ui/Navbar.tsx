@@ -1,9 +1,6 @@
 import {
   NavigationMenu,
-  //   NavigationMenuContent,
-  NavigationMenuLink,
   NavigationMenuList,
-  //   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -18,19 +15,23 @@ const Navbar = () => {
       <NavigationMenuList className="flex gap-5">
         {user ? (
           <>
-            <Link to={"/"}>Home</Link>
-            <Link to={"/dashboard"}>Dashboard</Link>
-            <Link to={"/tables"}>Tables</Link>
-            <Link to={"/mentors"}>Mentors</Link>
-            <Link to={"/mentis"}>Mentis</Link>
-            <NavigationMenuList className="ml-auto">
-              <NavigationMenuLink>Profile</NavigationMenuLink>
-            </NavigationMenuList>
+            <Link to={"app/"}>Home</Link>
+            <Link to={"app/dashboard"}>Dashboard</Link>
+            <Link to={"app/tables"}>Tables</Link>
+            <Link to={"app/mentors"}>Mentors</Link>
+            <Link to={"app/mentis"}>Mentis</Link>
           </>
         ) : (
           <Link to={"/login"}>Login</Link>
         )}
       </NavigationMenuList>
+
+      {user && (
+        <Link
+          to={`/profile/${user.id}`}
+          className="ml-auto"
+        >{`Hello ${user.name}`}</Link>
+      )}
     </NavigationMenu>
   );
 };

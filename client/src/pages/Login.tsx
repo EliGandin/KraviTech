@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useSetRecoilState } from "recoil";
 
@@ -20,7 +20,7 @@ const FormSchema = z.object({
 
 const Login = () => {
   const setUser = useSetRecoilState(userAtom);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { mutate } = useMutation({
     mutationKey: ["login"],
@@ -31,7 +31,7 @@ const Login = () => {
       }
 
       setUser(data);
-      // navigate(`/app/${data.role}`); //TODO: FIX ROUTES
+      navigate(`/app/dashboard`);
     },
     onError: (error) => {
       console.error(error);
