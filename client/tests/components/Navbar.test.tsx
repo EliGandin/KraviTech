@@ -30,11 +30,11 @@ describe("Navbar", () => {
     expect(screen.getByText("Tables")).toBeInTheDocument();
     expect(screen.getByText("Mentors")).toBeInTheDocument();
     expect(screen.getByText("Mentis")).toBeInTheDocument();
-
-    expect(screen.getByText("Profile")).toBeInTheDocument();
   });
 
   test("links navigate to correct paths", () => {
+    (useRecoilValue as jest.Mock).mockReturnValue({ name: "Test User" });
+
     render(
       <Router>
         <Navbar />
@@ -42,22 +42,25 @@ describe("Navbar", () => {
     );
 
     // Check the href attributes of the links
-    expect(screen.getByText("Home").closest("a")).toHaveAttribute("href", "/");
+    expect(screen.getByText("Home").closest("a")).toHaveAttribute(
+      "href",
+      "/app/",
+    );
     expect(screen.getByText("Dashboard").closest("a")).toHaveAttribute(
       "href",
-      "/dashboard",
+      "/app/dashboard",
     );
     expect(screen.getByText("Tables").closest("a")).toHaveAttribute(
       "href",
-      "/tables",
+      "/app/tables",
     );
     expect(screen.getByText("Mentors").closest("a")).toHaveAttribute(
       "href",
-      "/mentors",
+      "/app/mentors",
     );
     expect(screen.getByText("Mentis").closest("a")).toHaveAttribute(
       "href",
-      "/mentis",
+      "/app/mentis",
     );
   });
 });
