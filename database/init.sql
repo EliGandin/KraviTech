@@ -30,14 +30,20 @@ CREATE TABLE IF NOT EXISTS  mentis (
     mentor_id INTEGER REFERENCES mentors(id) ON DELETE SET NULL
 );
 
+CREATE TABLE IF NOT EXISTS admins (
+    id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Inserting data
 INSERT INTO users (name, email, phone_number, password, role, experience, field)
-VALUES 
+VALUES
 ('Amit Cohen', 'amit@test.com', '0505050050', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTOR', 'MID', 'SOFTWARE'),
 ('Alon Levi', 'alon@test.com', '0524854877', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTOR', 'HIGH', 'HARDWARE'),
 ('Yuval Regev', 'yuval@test.com', '0532648574', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTI', 'LOW', 'DATA'),
 ('Dana Katz', 'dana@test.com', '0524854447', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTI', 'MID', 'DATA'),
 ('Mor Shavit', 'mor@test.com', '0584864877', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTOR', 'HIGH', 'SOFTWARE'),
-('Danit Yarden', 'danit@test.com', '0524851117', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTI', 'MID', 'HARDWARE');
+('Danit Yarden', 'danit@test.com', '0524851117', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'MENTI', 'MID', 'HARDWARE'),
+('Eli Gandin', 'eli@test.com', '0545544477', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'ADMIN', null, null);
 
 INSERT INTO mentors (id, field, company, position, experience)
 VALUES 
@@ -50,3 +56,6 @@ VALUES
 (3, 'BSc Computer Science', '1 year', 'Learn backend development', 'Very motivated to learn', 1),
 (4, 'BA Data Science', '2 years', 'Become a Data Analyst', 'I want to contribute to big data', 1),
 (6, 'Diploma in Hardware Engineering', '1.5 years', 'Learn hardware design', 'Excited about hardware', 2);
+
+INSERT INTO admins (id)
+VALUES (7);
