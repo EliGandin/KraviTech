@@ -2,7 +2,6 @@ from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
 from globals.enums.role_enum import Role
-from models.base import Base
 from models.user_model import User
 
 
