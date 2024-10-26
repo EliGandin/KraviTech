@@ -20,7 +20,7 @@ jobs:
         run: npm install
       - name: Run Application
         run: |
-          echo 'DATABASE_URL=${{ secrets.LOCATION_API_KEY }}' > .env
+          echo 'DATABASE_URL=${{ secrets.DATABASE_URL }}' > .env
           docker compose build
           docker compose up -d
       - name: wait for api
