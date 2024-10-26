@@ -1,11 +1,10 @@
-name: Playwright Tests
+name: E2E-signup
 on:
   workflow_dispatch:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-env: DATABASE_URL="postgresql://docker:1234@db:5432/docker"
 
 jobs:
   test:
