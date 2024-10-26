@@ -1,9 +1,12 @@
 name: Playwright Tests
 on:
+  workflow_dispatch:
   push:
-    branches: main
+    branches: [main]
   pull_request:
-    branches: main
+    branches: [main]
+env: DATABASE_URL="postgresql://docker:1234@db:5432/docker"
+
 jobs:
   test:
     timeout-minutes: 60
@@ -18,6 +21,7 @@ jobs:
         run: npm install
       - name: Run Application
         run: |
+          echo 'DATABASE_URL=${{ secrets.LOCATION_API_KEY }}' > .env
           docker compose build
           docker compose up -d
       - name: wait for api
