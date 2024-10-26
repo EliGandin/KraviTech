@@ -17,7 +17,8 @@ jobs:
         working-directory: ./E2E
         run: npm install
       - name: Run Application
-        run: docker compose build
+        run: |
+          docker compose build
           docker compose up -d
       - name: wait for api
         run: |
