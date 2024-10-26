@@ -31,7 +31,7 @@ const Login = () => {
       }
 
       setUser(data);
-      navigate(`/app/dashboard`);
+      navigate(`/app/tables`);
     },
     onError: (error) => {
       console.error(error);
