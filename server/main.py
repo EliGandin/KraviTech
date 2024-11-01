@@ -1,10 +1,11 @@
 import logging
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 
-from database.db import check_db_connection, engine
+from database.db import check_db_connection, engine, get_db
 from globals.validation.validation_handler import validation_exception_handler
 
 from routes import user_routes
@@ -48,3 +49,8 @@ async def on_startup():
 @app.get("/")
 def read_root():
     return {"message": "Great Success"}
+
+@app.delete("/test")
+def e2e_cleanup(db = Depends(get_db)):
+    db.execute(text("DELETE FROM users WHERE email = 'teste2e@test.com'"))
+    db.commit()
