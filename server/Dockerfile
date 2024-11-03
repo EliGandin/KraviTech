@@ -1,6 +1,12 @@
-FROM python:3.9
+FROM node:18-alpine as development
 WORKDIR /app
-COPY . /app
-RUN pip install --no-cache-dir -r requirements.txt
+COPY package*.json ./
+RUN npm install && npm cache clean --force
+COPY *ts* /app/
+#COPY ./routes /app/routes/
+#COPY ./globals /app/globals/
+#COPY ./middlewares /app/middlewares/
+#COPY ./repositories /app/repositories/
+#COPY . .
 EXPOSE 8000
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD [ "npm", "run", "dev" ]
