@@ -4,7 +4,8 @@ import * as dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 
-import signupRouter from "./routes/signup/signupMentor.route";
+import signupRouter from "./routes/signup/signup.routes";
+import loginRouter from "./routes/login/login.routes";
 
 const app = express();
 
@@ -13,7 +14,8 @@ app.use(express.json());
 app.use(helmet());
 app.use(morgan("combined"));
 
-app.use("/user", signupRouter);
+app.use("/signup", signupRouter);
+app.use("/login", loginRouter)
 
 app.use("/", () => {
   console.log("Hello, world!");
