@@ -8,3 +8,14 @@ export type MentorSignup = {
   position: string;
   experience: number;
 }
+
+export type MentiSignup = {
+  name: string;
+  email: string;
+  phone_number: string;
+  password: string;
+  education: string;
+  experience: number;
+  goals: string;
+  comments: string;
+}
