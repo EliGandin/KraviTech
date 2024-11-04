@@ -24,8 +24,6 @@ loginRouter.post("/",
         return;
       }
 
-      console.log(`User: ${user}`);
-
       res.status(StatusCodes.OK).json(user);
     } catch (error) {
       const e = error as Error;

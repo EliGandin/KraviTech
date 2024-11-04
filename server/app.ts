@@ -1,11 +1,12 @@
 import express from "express";
 import * as dotenv from "dotenv";
-// import bodyParser from "body-parser";
 import helmet from "helmet";
 import morgan from "morgan";
 
 import signupRouter from "./routes/signup/signup.routes";
 import loginRouter from "./routes/login/login.routes";
+import mentorRouter from "./routes/api/tables/mentor.routes";
+import mentiRouter from "./routes/api/tables/menti.routes";
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use(morgan("combined"));
 
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter)
+app.use("/mentors", mentorRouter)
+app.use("/mentis", mentiRouter)
 
 app.use("/", () => {
   console.log("Hello, world!");
