@@ -1,5 +1,5 @@
-import { ValidationResult } from "../types/validationResult";
-import db from "../../db/db";
+import { ValidationResult } from "@/globals/types/ValidationResult";
+import db from "@/db/db";
 
 export const existingEmailValidation = async (email: string): Promise<ValidationResult> => {
   const tables = ["mentors", "mentis", "admins"];

@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { fieldValidation } from "../../globals/validations/fieldValidation";
-import { existingEmailValidation } from "../../globals/validations/existingEmailValidation";
-import { mentiSignupController, mentorSignupController } from "../../controllers/signupController";
-import { mentiSignupValidator, mentorSignupValidator } from "../../middlewares/validators/signup.validator";
+import { fieldValidation } from "@/globals/validations/fieldValidation";
+import { existingEmailValidation } from "@/globals/validations/existingEmailValidation";
+import { mentiSignupController, mentorSignupController } from "@/controllers/signup.controller";
+import { mentiSignupValidator, mentorSignupValidator } from "@/middlewares/validators/signup.validator";
 
 const signupRouter = Router();
 

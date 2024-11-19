@@ -6,13 +6,13 @@ import app from "../../app";
 import { FieldErrors } from "../../globals/errors/fieldErrors";
 import { createMentiMock, createMentorMock, existingEmailValidationMock } from "./mocks/mocks";
 
-import { createMentor } from "../../repositories/mentors";
-import { createMenti } from "../../repositories/mentis";
+import { createMentor } from "../../repositories/mentors.repository";
+import { createMenti } from "../../repositories/mentis.repository";
 import { existingEmailValidation } from "../../globals/validations/existingEmailValidation";
 
 jest.mock("../../globals/validations/existingEmailValidation");
-jest.mock("../../repositories/mentors");
-jest.mock("../../repositories/mentis");
+jest.mock("../../repositories/mentors.repository");
+jest.mock("../../repositories/mentis.repository");
 
 describe("Signup Routes", () => {
   beforeAll(() => {

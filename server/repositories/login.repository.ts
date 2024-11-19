@@ -1,6 +1,6 @@
-import db from "../db/db";
+import db from "@/db/db";
 
-export const login = async (email: string) => {
+export const loginRepository = async (email: string) => {
   const tables = ["mentors", "mentis", "admins"];
   for (const table of tables) {
     const query = `SELECT id, name, password

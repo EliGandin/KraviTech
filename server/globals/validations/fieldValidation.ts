@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { ValidationResult } from "../types/validationResult";
+import { ValidationResult } from "@/globals/types/ValidationResult";
 import { validationResult } from "express-validator";
 
 export const fieldValidation = (req: Request): ValidationResult | undefined => {

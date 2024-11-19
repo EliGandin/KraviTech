@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { getAllMentors } from "../../../repositories/mentors";
+import { getAllMentors } from "../../../repositories/mentors.repository";
 
 const mentorRouter = Router();
 
@@ -14,6 +14,6 @@ mentorRouter.get("/", async (req: Request, res: Response) => {
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
   }
-})
+});
 
-export default  mentorRouter
+export default mentorRouter;

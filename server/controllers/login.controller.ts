@@ -1,9 +1,9 @@
 import { compare } from "bcrypt";
 
-import { login } from "../repositories/login";
+import { loginRepository } from "@/repositories/login.repository";
 
 export const loginController = async (email: string, password: string) => {
-  const user = await login(email);
+  const user = await loginRepository(email);
   if (!user) {
     return null;
   }
@@ -15,4 +15,4 @@ export const loginController = async (email: string, password: string) => {
 
   const role = user.table.slice(0, -1);
   return { id: user.id, name: user.name, email, role };
-}
+};

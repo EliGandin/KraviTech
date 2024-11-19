@@ -1,20 +1,20 @@
 import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { body } from "express-validator";
 
-import { fieldValidation } from "../../globals/validations/fieldValidation";
-import { loginController } from "../../controllers/loginController";
+import { fieldValidation } from "@/globals/validations/fieldValidation";
+import { loginController } from "@/controllers/login.controller";
+import { loginValidator } from "@/middlewares/validators/login.validator";
 
 const loginRouter = Router();
 
 loginRouter.post("/",
-  [body("email").isEmail(), body("password").isLength({ min: 4 }).isString()],
+  loginValidator(),
   async (req: Request, res: Response): Promise<void> => {
-      const fieldValidationResult = fieldValidation(req);
-      if (fieldValidationResult) {
-        res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
-        return;
-      }
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
     const { email, password } = req.body;
 
     try {
