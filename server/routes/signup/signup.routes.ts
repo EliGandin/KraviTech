@@ -1,14 +1,15 @@
 import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { body } from "express-validator";
 
-import { existingEmailValidation, fieldValidation } from "../../globals/validations";
+import { fieldValidation } from "../../globals/validations/fieldValidation";
+import { existingEmailValidation } from "../../globals/validations/existingEmailValidation";
 import { mentiSignupController, mentorSignupController } from "../../controllers/signupController";
+import { mentiSignupValidator, mentorSignupValidator } from "../../middlewares/validators/signup.validator";
 
 const signupRouter = Router();
 
 signupRouter.post("/mentor",
-  [body("name").isString(), body("email").isEmail(), body("phone_number").isString(), body("password").isLength({ min: 4 }).isString(), body("field").isString(), body("experience").isString()],
+  mentorSignupValidator(),
   async (req: Request, res: Response): Promise<void> => {
     const fieldValidationResult = fieldValidation(req);
     if (fieldValidationResult) {
@@ -37,7 +38,7 @@ signupRouter.post("/mentor",
 );
 
 signupRouter.post("/menti",
-  [body("name").isString(), body("email").isEmail(), body("phone_number").isString(), body("password").isLength({ min: 4 }).isString(), body("education").isString(), body("experience").isString(), body("goals").isString(), body("comments").isString()],
+  mentiSignupValidator(),
   async (req: Request, res: Response): Promise<void> => {
     const fieldValidationResult = fieldValidation(req);
     if (fieldValidationResult) {

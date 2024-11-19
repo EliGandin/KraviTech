@@ -20,10 +20,13 @@ app.use("/login", loginRouter)
 app.use("/mentors", mentorRouter)
 app.use("/mentis", mentiRouter)
 
-app.use("/", () => {
+app.use("/", (req, res) => {
   console.log("Hello, world!");
+  res.status(200).send("Hello, world!");
 });
 
 app.listen(process.env.BACKEND_PORT || 8000, () => {
   console.log(`Server is running on port ${process.env.BACKEND_PORT || 8000}`);
 });
+
+export default app

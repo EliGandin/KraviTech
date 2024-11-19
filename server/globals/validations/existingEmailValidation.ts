@@ -1,18 +1,5 @@
-import { Request } from "express";
-import { validationResult } from "express-validator";
-
-import { ValidationResult } from "./types/validationResult";
-import db from "../db/db";
-
-export const fieldValidation = (req: Request): ValidationResult | undefined => {
-  const res = validationResult(req);
-  if (!validationResult(req).isEmpty()) {
-    return {
-      isValid: false,
-      message: res.array()[0].msg,
-    };
-  }
-};
+import { ValidationResult } from "../types/validationResult";
+import db from "../../db/db";
 
 export const existingEmailValidation = async (email: string): Promise<ValidationResult> => {
   const tables = ["mentors", "mentis", "admins"];
