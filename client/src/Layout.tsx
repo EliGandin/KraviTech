@@ -5,8 +5,8 @@ import Navbar from "./components/ui/Navbar";
 import HomePage from "./pages/HomePage";
 import Dashboard from "./pages/Dashboard";
 import Tables from "./pages/Tables";
-import Mentors from "./pages/Mentors";
-import Mentis from "./pages/Mentis";
+import Mentors from "@/pages/Mentors/Mentors.tsx";
+import Mentis from "./pages/Mentis/Mentis.tsx";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup/Signup";
 

@@ -1,5 +1,5 @@
+import db from "@/db/db";
 import { MentiSignup } from "@/globals/types/Signup.types";
-import db from "../db/db";
 import { Menti } from "@/globals/types/User.types";
 
 export const createMenti = async (menti: MentiSignup): Promise<void> => {
@@ -19,6 +19,7 @@ export const getAllMentis = async (): Promise<Menti[]> => {
                         goals,
                         comments,
                         operator_id,
+                        status,
                         mentor_id
                  FROM mentis`;
 

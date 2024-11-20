@@ -1,5 +1,5 @@
-import { MentorColumns } from "@/components/columns/MentorColumns";
-import TableComponent from "@/components/ui/TableComponent";
+import { MentorColumns } from "@/pages/Mentors/MentorColumns.tsx";
+import TableComponent from "@/components/ui/TableComponent.tsx";
 import { useMentors } from "@/hooks/tables/mentors/useMentors.ts";
 
 const Mentors = () => {
