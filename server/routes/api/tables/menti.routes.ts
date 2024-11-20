@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { getAllMentis } from "../../../repositories/mentis.repository";
+import { getAllMentis } from "@/repositories/mentis.repository";
 
 const mentiRouter = Router();
 

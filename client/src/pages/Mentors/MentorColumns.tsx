@@ -6,13 +6,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/dropdown-menu.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ArrowUpDown } from "lucide-react";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "../../components/ui/checkbox.tsx";
 
-import { IMentor } from "@/global/interfaces/userInterfaces";
+import { IMentor } from "@/global/interfaces/userInterfaces.ts";
+import {
+  capitalizeTableCells,
+  formatPhoneNumber,
+} from "@/utils/formatters/formatTableCells.ts";
 
 export const MentorColumns = (): ColumnDef<IMentor>[] => [
   {
@@ -59,11 +63,7 @@ export const MentorColumns = (): ColumnDef<IMentor>[] => [
     accessorKey: "phone_number",
     header: () => <div className="text-left">Phone Number</div>,
     cell: ({ row }) => {
-      const phoneNumber: string = row.getValue("phone_number");
-      const formattedPhoneNumber =
-        phoneNumber.slice(0, 3) + "-" + phoneNumber.slice(3);
-
-      return <div>{formattedPhoneNumber}</div>;
+      return <div>{formatPhoneNumber(row.getValue("phone_number"))}</div>;
     },
   },
   {
@@ -74,10 +74,7 @@ export const MentorColumns = (): ColumnDef<IMentor>[] => [
     accessorKey: "field",
     header: () => <div className="text-left">Field</div>,
     cell: ({ row }) => {
-      const field: string = row.getValue("field");
-      const formattedField = field.charAt(0).toUpperCase() + field.slice(1);
-
-      return <div>{formattedField}</div>;
+      return <div>{capitalizeTableCells(row.getValue("field"))}</div>;
     },
   },
   {
@@ -88,11 +85,14 @@ export const MentorColumns = (): ColumnDef<IMentor>[] => [
     accessorKey: "experience",
     header: () => <div className="text-left">Experience</div>,
     cell: ({ row }) => {
-      const experience: string = row.getValue("experience");
-      const formattedExperience =
-        experience.charAt(0).toUpperCase() + experience.slice(1);
-
-      return <div>{formattedExperience}</div>;
+      return <div>{capitalizeTableCells(row.getValue("experience"))}</div>;
+    },
+  },
+  {
+    accessorKey: "status",
+    header: () => <div className="text-left">Status</div>,
+    cell: ({ row }) => {
+      return <div>{capitalizeTableCells(row.getValue("status"))}</div>;
     },
   },
   {

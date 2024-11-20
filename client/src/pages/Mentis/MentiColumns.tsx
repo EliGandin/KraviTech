@@ -6,13 +6,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/dropdown-menu.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ArrowUpDown } from "lucide-react";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "../../components/ui/checkbox.tsx";
 
-import { IMenti } from "@/global/interfaces/userInterfaces";
+import { IMenti } from "@/global/interfaces/userInterfaces.ts";
+import {
+  capitalizeTableCells,
+  formatPhoneNumber,
+} from "@/utils/formatters/formatTableCells.ts";
 
 export const MentiColumns = (): ColumnDef<IMenti>[] => [
   {
@@ -59,11 +63,7 @@ export const MentiColumns = (): ColumnDef<IMenti>[] => [
     accessorKey: "phone_number",
     header: () => <div className="text-left">Phone Number</div>,
     cell: ({ row }) => {
-      const phoneNumber: string = row.getValue("phone_number");
-      const formattedPhoneNumber =
-        phoneNumber.slice(0, 3) + "-" + phoneNumber.slice(3);
-
-      return <div>{formattedPhoneNumber}</div>;
+      return <div>{formatPhoneNumber(row.getValue("phone_number"))}</div>;
     },
   },
   {
@@ -73,6 +73,9 @@ export const MentiColumns = (): ColumnDef<IMenti>[] => [
   {
     accessorKey: "experience",
     header: () => <div className="text-left">Experience</div>,
+    cell: ({ row }) => {
+      return <div>{capitalizeTableCells(row.getValue("experience"))}</div>;
+    },
   },
   {
     accessorKey: "goals",
@@ -89,10 +92,16 @@ export const MentiColumns = (): ColumnDef<IMenti>[] => [
   {
     accessorKey: "operator_name",
     header: () => <div className="text-left">Operator Name</div>,
+    cell: ({ row }) => {
+      return <div>{row.original.operator_name || "N/A"}</div>;
+    },
   },
   {
     accessorKey: "status",
     header: () => <div className="text-left">Status</div>,
+    cell: ({ row }) => {
+      return <div>{capitalizeTableCells(row.getValue("status"))}</div>;
+    },
   },
   {
     id: "actions",

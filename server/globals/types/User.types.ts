@@ -7,6 +7,7 @@ export type Mentor = {
   position: string;
   field: string;
   experience: string;
+  status: string;
 }
 
 export type Menti = {
@@ -20,5 +21,6 @@ export type Menti = {
   comments: string;
   operator_id: number;
   mentor_id: number;
+  status: string;
 }
 

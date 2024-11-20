@@ -1,6 +1,6 @@
-import db from "../db/db";
-import { MentorSignup } from "../globals/types/Signup.types";
-import { Mentor } from "../globals/types/User.types";
+import db from "@/db/db";
+import { MentorSignup } from "@/globals/types/Signup.types";
+import { Mentor } from "@/globals/types/User.types";
 
 export const createMentor = async (mentor: MentorSignup): Promise<void> => {
   const query = `INSERT INTO mentors (name, email, phone_number, password, field, company, position, experience)
@@ -17,7 +17,8 @@ export const getAllMentors = async (): Promise<Mentor[]> => {
                         field,
                         company,
                         position,
-                        experience
+                        experience,
+                        status
                  FROM mentors`;
 
   const { rows } = await db.query(query);

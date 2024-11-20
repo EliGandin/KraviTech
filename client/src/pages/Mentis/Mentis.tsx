@@ -1,5 +1,5 @@
-import { MentiColumns } from "@/components/columns/MentiColumns";
-import TableComponent from "@/components/ui/TableComponent";
+import { MentiColumns } from "@/pages/Mentis/MentiColumns.tsx";
+import TableComponent from "@/components/ui/TableComponent.tsx";
 import { useMentis } from "@/hooks/tables/mentis/useMentis.ts";
 
 const Mentis = () => {

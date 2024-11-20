@@ -3,6 +3,7 @@ interface IUser {
   email: string;
   phone_number: string;
   role: "mentor" | "menti" | "admin";
+  status: "Pending" | "Active" | "Inactive";
 }
 
 export interface IMenti extends IUser {
@@ -11,6 +12,7 @@ export interface IMenti extends IUser {
   goals: string;
   comments?: string;
   mentor_name?: string;
+  operator_name?: string;
 }
 
 export interface IMentor extends IUser {
