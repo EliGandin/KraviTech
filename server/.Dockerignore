@@ -5,7 +5,7 @@ dist
 npm-debug.log
 .coverage
 .coverage.*
-server/.env
+.env
 .aws
 .vscode
 .idea

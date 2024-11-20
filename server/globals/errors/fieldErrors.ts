@@ -1,0 +1,8 @@
+export const FieldErrors = {
+  INVALID_NAME: "Invalid name",
+  INVALID_EMAIL: "Invalid email",
+  INVALID_PHONE_NUMBER: "Invalid phone number",
+  INVALID_PASSWORD: "Invalid password",
+  INVALID_FIELD: "Invalid field value",
+  INVALID_EXPERIENCE: "Invalid experience value",
+}

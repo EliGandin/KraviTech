@@ -13,11 +13,12 @@ services:
       - /app/node_modules
 
   api:
-    build: ./server
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    build:
+      context: server
     restart: always
     volumes:
       - ./server:/app
+      - /app/node_modules
     ports:
       - "8000:8000"
     depends_on:
@@ -29,7 +30,7 @@ services:
       DATABASE_URL: ${DATABASE_URL:-postgresql://docker:1234@db:5432/docker}
       DATABASE_PORT: ${DATABASE_PORT:-5433}
     env_file:
-      - ./server/.env
+      - server/.env
 
   db:
     image: postgres:14
@@ -41,15 +42,9 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-1234}
       POSTGRES_DB: ${DB_NAME:-docker}
     ports:
-#      - target: 5432
-#        published: 5433
-#        protocol: tcp
       - "5433:5432"
     env_file:
-      - ./server/.env
+      - server/.env
 
 volumes:
   postgres_data:
-# secrets:
-#   server-keys:
-#     file: ./server/.env
