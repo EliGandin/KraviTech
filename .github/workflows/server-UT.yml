@@ -1,9 +1,9 @@
-name: Integration Tests - Client
+name: Integration Tests - Server
 
 on:
   pull_request:
     branches:
-      - main
+      - main  # Change to your main branch name if different
 
 jobs:
   test:
@@ -14,7 +14,7 @@ jobs:
         image: docker:20.10.7
         options: --privileged
         ports:
-          - 5433:5433
+          - 5433:5433  # Expose database port
 
     steps:
       - name: Checkout code
@@ -41,7 +41,7 @@ jobs:
 
       - name: Build and start Docker containers
         run: |
-          docker-compose -f docker-compose.yml up --build -d
+          docker-compose -f docker-compose.yaml up --build -d
 
       - name: Wait for services to be ready
         run: |
