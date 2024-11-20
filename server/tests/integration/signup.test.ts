@@ -2,20 +2,24 @@ import request from "supertest";
 import { StatusCodes } from "http-status-codes";
 import { jest } from "@jest/globals";
 
-import app from "../../app";
-import { FieldErrors } from "../../globals/errors/fieldErrors";
+import app from "@/app";
+import { FieldErrors } from "@/globals/errors/fieldErrors";
 import { createMentiMock, createMentorMock, existingEmailValidationMock } from "./mocks/mocks";
+import { createMentor } from "@/repositories/mentors.repository";
+import { createMenti } from "@/repositories/mentis.repository";
+import { existingEmailValidation } from "@/globals/validations/existingEmailValidation";
 
-import { createMentor } from "../../repositories/mentors.repository";
-import { createMenti } from "../../repositories/mentis.repository";
-import { existingEmailValidation } from "../../globals/validations/existingEmailValidation";
-
-jest.mock("../../globals/validations/existingEmailValidation");
-jest.mock("../../repositories/mentors.repository");
-jest.mock("../../repositories/mentis.repository");
+jest.mock("@/globals/validations/existingEmailValidation");
+jest.mock("@/repositories/mentors.repository");
+jest.mock("@/repositories/mentis.repository");
 
 describe("Signup Routes", () => {
+  let server: ReturnType<typeof app.listen>;
   beforeAll(() => {
+    server = app.listen(process.env.TEST_PORT || 8001, () => {
+      console.log(`Server is running on port ${process.env.TEST_PORT || 8001}`);
+    });
+
     (existingEmailValidation as jest.Mock).mockImplementation(existingEmailValidationMock);
     (createMentor as jest.Mock).mockImplementation(createMentorMock);
     (createMenti as jest.Mock).mockImplementation(createMentiMock);
@@ -23,11 +27,12 @@ describe("Signup Routes", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.resetModules();
   });
 
-  // afterAll(() => {
-  //   app.close(() => );
-  // })
+  afterAll(() => {
+    server.close();
+  });
 
   describe("Mentor Scenarios", () => {
     it("should return 201 when a mentor is signing up", async () => {

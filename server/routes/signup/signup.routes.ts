@@ -49,7 +49,7 @@ signupRouter.post("/menti",
     const { name, email, phone_number, password, education, experience, goals, comments } = req.body;
 
     try {
-      const dbValidationResult = await existingEmailValidation(req.body.email);
+      const dbValidationResult = await existingEmailValidation(email);
       if (!dbValidationResult.isValid) {
         res.status(StatusCodes.BAD_REQUEST).send(dbValidationResult.message);
         return;

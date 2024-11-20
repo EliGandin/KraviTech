@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "npx ts-node-dev --poll --respawn --transpile-only -r tsconfig-paths/register app.ts",
-    "test": "npx jest --runInBand --detectOpenHandles --config tests/jest.config.ts\n"
+    "test": "npx jest --verbose --detectOpenHandles --config tests/jest.config.ts"
   },
   "keywords": [],
   "author": "",
