@@ -116,8 +116,10 @@ export const MentorColumns = (): ColumnDef<IMentor>[] => [
               Change Status
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>Change Mentor</DropdownMenuItem>
+            <DropdownMenuItem>Change Operator</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

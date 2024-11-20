@@ -8,52 +8,22 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { z } from "zod";
-import Swal from "sweetalert2";
 
-import { mentiSignup } from "@/services/signupServices.ts";
-import { MentiSignupFormSchema } from "../schemas/mentiSchema.ts";
-import { mentiMapper } from "@/utils/mappers.ts";
+import { MentiSignupFormSchema } from "@/schemas/MentiSignupFormSchema.ts";
+import { mentiSignupResolver } from "@/resolvers/mentiSignupResolver.ts";
+import { useMentiSignup } from "@/hooks/users/useMentiSignup.ts";
+import { mentiSignupMapper } from "@/utils/mappers/mentiSignupMapper.ts";
 
 const SignupMenti = () => {
-  const navigate = useNavigate();
-  const { mutate } = useMutation({
-    mutationKey: ["signupMenti"],
-    mutationFn: mentiSignup,
-    onSuccess: () => {
-      Swal.fire({
-        title:
-          "Your signup has been registered is now pending moderator activation",
-        icon: "success",
-      });
-      navigate(`/login`);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  const form = useForm<z.infer<typeof MentiSignupFormSchema>>({
-    resolver: zodResolver(MentiSignupFormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      phoneNumber: "",
-      education: "",
-      experience: "",
-      goals: "",
-      comments: "",
-    },
-  });
+  const { mutate } = useMentiSignup();
+  const form =
+    useForm<z.infer<typeof MentiSignupFormSchema>>(mentiSignupResolver);
 
   function onSubmit(data: z.infer<typeof MentiSignupFormSchema>) {
-    mutate(mentiMapper(data));
+    mutate(mentiSignupMapper(data));
   }
 
   return (

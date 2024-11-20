@@ -87,6 +87,14 @@ export const MentiColumns = (): ColumnDef<IMenti>[] => [
     header: () => <div className="text-left">Mentor Name</div>,
   },
   {
+    accessorKey: "operator_name",
+    header: () => <div className="text-left">Operator Name</div>,
+  },
+  {
+    accessorKey: "status",
+    header: () => <div className="text-left">Status</div>,
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const action = row.original;

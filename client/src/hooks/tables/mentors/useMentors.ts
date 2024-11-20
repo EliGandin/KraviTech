@@ -1,0 +1,13 @@
+import { useQuery } from "@tanstack/react-query";
+
+import { IMentor } from "@/global/interfaces/userInterfaces.ts";
+import { getMentors } from "@/services/tablesServices.ts";
+
+export const useMentors = () => {
+  const { data: mentors } = useQuery<IMentor[]>({
+    queryKey: ["getMentors"],
+    queryFn: getMentors,
+  });
+
+  return { mentors };
+};

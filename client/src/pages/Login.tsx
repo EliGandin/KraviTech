@@ -1,52 +1,21 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link, useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { useSetRecoilState } from "recoil";
+import { Link } from "react-router-dom";
 
-import { userLogin } from "@/services/loginServices";
-import { userAtom } from "@/state/atoms/userAtom";
-import { ILoginResponse } from "@/global/interfaces/loginInterfaces";
-
-const FormSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(4, { message: "Must be 4 or more characters long" }),
-});
+import { useLogin } from "@/hooks/users/useLogin.ts";
+import { LoginSchema } from "@/schemas/LoginSchema.ts";
+import { loginResolver } from "@/resolvers/loginResolver.ts";
 
 const Login = () => {
-  const setUser = useSetRecoilState(userAtom);
-  const navigate = useNavigate();
+  const { mutate } = useLogin();
 
-  const { mutate } = useMutation({
-    mutationKey: ["login"],
-    mutationFn: userLogin,
-    onSuccess: (data: ILoginResponse) => {
-      if (!data) {
-        return;
-      }
+  const form = useForm<z.infer<typeof LoginSchema>>(loginResolver);
 
-      setUser(data);
-      navigate(`/app/tables`);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
-
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof LoginSchema>) {
     mutate(data);
   }
 

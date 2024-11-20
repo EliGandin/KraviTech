@@ -1,16 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-
 import { MentorColumns } from "@/components/columns/MentorColumns";
 import TableComponent from "@/components/ui/TableComponent";
-import { getMentors } from "@/services/tablesServices";
-import { IMentor } from "@/global/interfaces/userInterfaces";
+import { useMentors } from "@/hooks/tables/mentors/useMentors.ts";
 
 const Mentors = () => {
-  const { data } = useQuery<IMentor[]>({
-    queryKey: ["getMentors"],
-    queryFn: getMentors,
-  });
-
+  const { mentors } = useMentors();
   const columns = MentorColumns();
 
   return (
@@ -20,7 +13,7 @@ const Mentors = () => {
         <p>Here is a list of all the mentors</p>
       </div>
       <div className="my-4 rounded-md border border-black">
-        {data && <TableComponent data={data} columns={columns} />}
+        {mentors && <TableComponent data={mentors} columns={columns} />}
       </div>
     </div>
   );
