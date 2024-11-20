@@ -1,10 +1,14 @@
 import { Button } from "@/components/ui/button.tsx";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils.ts";
@@ -22,39 +26,38 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover.tsx";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import Swal from "sweetalert2";
 
-import { mentorSignup } from "@/services/signupServices.ts";
-import { mentorMapper } from "@/utils/mappers.ts";
-import { MentorSignupFormSchema } from "../schemas/mentorSchema.ts";
+import { MentorSignupFormSchema } from "@/schemas/MentorSignupFormSchema.ts";
+import { mentorSignupResolver } from "@/resolvers/mentorSignupResolver.ts";
+import { useMentorSignup } from "@/hooks/users/useMentorSignup.ts";
+import { mentorSignupMapper } from "@/utils/mappers/mentorSignupMapper.ts";
 
 const fieldOptions = [
   {
-    value: "data",
+    value: "DATA",
     label: "Data",
   },
   {
-    value: "hardware",
+    value: "HARDWARE",
     label: "Hardware",
   },
   {
-    value: "software",
+    value: "SOFTWARE",
     label: "Software",
   },
 ];
 
 const experienceOptions = [
   {
-    value: "high",
+    value: "HIGH",
     label: "5+ years",
   },
   {
-    value: "mid",
+    value: "MID",
     label: "3-5 years",
   },
   {
-    value: "low",
+    value: "LOW",
     label: "1-3 years",
   },
 ];
@@ -64,40 +67,14 @@ const SignupMentor = () => {
   const [experienceMenuOpen, setExperienceMenuOpen] = useState<boolean>(false);
   const [fieldValue, setFieldValue] = useState<string>("");
   const [experienceValue, setExperienceValue] = useState<string>("");
+  const { mutate } = useMentorSignup();
 
-  const form = useForm<z.infer<typeof MentorSignupFormSchema>>({
-    resolver: zodResolver(MentorSignupFormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      phoneNumber: "",
-      position: "",
-      company: "",
-    },
-  });
+  const form =
+    useForm<z.infer<typeof MentorSignupFormSchema>>(mentorSignupResolver);
 
   function onSubmit(data: z.infer<typeof MentorSignupFormSchema>) {
-    mutate(mentorMapper(data));
+    mutate(mentorSignupMapper(data));
   }
-
-  const navigate = useNavigate();
-  const { mutate } = useMutation({
-    mutationKey: ["signupMentor"],
-    mutationFn: mentorSignup,
-    onSuccess: () => {
-      Swal.fire({
-        title:
-          "Your signup has been registered is now pending moderator activation",
-        icon: "success",
-      });
-      navigate(`/login`);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
 
   return (
     <Card className="mx-auto">
