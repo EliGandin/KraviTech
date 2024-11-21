@@ -1,9 +1,10 @@
 interface IUser {
+  id: number;
   name: string;
   email: string;
   phone_number: string;
   role: "mentor" | "menti" | "admin";
-  status: "Pending" | "Active" | "Inactive";
+  status: "Pending" | "Pre-production" | "Active" | "Inactive";
 }
 
 export interface IMenti extends IUser {
@@ -21,3 +22,5 @@ export interface IMentor extends IUser {
   company?: string;
   experience?: string;
 }
+
+export type TPendingUsers = (IMentor | IMenti)[];

@@ -14,9 +14,9 @@ import { Checkbox } from "../../components/ui/checkbox.tsx";
 
 import { IMenti } from "@/global/interfaces/userInterfaces.ts";
 import {
-  capitalizeTableCells,
+  capitalizeValue,
   formatPhoneNumber,
-} from "@/utils/formatters/formatTableCells.ts";
+} from "@/utils/formatters/formatFields.ts";
 
 export const MentiColumns = (): ColumnDef<IMenti>[] => [
   {
@@ -74,7 +74,7 @@ export const MentiColumns = (): ColumnDef<IMenti>[] => [
     accessorKey: "experience",
     header: () => <div className="text-left">Experience</div>,
     cell: ({ row }) => {
-      return <div>{capitalizeTableCells(row.getValue("experience"))}</div>;
+      return <div>{capitalizeValue(row.getValue("experience"))}</div>;
     },
   },
   {
@@ -100,7 +100,7 @@ export const MentiColumns = (): ColumnDef<IMenti>[] => [
     accessorKey: "status",
     header: () => <div className="text-left">Status</div>,
     cell: ({ row }) => {
-      return <div>{capitalizeTableCells(row.getValue("status"))}</div>;
+      return <div>{capitalizeValue(row.getValue("status"))}</div>;
     },
   },
   {

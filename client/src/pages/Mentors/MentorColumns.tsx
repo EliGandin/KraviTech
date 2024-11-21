@@ -14,9 +14,9 @@ import { Checkbox } from "../../components/ui/checkbox.tsx";
 
 import { IMentor } from "@/global/interfaces/userInterfaces.ts";
 import {
-  capitalizeTableCells,
+  capitalizeValue,
   formatPhoneNumber,
-} from "@/utils/formatters/formatTableCells.ts";
+} from "@/utils/formatters/formatFields.ts";
 
 export const MentorColumns = (): ColumnDef<IMentor>[] => [
   {
@@ -74,7 +74,7 @@ export const MentorColumns = (): ColumnDef<IMentor>[] => [
     accessorKey: "field",
     header: () => <div className="text-left">Field</div>,
     cell: ({ row }) => {
-      return <div>{capitalizeTableCells(row.getValue("field"))}</div>;
+      return <div>{capitalizeValue(row.getValue("field"))}</div>;
     },
   },
   {
@@ -85,14 +85,14 @@ export const MentorColumns = (): ColumnDef<IMentor>[] => [
     accessorKey: "experience",
     header: () => <div className="text-left">Experience</div>,
     cell: ({ row }) => {
-      return <div>{capitalizeTableCells(row.getValue("experience"))}</div>;
+      return <div>{capitalizeValue(row.getValue("experience"))}</div>;
     },
   },
   {
     accessorKey: "status",
     header: () => <div className="text-left">Status</div>,
     cell: ({ row }) => {
-      return <div>{capitalizeTableCells(row.getValue("status"))}</div>;
+      return <div>{capitalizeValue(row.getValue("status"))}</div>;
     },
   },
   {

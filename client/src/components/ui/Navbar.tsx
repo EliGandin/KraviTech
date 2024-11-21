@@ -20,6 +20,10 @@ const Navbar = () => {
             <Link to={"app/tables"}>Tables</Link>
             <Link to={"app/mentors"}>Mentors</Link>
             <Link to={"app/mentis"}>Mentis</Link>
+            
+            {user.role === "admin" && (
+              <Link to={"app/adminboard"}>Admin Board</Link>
+            )}
           </>
         ) : (
           <Link to={"/login"}>Login</Link>

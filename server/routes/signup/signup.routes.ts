@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 import { fieldValidation } from "@/globals/validations/fieldValidation";
 import { existingEmailValidation } from "@/globals/validations/existingEmailValidation";
-import { mentiSignupController, mentorSignupController } from "@/controllers/signup.controller";
+import { mentiSignupController, mentorSignupController } from "@/controllers/users/signup.controller";
 import { mentiSignupValidator, mentorSignupValidator } from "@/middlewares/validators/signup.validator";
 
 const signupRouter = Router();
