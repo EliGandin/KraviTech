@@ -22,9 +22,9 @@ Database: Postgres
 
 ![My Skills](https://go-skill-icons.vercel.app/api/icons?i=postgresql)
 
-Backend: Python, FastAPI, SQLAlchemy, Pydentic  
+Backend: NodeJS, Express, Typescript  
 
-![My Skills](https://go-skill-icons.vercel.app/api/icons?i=python,fastapi,sqlalchemy)
+![My Skills](https://go-skill-icons.vercel.app/api/icons?i=nodejs,express,typescript)
 
 Frontend: React, TanStack, Recoil, Tailwind, Jest, Shadcn  
 
