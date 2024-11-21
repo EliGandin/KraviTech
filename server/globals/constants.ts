@@ -1,2 +1,8 @@
-export const END_TIMESTAMP = "9999999999999";
-export const PENDING_USER_TIMESTAMP = 1;
+export const Status = {
+  PENDING: "PENDING",
+  PREPRODUCTION: "PREPRODUCTION",
+  ACTIVE: "ACTIVE",
+  INACTIVE: "INACTIVE",
+};
+
+export const dbTables = ["mentors", "mentis", "admins", "messages"];

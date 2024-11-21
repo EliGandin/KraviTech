@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { fieldValidation } from "@/globals/validations/fieldValidation";
-import { loginController } from "@/controllers/login.controller";
+import { loginController } from "@/controllers/users/login.controller";
 import { loginValidator } from "@/middlewares/validators/login.validator";
 
 const loginRouter = Router();

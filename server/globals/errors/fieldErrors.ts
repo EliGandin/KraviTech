@@ -5,4 +5,6 @@ export const FieldErrors = {
   INVALID_PASSWORD: "Invalid password",
   INVALID_FIELD: "Invalid field value",
   INVALID_EXPERIENCE: "Invalid experience value",
-}
+  INVALID_ID: "Invalid id",
+  INVALID_ROLE: "Invalid role",
+};

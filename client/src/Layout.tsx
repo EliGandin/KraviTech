@@ -9,6 +9,7 @@ import Mentors from "@/pages/Mentors/Mentors.tsx";
 import Mentis from "./pages/Mentis/Mentis.tsx";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup/Signup";
+import AdminBoard from "@/pages/Admin/AdminBoard";
 
 const Layout = () => {
   return (
@@ -21,6 +22,7 @@ const Layout = () => {
         <Route path="/app/tables" element={<Tables />} />
         <Route path="/app/mentors" element={<Mentors />} />
         <Route path="/app/mentis" element={<Mentis />} />
+        <Route path="/app/admin/board" element={<AdminBoard />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

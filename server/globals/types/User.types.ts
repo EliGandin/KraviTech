@@ -15,12 +15,13 @@ export type Menti = {
   name: string;
   email: string;
   phone_number: string;
-  education: string;
-  experience: string;
+  education?: string;
+  experience?: string;
   goals: string;
-  comments: string;
-  operator_id: number;
-  mentor_id: number;
+  comments?: string;
+  operator_id?: number;
+  mentor_id?: number;
   status: string;
 }
+
 
