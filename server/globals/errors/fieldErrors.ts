@@ -7,4 +7,5 @@ export const FieldErrors = {
   INVALID_EXPERIENCE: "Invalid experience value",
   INVALID_ID: "Invalid id",
   INVALID_ROLE: "Invalid role",
+  INVALID_OPERATOR_ID: "Invalid operator id",
 };
