@@ -43,8 +43,6 @@ const Messages = () => {
   const { operators } = useGetAllOperators();
   const { updateMessageMutation } = useUpdateMessage();
 
-  console.log(messages);
-
   const openDialog = (message: Message) => {
     setSelectedMessage(message);
     setOpen(true);

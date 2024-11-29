@@ -1,14 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ArrowUpDown } from "lucide-react";
 import { Checkbox } from "../../components/ui/checkbox.tsx";
 
@@ -17,6 +8,7 @@ import {
   capitalizeValue,
   formatPhoneNumber,
 } from "@/utils/formatters/formatFields.ts";
+import MentorActions from "@/pages/Mentors/MentorActions.tsx";
 
 export const MentorColumns = (): ColumnDef<IMentor>[] => [
   {
@@ -98,31 +90,7 @@ export const MentorColumns = (): ColumnDef<IMentor>[] => [
   {
     id: "actions",
     cell: ({ row }) => {
-      const action = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(action.name)}
-            >
-              Change Status
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Change Mentor</DropdownMenuItem>
-            <DropdownMenuItem>Change Operator</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <MentorActions id={row.original.id} />;
     },
   },
 ];
