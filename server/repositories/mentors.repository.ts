@@ -25,3 +25,12 @@ export const getAllMentors = async (): Promise<Mentor[]> => {
   const { rows } = await db.query(query);
   return rows;
 };
+
+export const deleteMentor = async (id: number): Promise<void> => {
+  const query = `UPDATE mentors
+                 SET STATUS   = $1,
+                     end_date = NOW()
+                 WHERE id = $2`;
+
+  await db.query(query, [Status.INACTIVE, id]);
+};

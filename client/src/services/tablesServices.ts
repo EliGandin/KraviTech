@@ -11,3 +11,7 @@ export const getMentis = async (): Promise<IMenti[]> => {
   const { data } = (await axios.get("http://localhost:8000/mentis")).data;
   return data;
 };
+
+export const deleteMentor = async (id: number): Promise<void> => {
+  await axios.delete(`http://localhost:8000/mentors/${id}`);
+};
