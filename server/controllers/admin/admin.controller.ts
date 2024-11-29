@@ -10,6 +10,6 @@ export const activationController = async (id: number, role: string) => {
   await activateUser(id, table);
 };
 
-export const updateMessageController = async (id: number, operator_id: number) => {
+export const updateMessageController = async (id: number, operator_id: number | null) => {
   await updateMessage(id, operator_id);
 };
