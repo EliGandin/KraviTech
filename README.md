@@ -1,39 +1,45 @@
-
 # KraviTech
 
-KraviTech aims to help former combat soldiers to enter the tech job market by pairing them with mentors from a matching field. All the mentors are former combat soldiers themselves, and know the different challenges they may face, making them the ideal mentors for this job.
-
+KraviTech aims to help former combat soldiers to enter the tech job market by pairing them with mentors from a matching
+field. All the mentors are former combat soldiers themselves, and know the different challenges they may face, making
+them the ideal mentors for this job.
 
 ## How to run
+
 1. Clone the repo
 2. Download Docker Desktop. Here's a [_**link**_](https://www.docker.com/products/docker-desktop/).
 3. Run the following command
+
 ```bash
 docker compose up --build
 ```
-- To run the project after the build simply run 
+
+- To run the project after the build simply run
+
 ```bash
 docker compose up
 ```
 
 Feel Free to set up `.env` file with your own variables
+
 ## Tech Stack
-Database: Postgres  
+
+Database: Postgres
 
 ![My Skills](https://go-skill-icons.vercel.app/api/icons?i=postgresql)
 
-Backend: NodeJS, Express, Typescript  
+Backend: NodeJS, Express, Typescript
 
 ![My Skills](https://go-skill-icons.vercel.app/api/icons?i=nodejs,express,typescript)
 
-Frontend: React, TanStack, Recoil, Tailwind, Jest, Shadcn  
+Frontend: React, TanStack, Recoil, Tailwind, Jest, Shadcn
 
 ![My Skills](https://go-skill-icons.vercel.app/api/icons?i=react,reactquery,recoil,tailwind,jest)
 
-Orchestration: Docker Compose  
+Orchestration: Docker Compose
 
 ![My Skills](https://go-skill-icons.vercel.app/api/icons?i=docker)
 
-Continuos Integration: Github Actions  
+Continues Integration: Github Actions
 
 ![My Skills](https://go-skill-icons.vercel.app/api/icons?i=githubactions)
