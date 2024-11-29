@@ -15,3 +15,7 @@ export const getMentis = async (): Promise<IMenti[]> => {
 export const deleteMentor = async (id: number): Promise<void> => {
   await axios.delete(`http://localhost:8000/mentors/${id}`);
 };
+
+export const deleteMenti = async (id: number): Promise<void> => {
+  await axios.delete(`http://localhost:8000/mentis/${id}`);
+};

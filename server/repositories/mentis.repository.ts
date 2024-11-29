@@ -28,3 +28,12 @@ export const getAllMentis = async (): Promise<Menti[]> => {
   const { rows } = await db.query(query);
   return rows;
 };
+
+export const deleteMenti = async (id: number): Promise<void> => {
+  const query = `UPDATE mentis
+                 SET STATUS   = $1,
+                     end_date = NOW()
+                 WHERE id = $2`;
+
+  await db.query(query, [Status.INACTIVE, id]);
+};

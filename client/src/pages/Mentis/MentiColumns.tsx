@@ -17,6 +17,7 @@ import {
   capitalizeValue,
   formatPhoneNumber,
 } from "@/utils/formatters/formatFields.ts";
+import MentiActions from "@/pages/Mentis/MentiActions.tsx";
 
 export const MentiColumns = (): ColumnDef<IMenti>[] => [
   {
@@ -106,29 +107,7 @@ export const MentiColumns = (): ColumnDef<IMenti>[] => [
   {
     id: "actions",
     cell: ({ row }) => {
-      const action = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(action.name)}
-            >
-              Change Status
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <MentiActions id={row.original.id} />;
     },
   },
 ];
