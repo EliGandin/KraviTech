@@ -22,5 +22,3 @@ export interface IMentor extends IUser {
   company?: string;
   experience?: string;
 }
-
-export type TPendingUsers = (IMentor | IMenti)[];

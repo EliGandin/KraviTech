@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,12 +41,13 @@ import {
 } from "@/utils/formatters/formatFields";
 
 const PendingUsers = () => {
-  const { pendingUsers } = useGetPendingUsers();
-  const { activate } = useActivateUsers();
-  const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IMenti | IMentor | null>(
     null,
   );
+
+  const { pendingUsers } = useGetPendingUsers();
+  const { activate } = useActivateUsers();
+  const [open, setOpen] = useState<boolean>(false);
 
   const openDialog = (user: IMenti | IMentor) => {
     setSelectedUser(user);
