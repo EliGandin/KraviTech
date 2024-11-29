@@ -11,7 +11,8 @@ const Navbar = () => {
   const user = useRecoilValue(userAtom);
 
   return (
-    <NavigationMenu className="flex w-full max-w-full items-center justify-between bg-zinc-700 px-4 py-2 text-lg text-zinc-200">
+    <NavigationMenu
+      className="flex w-full max-w-full items-center justify-between bg-zinc-700 px-4 py-2 text-lg text-zinc-200">
       <NavigationMenuList className="flex gap-5">
         {user ? (
           <>
@@ -20,9 +21,9 @@ const Navbar = () => {
             <Link to={"app/tables"}>Tables</Link>
             <Link to={"app/mentors"}>Mentors</Link>
             <Link to={"app/mentis"}>Mentis</Link>
-            
+
             {user.role === "admin" && (
-              <Link to={"app/adminboard"}>Admin Board</Link>
+              <Link to={"app/admin/board"}>Admin Board</Link>
             )}
           </>
         ) : (
