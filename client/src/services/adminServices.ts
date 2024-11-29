@@ -1,5 +1,7 @@
 import axios from "axios";
-import { TPendingUsers } from "@/global/interfaces/userInterfaces.ts";
+
+import { TPendingUsers } from "@/global/interfaces/Props/PendingUserCardProps";
+import { Message } from "@/global/interfaces/Props/MessageProps";
 
 export const getPendingUsers = async (): Promise<TPendingUsers> => {
   const { data } = (await axios.get("http://localhost:8000/admin/pendingusers"))
@@ -12,5 +14,22 @@ export const activateUsers = async (id: number, role: string) => {
   await axios.put("http://localhost:8000/admin/activate", {
     id,
     role,
+  });
+};
+
+export const getAllMessages = async (): Promise<Message[]> => {
+  const { data } = (await axios.get("http://localhost:8000/admin/messages"))
+    .data;
+
+  return data;
+};
+
+export const updateMessage = async (
+  id: number,
+  operator_id: number | null,
+): Promise<void> => {
+  await axios.put("http://localhost:8000/admin/updatemessage", {
+    id,
+    operator_id,
   });
 };

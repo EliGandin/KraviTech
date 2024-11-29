@@ -1,6 +1,7 @@
 import db from "@/db/db";
 import { Menti, Mentor } from "@/globals/types/User.types";
-import { Status } from "@/globals/constants";
+import { MessageStatus, Status } from "@/globals/constants";
+import { Message } from "@/globals/types/Message.type";
 
 export const getAllPendingUsers = async (): Promise<(Menti | Mentor)[]> => {
   const pendingMentorsQuery = `SELECT id,
@@ -40,4 +41,31 @@ export const activateUser = async (id: number, table: string): Promise<void> => 
                  WHERE id = $2`;
 
   await db.query(query, [Status.PREPRODUCTION, id]);
+};
+
+export const getAllMessages = async (): Promise<Message[]> => {
+  const query = `SELECT id,
+                        name,
+                        email,
+                        phone_number,
+                        title,
+                        message,
+                        status,
+                        date,
+                        operator_id
+                 FROM messages
+                 WHERE status = $1`;
+
+  const { rows } = await db.query(query, [MessageStatus.OPEN]);
+  return rows;
+};
+
+export const updateMessage = async (id: number, operator_id: number | null): Promise<void> => {
+  console.log("updateMessage", id, operator_id);
+  const query = `UPDATE messages
+                 SET operator_id = $1,
+                     status      = $2
+                 WHERE id = $3`;
+
+  await db.query(query, [operator_id, MessageStatus.CLOSED, id]);
 };

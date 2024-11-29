@@ -15,6 +15,7 @@ loginRouter.post("/",
       res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
       return;
     }
+    
     const { email, password } = req.body;
 
     try {

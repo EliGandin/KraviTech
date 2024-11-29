@@ -6,3 +6,8 @@ export const Status = {
 };
 
 export const dbTables = ["mentors", "mentis", "admins", "messages"];
+
+export const MessageStatus = {
+  OPEN: "OPEN",
+  CLOSED: "CLOSED",
+};

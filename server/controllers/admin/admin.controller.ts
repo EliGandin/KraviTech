@@ -1,5 +1,5 @@
 import { dbTables } from "@/globals/constants";
-import { activateUser } from "@/repositories/admin.repository";
+import { activateUser, updateMessage } from "@/repositories/admin.repository";
 import { FieldErrors } from "@/globals/errors/fieldErrors";
 
 export const activationController = async (id: number, role: string) => {
@@ -8,4 +8,8 @@ export const activationController = async (id: number, role: string) => {
     throw new Error(FieldErrors.INVALID_ROLE);
 
   await activateUser(id, table);
+};
+
+export const updateMessageController = async (id: number, operator_id: number | null) => {
+  await updateMessage(id, operator_id);
 };

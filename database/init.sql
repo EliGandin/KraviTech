@@ -2,6 +2,7 @@ CREATE TYPE experience AS ENUM ('LOW', 'MID', 'HIGH');
 CREATE TYPE field AS ENUM ('DATA', 'HARDWARE', 'SOFTWARE');
 CREATE TYPE role AS ENUM ('MENTOR', 'MENTI', 'ADMIN');
 CREATE TYPE status AS ENUM ('PENDING', 'PREPRODUCTION', 'ACTIVE', 'INACTIVE', 'SUCCESS');
+CREATE TYPE message_status AS ENUM ('OPEN', 'CLOSED');
 
 CREATE TABLE IF NOT EXISTS mentors
 (
@@ -47,6 +48,19 @@ CREATE TABLE IF NOT EXISTS mentis
     end_date     DATE   DEFAULT NULL
 );
 
+CREATE TABLE IF NOT EXISTS messages
+(
+    id           SERIAL PRIMARY KEY,
+    name         VARCHAR NOT NULL,
+    email        VARCHAR NOT NULL,
+    phone_number VARCHAR NOT NULL,
+    title        VARCHAR,
+    message      VARCHAR NOT NULL,
+    status       message_status DEFAULT 'OPEN',
+    date         DATE           DEFAULT CURRENT_DATE,
+    operator_id  INTEGER REFERENCES admins (id) ON DELETE SET NULL
+);
+
 INSERT INTO mentors (name, email, phone_number, password, field, company, position, experience, status, start_date,
                      end_date)
 VALUES ('Amit Cohen', 'amit@test.com', '0505050050', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
@@ -78,3 +92,7 @@ VALUES ('Eli Gandin', 'eli@test.com', '0545544477', '$2a$12$0B.EaJM27vxqP7kZbzdb
         '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', null),
        ('George Harris', 'george.harris@example.com', '0555556666',
         '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', null);
+
+INSERT INTO messages (name, email, phone_number, title, message, status, operator_id)
+VALUES ('John Doe', 'john@test.com', '0501234567', 'help', 'I have a question', 'OPEN', 1),
+       ('Jane Doe', 'jane@test.com', '0501234567', 'question', 'I have a question', 'OPEN', 1);
