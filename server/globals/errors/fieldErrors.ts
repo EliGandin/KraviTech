@@ -8,4 +8,5 @@ export const FieldErrors = {
   INVALID_ID: "Invalid id",
   INVALID_ROLE: "Invalid role",
   INVALID_OPERATOR_ID: "Invalid operator id",
+  INVALID_STATUS: "Invalid status",
 };

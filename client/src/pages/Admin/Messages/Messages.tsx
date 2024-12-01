@@ -145,7 +145,7 @@ const Messages = () => {
                       >
                         <SelectValue placeholder="Select operator" />
                       </SelectTrigger>
-                      <SelectContent defaultValue={selectedOperatorId}>
+                      <SelectContent>
                         {operators?.map((operator: Operator) => (
                           <SelectItem
                             key={operator.id}

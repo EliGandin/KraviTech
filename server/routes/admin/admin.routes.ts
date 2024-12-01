@@ -8,7 +8,7 @@ import { fieldValidation } from "@/globals/validations/fieldValidation";
 
 const adminRouter = Router();
 
-adminRouter.get("/pendingusers", async (req: Request, res: Response) => {
+adminRouter.get("/PendingUsers", async (req: Request, res: Response) => {
   try {
     const pendingUsers = await getAllPendingUsers();
     res.status(StatusCodes.OK).json({ data: pendingUsers });
@@ -21,6 +21,12 @@ adminRouter.get("/pendingusers", async (req: Request, res: Response) => {
 
 adminRouter.put("/activate", adminValidator(), async (req: Request, res: Response) => {
   try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
     const { id, role } = req.body;
     await activationController(id, role);
     res.status(StatusCodes.OK).send();
@@ -48,7 +54,7 @@ adminRouter.get("/messages", async (req: Request, res: Response) => {
   }
 });
 
-adminRouter.put("/updatemessage", updateMessageValidator(), async (req: Request, res: Response) => {
+adminRouter.put("/UpdateMessage", updateMessageValidator(), async (req: Request, res: Response) => {
   try {
     const fieldValidationResult = fieldValidation(req);
     if (fieldValidationResult) {

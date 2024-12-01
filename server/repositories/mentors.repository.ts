@@ -34,3 +34,11 @@ export const deleteMentor = async (id: number): Promise<void> => {
 
   await db.query(query, [Status.INACTIVE, id]);
 };
+
+export const changeStatus = async (id: number, status: string): Promise<void> => {
+  const query = `UPDATE mentors
+                 SET status = $1
+                 WHERE id = $2`;
+
+  await db.query(query, [status, id]);
+};

@@ -12,22 +12,28 @@ import { Button } from "@/components/ui/button.tsx";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import Swal from "sweetalert2";
 
-import { useDeleteMentor } from "@/hooks/tables/mentors/useDeleteMentor.ts";
-import ChangeStatus from "./actions/ChangeStatus.tsx";
-
-interface MentorActionProps {
-  id: number;
-}
+import { useDeleteMenti } from "@/hooks/tables/mentis/useDeleteMenti.ts";
+import ChangeStatus from "@/pages/Mentis/actions/ChangeStatus.tsx";
+import ChangeOperator from "@/pages/Mentis/actions/ChangeOperator.tsx";
+import ChangeMentor from "@/pages/Mentis/actions/ChangeMentor.tsx";
+import { Link } from "react-router-dom";
 
 const Actions = {
   ChangeStatus: "Change Status",
+  ChangeOperator: "Change Operator",
+  ChangeMentor: "Change Mentor",
 };
 
-const MentorActions = ({ id }: MentorActionProps) => {
+interface MentiActionProps {
+  id: number;
+}
+
+const MentiActions = ({ id }: MentiActionProps) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
   const [selectedAction, setSelectedAction] = useState<string>("");
 
-  const { deactivateMentor } = useDeleteMentor();
+  const { deactivateMenti } = useDeleteMenti();
 
   const handleDelete = async () => {
     const result = await Swal.fire({
@@ -38,13 +44,13 @@ const MentorActions = ({ id }: MentorActionProps) => {
     });
 
     if (result.isConfirmed) {
-      deactivateMentor({ id });
+      deactivateMenti({ id });
     }
   };
 
-  const handleDialog = () => {
-    setSelectedAction(Actions.ChangeStatus);
+  const handleSelectAction = (value: string) => {
     setDialogOpen(true);
+    setSelectedAction(value);
   };
 
   return (
@@ -57,12 +63,24 @@ const MentorActions = ({ id }: MentorActionProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => console.log(id)}>
-            View Profile
+          <DropdownMenuItem asChild>
+            <Link to={`/mentis/${id}`}>View Profile</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleDialog}>
+          <DropdownMenuItem
+            onClick={() => handleSelectAction(Actions.ChangeStatus)}
+          >
             Change Status
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => handleSelectAction(Actions.ChangeOperator)}
+          >
+            Change Operator
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => handleSelectAction(Actions.ChangeMentor)}
+          >
+            Change Mentor
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
@@ -76,8 +94,24 @@ const MentorActions = ({ id }: MentorActionProps) => {
           setDialogOpen={setDialogOpen}
         />
       )}
+
+      {selectedAction === Actions.ChangeOperator && (
+        <ChangeOperator
+          id={id}
+          dialogOpen={dialogOpen}
+          setDialogOpen={setDialogOpen}
+        />
+      )}
+
+      {selectedAction === Actions.ChangeMentor && (
+        <ChangeMentor
+          id={id}
+          dialogOpen={dialogOpen}
+          setDialogOpen={setDialogOpen}
+        />
+      )}
     </>
   );
 };
 
-export default MentorActions;
+export default MentiActions;

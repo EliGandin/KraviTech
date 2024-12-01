@@ -5,7 +5,7 @@ import { getMentis } from "@/services/tablesServices.ts";
 
 export const useMentis = () => {
   const { data: mentis } = useQuery<IMenti[]>({
-    queryKey: ["getMentors"],
+    queryKey: ["getMentis"],
     queryFn: getMentis,
   });
 
