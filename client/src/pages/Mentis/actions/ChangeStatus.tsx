@@ -22,12 +22,6 @@ import { ActionProps } from "@/global/interfaces/Props/ActionProps.ts";
 
 const statusArray = ["Active", "Inactive", "Pending", "Success"];
 
-// interface ChangeStatusProps {
-//   id: number;
-//   dialogOpen: boolean;
-//   setDialogOpen: Dispatch<SetStateAction<boolean>>;
-// }
-
 const ChangeStatus = ({ id, dialogOpen, setDialogOpen }: ActionProps) => {
   const [selectedStatus, setSelectedStatus] = useState<string>("");
 
