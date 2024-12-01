@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { deleteMentor } from "@/services/tablesServices.ts";
+import { deleteMentor } from "@/services/table/mentors/mentorServices.ts";
 
 export const useDeleteMentor = () => {
   const queryClient = useQueryClient();

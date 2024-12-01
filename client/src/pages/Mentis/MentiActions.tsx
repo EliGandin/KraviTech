@@ -64,7 +64,7 @@ const MentiActions = ({ id }: MentiActionProps) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem asChild>
-            <Link to={`/mentis/${id}`}>View Profile</Link>
+            <Link to={`/app/mentis/${id}`}>View Profile</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem

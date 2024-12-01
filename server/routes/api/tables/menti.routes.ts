@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { changeMentor, changeOperator, deleteMenti, getAllMentis } from "@/repositories/mentis.repository";
+import { changeMentor, changeOperator, deleteMenti, getAllMentis, getMenti } from "@/repositories/mentis.repository";
 import {
   changeMentorValidator,
   changeOperatorValidator,
@@ -17,6 +17,18 @@ mentiRouter.get("/", async (req: Request, res: Response) => {
   try {
     const mentis = await getAllMentis();
     res.status(StatusCodes.OK).json({ data: mentis });
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+mentiRouter.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const menti = await getMenti(Number(id));
+    res.status(StatusCodes.OK).json({ data: menti });
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
