@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { deleteMenti } from "@/services/tablesServices.ts";
+import { deleteMenti } from "@/services/table/mentis/mentiServices.ts";
 
 export const useDeleteMenti = () => {
   const queryClient = useQueryClient();

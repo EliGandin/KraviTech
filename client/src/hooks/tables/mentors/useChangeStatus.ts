@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { changeMentorStatus } from "@/services/tablesServices.ts";
+import { changeMentorStatus } from "@/services/table/mentors/mentorServices.ts";
 
 export const useChangeStatus = () => {
   const queryClient = useQueryClient();
