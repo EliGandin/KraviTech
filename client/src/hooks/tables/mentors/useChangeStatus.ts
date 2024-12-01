@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { changeMentiStatus } from "@/services/tablesServices.ts";
+import { changeMentorStatus } from "@/services/tablesServices.ts";
 
 export const useChangeStatus = () => {
   const queryClient = useQueryClient();
   const { mutate: changeStatus } = useMutation({
-    mutationKey: ["changeMentiStatus"],
+    mutationKey: ["changeMentorStatus"],
     mutationFn: ({ id, status }: { id: number; status: string }) =>
-      changeMentiStatus(id, status),
+      changeMentorStatus(id, status),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["getMentis"],
+        queryKey: ["getMentors"],
       });
     },
     onError: (error) => {

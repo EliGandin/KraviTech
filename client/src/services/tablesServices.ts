@@ -46,3 +46,12 @@ export const changeMentiMentor = async (
     mentor_id: mentorId,
   });
 };
+
+export const changeMentorStatus = async (
+  id: number,
+  status: string,
+): Promise<void> => {
+  await axios.put(`http://localhost:8000/mentors/ChangeStatus/${id}`, {
+    status,
+  });
+};
