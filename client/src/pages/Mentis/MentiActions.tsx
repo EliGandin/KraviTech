@@ -16,6 +16,7 @@ import { useDeleteMenti } from "@/hooks/tables/mentis/useDeleteMenti.ts";
 import ChangeStatus from "@/pages/Mentis/actions/ChangeStatus.tsx";
 import ChangeOperator from "@/pages/Mentis/actions/ChangeOperator.tsx";
 import ChangeMentor from "@/pages/Mentis/actions/ChangeMentor.tsx";
+import { Link } from "react-router-dom";
 
 const Actions = {
   ChangeStatus: "Change Status",
@@ -62,12 +63,15 @@ const MentiActions = ({ id }: MentiActionProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem asChild>
+            <Link to={`/mentis/${id}`}>View Profile</Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => handleSelectAction(Actions.ChangeStatus)}
           >
             Change Status
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => handleSelectAction(Actions.ChangeOperator)}
           >
