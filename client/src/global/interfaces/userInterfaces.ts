@@ -13,7 +13,11 @@ export interface IMenti extends IUser {
   goals: string;
   comments?: string;
   mentor_name?: string;
+  mentor_id?: string;
   operator_name?: string;
+  operator_id?: string;
+  start_date?: string;
+  end_date?: string;
 }
 
 export interface IMentor extends IUser {
@@ -21,4 +25,6 @@ export interface IMentor extends IUser {
   field?: string;
   company?: string;
   experience?: string;
+  start_date?: string;
+  end_date?: string;
 }

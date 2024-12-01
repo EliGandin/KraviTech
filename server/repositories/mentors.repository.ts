@@ -19,11 +19,32 @@ export const getAllMentors = async (): Promise<Mentor[]> => {
                         company,
                         position,
                         experience,
-                        status
+                        status,
+                        start_date,
+                        end_date
                  FROM mentors`;
 
   const { rows } = await db.query(query);
   return rows;
+};
+
+export const getMentor = async (id: number): Promise<Mentor> => {
+  const query = `SELECT id,
+                        name,
+                        email,
+                        phone_number,
+                        field,
+                        company,
+                        position,
+                        experience,
+                        status,
+                        start_date,
+                        end_date
+                 FROM mentors
+                 WHERE id = $1`;
+
+  const { rows } = await db.query(query, [id]);
+  return rows[0];
 };
 
 export const deleteMentor = async (id: number): Promise<void> => {

@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { deleteMentor, getAllMentors } from "@/repositories/mentors.repository";
+import { deleteMentor, getAllMentors, getMentor } from "@/repositories/mentors.repository";
 import { changeStatusValidator, deleteMentorValidator } from "@/middlewares/validators/mentor.validator";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
 import { changeStatusController } from "@/controllers/mentors/mentors.controller";
@@ -13,6 +13,18 @@ mentorRouter.get("/", async (req: Request, res: Response) => {
   try {
     const mentors = await getAllMentors();
     res.status(StatusCodes.OK).json({ data: mentors });
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+mentorRouter.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const mentor = await getMentor(Number(id));
+    res.status(StatusCodes.OK).json({ data: mentor });
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);

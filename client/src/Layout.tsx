@@ -10,6 +10,8 @@ import Mentis from "./pages/Mentis/Mentis.tsx";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup/Signup";
 import AdminBoard from "@/pages/Admin/AdminBoard";
+import MentorProfile from "@/pages/Profile/MentorProfile";
+import MentiProfile from "@/pages/Profile/MentiProfile.tsx";
 
 const Layout = () => {
   return (
@@ -21,7 +23,9 @@ const Layout = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/app/tables" element={<Tables />} />
         <Route path="/app/mentors" element={<Mentors />} />
+        <Route path="/app/mentors/:id" element={<MentorProfile />} />
         <Route path="/app/mentis" element={<Mentis />} />
+        <Route path="/app/mentis/:id" element={<MentiProfile />} />
         <Route path="/app/admin/board" element={<AdminBoard />} />
 
         <Route path="/login" element={<Login />} />

@@ -29,6 +29,27 @@ export const getAllMentis = async (): Promise<Menti[]> => {
   return rows;
 };
 
+export const getMenti = async (id: number): Promise<Menti> => {
+  const query = `SELECT id,
+                        name,
+                        email,
+                        phone_number,
+                        education,
+                        experience,
+                        goals,
+                        comments,
+                        operator_id,
+                        status,
+                        mentor_id,
+                        start_date,
+                        end_date
+                 FROM mentis
+                 WHERE id = $1`;
+
+  const { rows } = await db.query(query, [id]);
+  return rows[0];
+};
+
 export const deleteMenti = async (id: number): Promise<void> => {
   const query = `UPDATE mentis
                  SET STATUS   = $1,
