@@ -37,3 +37,28 @@ export const deleteMenti = async (id: number): Promise<void> => {
 
   await db.query(query, [Status.INACTIVE, id]);
 };
+
+export const changeStatus = async (id: number, status: string): Promise<void> => {
+  const query = `UPDATE mentis
+                 SET status = $1
+                 WHERE id = $2`;
+
+  await db.query(query, [status, id]);
+};
+
+export const changeOperator = async (id: number, operator_id: number): Promise<void> => {
+  console.log(id, operator_id);
+  const query = `UPDATE mentis
+                 SET operator_id = $1
+                 WHERE id = $2`;
+
+  await db.query(query, [operator_id, id]);
+};
+
+export const changeMentor = async (id: number, mentor_id: number): Promise<void> => {
+  const query = `UPDATE mentis
+                 SET mentor_id = $1
+                 WHERE id = $2`;
+
+  await db.query(query, [mentor_id, id]);
+};
