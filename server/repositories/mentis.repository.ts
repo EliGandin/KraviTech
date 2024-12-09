@@ -12,18 +12,28 @@ export const createMenti = async (menti: MentiSignup): Promise<void> => {
 };
 
 export const getAllMentis = async (): Promise<Menti[]> => {
-  const query = `SELECT id,
-                        name,
-                        email,
-                        phone_number,
+  const query = `SELECT mentis.id,
+                        mentis.name,
+                        mentis.email,
+                        mentis.phone_number,
                         education,
-                        experience,
+                        mentis.experience,
                         goals,
                         comments,
                         operator_id,
-                        status,
-                        mentor_id
-                 FROM mentis`;
+                        admins.name  as operator_name,
+                        mentis.status,
+                        mentors.id   as mentor_id,
+                        mentors.name as mentor_name
+                 FROM mentis
+                          LEFT JOIN
+                      mentors
+                      ON
+                          mentis.mentor_id = mentors.id
+                          LEFT JOIN
+                      admins
+                      ON
+                          mentis.operator_id = admins.id`;
 
   const { rows } = await db.query(query);
   return rows;
