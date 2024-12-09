@@ -1,7 +1,6 @@
-import { test, expect, request } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 
 const baseURL = "http://localhost:5172";
-const backendURL = "http://localhost:8000";
 
 const admin = {
   email: "amit@test.com",
@@ -9,28 +8,6 @@ const admin = {
 };
 
 test.describe("Signup Roles", () => {
-  test.afterEach(async () => {
-    try {
-      const response = await fetch(`${backendURL}/test`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(
-          `Failed to delete test data: ${response.status} - ${errorText}`
-        );
-      } else {
-        console.log("Test data cleanup successful");
-      }
-    } catch (error) {
-      console.error("Error during cleanup:", error);
-    }
-  });
-
   test("Menti Signup", async ({ page }) => {
     const menti = {
       name: "Test User",
@@ -47,15 +24,15 @@ test.describe("Signup Roles", () => {
     await page.goto(`${baseURL}/signup`);
 
     // Fill out the form
-    await page.locator('input[name="name"]').fill(menti.name);
-    await page.locator('input[name="email"]').fill(menti.email);
-    await page.locator('input[name="phoneNumber"]').fill(menti.phoneNumber);
-    await page.locator('input[name="password"]').fill(menti.password);
-    await page.locator('input[name="confirmPassword"]').fill(menti.password);
-    await page.locator('input[name="education"]').fill(menti.education);
-    await page.locator('textarea[name="experience"]').fill(menti.experience);
-    await page.locator('textarea[name="goals"]').fill(menti.goals);
-    await page.locator('textarea[name="comments"]').fill(menti.comments);
+    await page.locator("input[name=\"name\"]").fill(menti.name);
+    await page.locator("input[name=\"email\"]").fill(menti.email);
+    await page.locator("input[name=\"phoneNumber\"]").fill(menti.phoneNumber);
+    await page.locator("input[name=\"password\"]").fill(menti.password);
+    await page.locator("input[name=\"confirmPassword\"]").fill(menti.password);
+    await page.locator("input[name=\"education\"]").fill(menti.education);
+    await page.locator("textarea[name=\"experience\"]").fill(menti.experience);
+    await page.locator("textarea[name=\"goals\"]").fill(menti.goals);
+    await page.locator("textarea[name=\"comments\"]").fill(menti.comments);
 
     // Submit the form
     await page.getByText("Create an account").click();
@@ -65,8 +42,8 @@ test.describe("Signup Roles", () => {
 
     // Login
     await page.goto(`${baseURL}/login`);
-    await page.locator('input[name="email"]').fill(admin.email);
-    await page.locator('input[name="password"]').fill(admin.password);
+    await page.locator("input[name=\"email\"]").fill(admin.email);
+    await page.locator("input[name=\"password\"]").fill(admin.password);
     await page.click("button:has-text('Login')");
 
     // Navigate to Mentis Component
@@ -99,19 +76,19 @@ test.describe("Signup Roles", () => {
     await page.click("button:has-text('Mentor')");
 
     // Fill out the form
-    await page.locator('input[name="name"]').fill(mentor.name);
-    await page.locator('input[name="email"]').fill(mentor.email);
-    await page.locator('input[name="phoneNumber"]').fill(mentor.phoneNumber);
-    await page.locator('input[name="password"]').fill(mentor.password);
-    await page.locator('input[name="confirmPassword"]').fill(mentor.password);
+    await page.locator("input[name=\"name\"]").fill(mentor.name);
+    await page.locator("input[name=\"email\"]").fill(mentor.email);
+    await page.locator("input[name=\"phoneNumber\"]").fill(mentor.phoneNumber);
+    await page.locator("input[name=\"password\"]").fill(mentor.password);
+    await page.locator("input[name=\"confirmPassword\"]").fill(mentor.password);
 
     // Submit the form
     await page.getByText("Create an account").click();
 
     // Login
     await page.goto(`${baseURL}/login`);
-    await page.locator('input[name="email"]').fill(admin.email);
-    await page.locator('input[name="password"]').fill(admin.password);
+    await page.locator("input[name=\"email\"]").fill(admin.email);
+    await page.locator("input[name=\"password\"]").fill(admin.password);
     await page.click("button:has-text('Login')");
 
     // Navigate to Mentis Component
