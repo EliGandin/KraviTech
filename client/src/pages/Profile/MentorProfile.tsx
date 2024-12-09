@@ -32,12 +32,7 @@ const MentorProfile = () => {
                   src={`https://api.dicebear.com/6.x/micah/svg?seed=${mentor?.name}`}
                   alt={mentor?.name}
                 />
-                <AvatarFallback>
-                  {mentor?.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </AvatarFallback>
+                <AvatarFallback>{mentor?.name}</AvatarFallback>
               </Avatar>
               <h2 className="mb-2 mt-4 text-3xl font-bold">{mentor?.name}</h2>
               <p className="mb-4 text-xl text-muted-foreground">

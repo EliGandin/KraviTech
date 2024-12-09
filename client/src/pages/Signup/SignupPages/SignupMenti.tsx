@@ -15,7 +15,7 @@ import { z } from "zod";
 import { MentiSignupFormSchema } from "@/schemas/MentiSignupFormSchema.ts";
 import { mentiSignupResolver } from "@/resolvers/mentiSignupResolver.ts";
 import { useMentiSignup } from "@/hooks/users/useMentiSignup.ts";
-import { mentiSignupMapper } from "@/utils/mappers/mentiSignupMapper.ts";
+import { mentiSignupMapper } from "@/utils/mappers/signup/mentiSignupMapper.ts";
 
 const SignupMenti = () => {
   const { mutate } = useMentiSignup();

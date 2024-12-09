@@ -30,7 +30,7 @@ import { useState } from "react";
 import { MentorSignupFormSchema } from "@/schemas/MentorSignupFormSchema.ts";
 import { mentorSignupResolver } from "@/resolvers/mentorSignupResolver.ts";
 import { useMentorSignup } from "@/hooks/users/useMentorSignup.ts";
-import { mentorSignupMapper } from "@/utils/mappers/mentorSignupMapper.ts";
+import { mentorSignupMapper } from "@/utils/mappers/signup/mentorSignupMapper.ts";
 
 const fieldOptions = [
   {
