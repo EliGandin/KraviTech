@@ -39,13 +39,14 @@ import {
   capitalizeValue,
   formatPhoneNumber,
 } from "@/utils/formatters/formatFields";
+import Loader from "@/components/ui/Loader.tsx";
 
 const PendingUsers = () => {
   const [selectedUser, setSelectedUser] = useState<IMenti | IMentor | null>(
     null,
   );
 
-  const { pendingUsers } = useGetPendingUsers();
+  const { pendingUsers, isLoading } = useGetPendingUsers();
   const { activate } = useActivateUsers();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -66,6 +67,8 @@ const PendingUsers = () => {
 
     closeDialog();
   };
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="container mx-auto px-4">

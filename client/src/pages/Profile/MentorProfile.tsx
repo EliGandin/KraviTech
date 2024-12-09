@@ -13,10 +13,13 @@ import { useParams } from "react-router-dom";
 
 import { useGetMentor } from "@/hooks/profile/useGetMentor.ts";
 import ProfileField from "@/pages/Profile/ProfileField.tsx";
+import Loader from "@/components/ui/Loader.tsx";
 
 const MentorProfile = () => {
   const { id } = useParams();
-  const { mentor } = useGetMentor(Number(id));
+  const { mentor, isLoading } = useGetMentor(Number(id));
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="container mx-auto px-4 py-10">

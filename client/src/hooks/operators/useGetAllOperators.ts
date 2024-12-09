@@ -4,10 +4,10 @@ import { getAllOperators } from "@/services/operatorServices.ts";
 import { Operator } from "@/global/interfaces/Props/MessageProps.ts";
 
 export const useGetAllOperators = () => {
-  const { data: operators } = useQuery<Operator[]>({
+  const { data: operators, isLoading } = useQuery<Operator[]>({
     queryKey: ["getAllOperators"],
     queryFn: getAllOperators,
   });
 
-  return { operators };
+  return { operators, isLoading };
 };

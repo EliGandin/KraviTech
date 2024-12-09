@@ -13,10 +13,13 @@ import { useParams } from "react-router-dom";
 
 import { useGetMenti } from "@/hooks/profile/useGetMenti.ts";
 import ProfileField from "@/pages/Profile/ProfileField.tsx";
+import Loader from "@/components/ui/Loader.tsx";
 
 const MentiProfile = () => {
   const { id } = useParams();
-  const { menti } = useGetMenti(Number(id));
+  const { menti, isLoading } = useGetMenti(Number(id));
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="container mx-auto px-4 py-10">

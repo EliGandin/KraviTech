@@ -1,10 +1,13 @@
 import { MentorColumns } from "@/pages/Mentors/MentorColumns.tsx";
 import TableComponent from "@/components/ui/TableComponent.tsx";
 import { useMentors } from "@/hooks/tables/mentors/useMentors.ts";
+import Loader from "@/components/ui/Loader.tsx";
 
 const Mentors = () => {
-  const { mentors } = useMentors();
+  const { mentors, isLoading } = useMentors();
   const columns = MentorColumns();
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="mx-auto mt-4 flex h-[80vh] w-[95vw] flex-col justify-start rounded-xl bg-slate-100 p-4">
