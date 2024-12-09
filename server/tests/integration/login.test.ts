@@ -3,7 +3,7 @@ import request from "supertest";
 import { StatusCodes } from "http-status-codes";
 
 import app from "@/app";
-import { loginMock } from "@/tests/integration/mocks/mocks";
+import { loginMock } from "@/tests/integration/mocks/userRoutesMocks";
 import { loginController } from "@/controllers/users/login.controller";
 
 jest.mock("@/controllers/users/login.controller");
