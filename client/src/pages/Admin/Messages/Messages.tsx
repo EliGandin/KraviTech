@@ -31,6 +31,7 @@ import { useGetAllOperators } from "@/hooks/operators/useGetAllOperators.ts";
 import { useGetAllMessages } from "@/hooks/admin/useGetMessages.ts";
 import { Message, Operator } from "@/global/interfaces/Props/MessageProps.ts";
 import { useUpdateMessage } from "@/hooks/admin/useUpdateMessage.ts";
+import Loader from "@/components/ui/Loader.tsx";
 
 const Messages = () => {
   const [selectedMessage, setSelectedMessage] = useState<Message | undefined>();
@@ -39,8 +40,8 @@ const Messages = () => {
   );
   const [open, setOpen] = useState<boolean>(false);
 
-  const { messages } = useGetAllMessages();
-  const { operators } = useGetAllOperators();
+  const { messages, isLoading: isLoadingMessages } = useGetAllMessages();
+  const { operators, isLoading: isLoadingOperators } = useGetAllOperators();
   const { updateMessageMutation } = useUpdateMessage();
 
   const openDialog = (message: Message) => {
@@ -63,6 +64,8 @@ const Messages = () => {
 
     closeDialog();
   };
+
+  if (isLoadingMessages || isLoadingOperators) return <Loader />;
 
   return (
     <div className="container mx-auto px-4">

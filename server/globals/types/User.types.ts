@@ -20,7 +20,9 @@ export type Menti = {
   goals: string;
   comments?: string;
   operator_id?: number;
+  operator_name?: string;
   mentor_id?: number;
+  mentor_name?: string;
   status: string;
 }
 

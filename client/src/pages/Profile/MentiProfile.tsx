@@ -13,10 +13,13 @@ import { useParams } from "react-router-dom";
 
 import { useGetMenti } from "@/hooks/profile/useGetMenti.ts";
 import ProfileField from "@/pages/Profile/ProfileField.tsx";
+import Loader from "@/components/ui/Loader.tsx";
 
 const MentiProfile = () => {
   const { id } = useParams();
-  const { menti } = useGetMenti(Number(id));
+  const { menti, isLoading } = useGetMenti(Number(id));
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -29,12 +32,7 @@ const MentiProfile = () => {
                   src={`https://api.dicebear.com/6.x/micah/svg?seed=${menti?.name}`}
                   alt={menti?.name}
                 />
-                <AvatarFallback>
-                  {menti?.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </AvatarFallback>
+                <AvatarFallback>{menti?.name}</AvatarFallback>
               </Avatar>
               <h2 className="mb-2 mt-4 text-3xl font-bold">{menti?.name}</h2>
               <Badge variant="outline" className="px-3 py-1 text-lg">

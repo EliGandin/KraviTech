@@ -1,10 +1,13 @@
 import { MentiColumns } from "@/pages/Mentis/MentiColumns.tsx";
 import TableComponent from "@/components/ui/TableComponent.tsx";
 import { useMentis } from "@/hooks/tables/mentis/useMentis.ts";
+import Loader from "@/components/ui/Loader.tsx";
 
 const Mentis = () => {
-  const { mentis } = useMentis();
+  const { mentis, isLoading } = useMentis();
   const columns = MentiColumns();
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="mx-auto mt-4 flex h-[80vh] w-[98vw] flex-col justify-start rounded-xl bg-slate-100 p-4">

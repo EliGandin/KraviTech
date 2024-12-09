@@ -4,10 +4,10 @@ import { getPendingUsers } from "@/services/adminServices.ts";
 import { TPendingUsers } from "@/global/interfaces/Props/PendingUserCardProps.ts";
 
 export const useGetPendingUsers = () => {
-  const { data: pendingUsers } = useQuery<TPendingUsers>({
+  const { data: pendingUsers, isLoading } = useQuery<TPendingUsers>({
     queryKey: ["getPendingUsers"],
     queryFn: getPendingUsers,
   });
 
-  return { pendingUsers };
+  return { pendingUsers, isLoading };
 };

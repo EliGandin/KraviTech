@@ -4,10 +4,10 @@ import { getAllMessages } from "@/services/adminServices.ts";
 import { Message } from "@/global/interfaces/Props/MessageProps.ts";
 
 export const useGetAllMessages = () => {
-  const { data: messages } = useQuery<Message[]>({
+  const { data: messages, isLoading } = useQuery<Message[]>({
     queryKey: ["getAllMessages"],
     queryFn: getAllMessages,
   });
 
-  return { messages };
+  return { messages, isLoading };
 };
