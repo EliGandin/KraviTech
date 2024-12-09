@@ -73,10 +73,10 @@ VALUES ('Amit Cohen', 'amit@test.com', '0505050050', '$2a$12$0B.EaJM27vxqP7kZbzd
 INSERT INTO mentis (name, email, phone_number, password, education, experience, goals, comments, operator_id, mentor_id,
                     status, start_date, end_date)
 VALUES ('Yuval Regev', 'yuval@test.com', '0532648574', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
-        'BSc Computer Science', 'LOW', 'Learn backend development', 'Very motivated to learn', NULL, 1, 'ACTIVE',
+        'BSc Computer Science', 'LOW', 'Learn backend development', 'Very motivated to learn', 1, 1, 'ACTIVE',
         '2021-01-01', null),
        ('Dana Katz', 'dana@test.com', '0524854447', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
-        'BA Data Science', 'MID', 'Become a Data Analyst', 'I want to contribute to big data', NULL, 1, 'ACTIVE',
+        'BA Data Science', 'MID', 'Become a Data Analyst', 'I want to contribute to big data', 2, 1, 'ACTIVE',
         '2021-01-01', null),
        ('Diana Evans', 'diana@test.com', '0556543210', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
         'Diploma in Hardware Engineering', 'LOW', 'Learn hardware design', 'Excited about hardware', NULL, 2, 'PENDING',
