@@ -1,14 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ArrowUpDown } from "lucide-react";
 import { Checkbox } from "../../components/ui/checkbox.tsx";
 
