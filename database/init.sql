@@ -70,6 +70,14 @@ VALUES ('Amit Cohen', 'amit@test.com', '0505050050', '$2a$12$0B.EaJM27vxqP7kZbzd
        ('Mor Shavit', 'mor@test.com', '0584864877', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
         'SOFTWARE', 'InnovateSoft', 'CTO', 'HIGH', 'ACTIVE', '2021-01-01', null);
 
+INSERT INTO admins (name, email, phone_number, password, mentor_id)
+VALUES ('Eli Gandin', 'eli@test.com', '0545544477', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
+        null),
+       ('Fiona Green', 'fiona.green@example.com', '0553334444',
+        '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', null),
+       ('George Harris', 'george.harris@example.com', '0555556666',
+        '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', null);
+
 INSERT INTO mentis (name, email, phone_number, password, education, experience, goals, comments, operator_id, mentor_id,
                     status, start_date, end_date)
 VALUES ('Yuval Regev', 'yuval@test.com', '0532648574', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
@@ -84,14 +92,6 @@ VALUES ('Yuval Regev', 'yuval@test.com', '0532648574', '$2a$12$0B.EaJM27vxqP7kZb
        ('Avi Rosen', 'avi@test.com', '0556543210', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
         'Diploma in Hardware Engineering', 'LOW', 'Learn hardware design', 'Excited about hardware', NULL, 2, 'SUCCESS',
         '2021-01-01', '2021-02-01');
-
-INSERT INTO admins (name, email, phone_number, password, mentor_id)
-VALUES ('Eli Gandin', 'eli@test.com', '0545544477', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
-        null),
-       ('Fiona Green', 'fiona.green@example.com', '0553334444',
-        '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', null),
-       ('George Harris', 'george.harris@example.com', '0555556666',
-        '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', null);
 
 INSERT INTO messages (name, email, phone_number, title, message, status, operator_id)
 VALUES ('John Doe', 'john@test.com', '0501234567', 'help', 'I have a question', 'OPEN', 1),
