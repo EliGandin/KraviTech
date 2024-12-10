@@ -73,12 +73,12 @@ const MentiProfile = () => {
               <ProfileField
                 icon={<CalendarIcon />}
                 label={"Operator Name"}
-                value={menti?.operator_id ? menti?.operator_id : "N/A"}
+                value={menti?.operator_name ? menti?.operator_name : "N/A"}
               />
               <ProfileField
                 icon={<CalendarIcon />}
                 label={"Mentor Name"}
-                value={menti?.mentor_id ? menti?.mentor_id : "N/A"}
+                value={menti?.mentor_name ? menti?.mentor_name : "N/A"}
               />
               <ProfileField
                 icon={<CalendarIcon />}
