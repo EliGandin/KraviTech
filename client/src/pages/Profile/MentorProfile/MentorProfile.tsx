@@ -1,6 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
+import { Card, CardContent } from "@/components/ui/card.tsx";
 import {
   CalendarIcon,
   BriefcaseIcon,
@@ -11,13 +15,13 @@ import {
 } from "lucide-react";
 import { useParams } from "react-router-dom";
 
-import { useGetMenti } from "@/hooks/profile/useGetMenti.ts";
+import { useGetMentor } from "@/hooks/profile/useGetMentor.ts";
 import ProfileField from "@/pages/Profile/ProfileField.tsx";
 import Loader from "@/components/ui/Loader.tsx";
 
-const MentiProfile = () => {
+const MentorProfile = () => {
   const { id } = useParams();
-  const { menti, isLoading } = useGetMenti(Number(id));
+  const { mentor, isLoading } = useGetMentor(Number(id));
 
   if (isLoading) return <Loader />;
 
@@ -29,63 +33,56 @@ const MentiProfile = () => {
             <div className="text-center md:w-1/3 md:text-left">
               <Avatar className="mx-auto h-32 w-32 border-4 border-white shadow-lg md:mx-0">
                 <AvatarImage
-                  src={`https://api.dicebear.com/6.x/micah/svg?seed=${menti?.name}`}
-                  alt={menti?.name}
+                  src={`https://api.dicebear.com/6.x/micah/svg?seed=${mentor?.name}`}
+                  alt={mentor?.name}
                 />
-                <AvatarFallback>{menti?.name}</AvatarFallback>
+                <AvatarFallback>{mentor?.name}</AvatarFallback>
               </Avatar>
-              <h2 className="mb-2 mt-4 text-3xl font-bold">{menti?.name}</h2>
+              <h2 className="mb-2 mt-4 text-3xl font-bold">{mentor?.name}</h2>
+              <p className="mb-4 text-xl text-muted-foreground">
+                {mentor?.position}
+              </p>
               <Badge variant="outline" className="px-3 py-1 text-lg">
-                {menti?.status}
+                {mentor?.status}
               </Badge>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:w-2/3">
               <ProfileField
                 icon={<MailIcon />}
                 label="Email"
-                value={menti?.email}
+                value={mentor?.email}
               />
               <ProfileField
                 icon={<PhoneIcon />}
                 label="Phone"
-                value={menti?.phone_number}
+                value={mentor?.phone_number}
               />
               <ProfileField
                 icon={<BriefcaseIcon />}
                 label="Company"
-                value={menti?.education || "N/A"}
+                value={mentor?.company || "N/A"}
               />
               <ProfileField
                 icon={<GlobeIcon />}
-                label="Goals"
-                value={menti?.goals}
+                label="Field"
+                value={mentor?.field}
               />
               <ProfileField
                 icon={<CalendarIcon />}
                 label="Experience"
-                value={menti?.experience}
+                value={mentor?.experience}
               />
               <ProfileField
                 icon={<MapPinIcon />}
-                label="Comments"
-                value={menti?.comments}
-              />
-              <ProfileField
-                icon={<CalendarIcon />}
-                label={"Operator Name"}
-                value={menti?.operator_name ? menti?.operator_name : "N/A"}
-              />
-              <ProfileField
-                icon={<CalendarIcon />}
-                label={"Mentor Name"}
-                value={menti?.mentor_name ? menti?.mentor_name : "N/A"}
+                label="Location"
+                value="San Francisco, CA"
               />
               <ProfileField
                 icon={<CalendarIcon />}
                 label="Start Date"
                 value={
-                  menti?.start_date
-                    ? new Date(menti?.start_date).toLocaleDateString()
+                  mentor?.start_date
+                    ? new Date(mentor?.start_date).toLocaleDateString()
                     : "N/A"
                 }
               />
@@ -93,8 +90,8 @@ const MentiProfile = () => {
                 icon={<CalendarIcon />}
                 label="End Date"
                 value={
-                  menti?.end_date
-                    ? new Date(menti?.end_date).toLocaleDateString()
+                  mentor?.end_date
+                    ? new Date(mentor?.end_date).toLocaleDateString()
                     : "N/A"
                 }
               />
@@ -106,4 +103,4 @@ const MentiProfile = () => {
   );
 };
 
-export default MentiProfile;
+export default MentorProfile;

@@ -1,6 +1,8 @@
 import axios from "axios";
+import { z } from "zod";
 
 import { IMenti } from "@/global/interfaces/userInterfaces.ts";
+import { UpdateProfileSchema } from "@/schemas/MentiUpdateProfileSchema.ts";
 
 export const getMentis = async (): Promise<IMenti[]> => {
   const { data } = (await axios.get("http://localhost:8000/mentis")).data;
@@ -41,4 +43,11 @@ export const changeMentiMentor = async (
   await axios.put(`http://localhost:8000/mentis/ChangeMentor/${id}`, {
     mentor_id: mentorId,
   });
+};
+
+export const updateProfile = async (
+  id: number,
+  data: z.infer<typeof UpdateProfileSchema>,
+): Promise<void> => {
+  await axios.put(`http://localhost:8000/mentis/UpdateProfile/${id}`, data);
 };
