@@ -42,3 +42,10 @@ export const changeMentiMentor = async (
     mentor_id: mentorId,
   });
 };
+
+export const updateProfile = async (
+  id: number,
+  data: Partial<IMenti>,
+): Promise<void> => {
+  await axios.put(`http://localhost:8000/mentis/UpdateProfile/${id}`, data);
+};

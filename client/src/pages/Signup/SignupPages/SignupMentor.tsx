@@ -27,8 +27,8 @@ import {
 } from "@/components/ui/popover.tsx";
 import { useState } from "react";
 
-import { MentorSignupFormSchema } from "@/schemas/MentorSignupFormSchema.ts";
-import { mentorSignupResolver } from "@/resolvers/mentorSignupResolver.ts";
+import { MentorSignupFormSchema } from "@/schemas/signup/MentorSignupFormSchema.ts";
+import { mentorSignupResolver } from "@/resolvers/signup/mentorSignupResolver.ts";
 import { useMentorSignup } from "@/hooks/users/useMentorSignup.ts";
 import { mentorSignupMapper } from "@/utils/mappers/signup/mentorSignupMapper.ts";
 

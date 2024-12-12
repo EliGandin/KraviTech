@@ -40,21 +40,27 @@ export const getAllMentis = async (): Promise<Menti[]> => {
 };
 
 export const getMenti = async (id: number): Promise<Menti> => {
-  const query = `SELECT id,
-                        name,
-                        email,
-                        phone_number,
+  const query = `SELECT mentis.id,
+                        mentis.name,
+                        mentis.email,
+                        mentis.phone_number,
                         education,
-                        experience,
+                        mentis.experience,
                         goals,
                         comments,
                         operator_id,
-                        status,
-                        mentor_id,
-                        start_date,
-                        end_date
+                        admins.name  as operator_name,
+                        mentis.status,
+                        mentis.mentor_id,
+                        mentors.name as mentor_name,
+                        mentis.start_date,
+                        mentis.end_date
                  FROM mentis
-                 WHERE id = $1`;
+                          LEFT JOIN mentors
+                                    ON mentis.mentor_id = mentors.id
+                          LEFT JOIN admins
+                                    ON mentis.operator_id = admins.id
+                 WHERE mentis.id = $1`;
 
   const { rows } = await db.query(query, [id]);
   return rows[0];
@@ -92,4 +98,12 @@ export const changeMentor = async (id: number, mentor_id: number): Promise<void>
                  WHERE id = $2`;
 
   await db.query(query, [mentor_id, id]);
+};
+
+export const updateProfile = async (id: number, setClause: string, values: (string | number | undefined)[], idPosition: number): Promise<void> => {
+  const query = `UPDATE mentis
+                 SET ${setClause}
+                 where id = $${idPosition}`;
+
+  await db.query(query, [...values, id]);
 };

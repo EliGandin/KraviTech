@@ -2,10 +2,13 @@ import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { deleteMentor, getAllMentors, getMentor } from "@/repositories/mentors.repository";
-import { changeStatusValidator, deleteMentorValidator } from "@/middlewares/validators/mentor.validator";
+import {
+  changeStatusValidator,
+  deleteMentorValidator,
+  updateProfileValidator,
+} from "@/middlewares/validators/mentor.validator";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
-import { changeStatusController } from "@/controllers/mentors/mentors.controller";
-
+import { changeStatusController, updateProfileController } from "@/controllers/mentors/mentors.controller";
 
 const mentorRouter = Router();
 
@@ -56,6 +59,26 @@ mentorRouter.put("/ChangeStatus/:id", changeStatusValidator(), async (req: Reque
     const { status } = req.body;
 
     await changeStatusController(Number(id), status);
+    res.status(StatusCodes.OK).send();
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+mentorRouter.put("/UpdateProfile/:id", updateProfileValidator(), async (req: Request, res: Response) => {
+  try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { id } = req.params;
+    const { name, email, phone_number, position, company, field, experience } = req.body;
+
+    await updateProfileController(Number(id), { name, email, phone_number, position, company, field, experience });
     res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;

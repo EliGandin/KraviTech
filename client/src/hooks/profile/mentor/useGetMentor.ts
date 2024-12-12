@@ -6,7 +6,7 @@ import { mapUser } from "@/utils/mappers/profileMappers.ts";
 
 export const useGetMentor = (id: number) => {
   const { data: mentor, isLoading } = useQuery<IMentor>({
-    queryKey: ["getMentor"],
+    queryKey: ["getMentor", id],
     queryFn: () => getMentor(id),
     select: (data) => mapUser(data) as IMentor,
   });

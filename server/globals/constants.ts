@@ -11,3 +11,15 @@ export const MessageStatus = {
   OPEN: "OPEN",
   CLOSED: "CLOSED",
 };
+
+export const Field = {
+  DATA: "DATA",
+  HARDWARE: "HARDWARE",
+  SOFTWARE: "SOFTWARE",
+};
+
+export const Experience = {
+  LOW: "LOW",
+  MID: "MID",
+  HIGH: "HIGH",
+};

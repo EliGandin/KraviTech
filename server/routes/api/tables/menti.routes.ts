@@ -7,8 +7,9 @@ import {
   changeOperatorValidator,
   changeStatusValidator,
   deleteMentiValidator,
+  updateProfileValidator,
 } from "@/middlewares/validators/menti.validator";
-import { changeStatusController } from "@/controllers/mentis/mentis.controller";
+import { changeStatusController, updateProfileController } from "@/controllers/mentis/mentis.controller";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
 
 const mentiRouter = Router();
@@ -109,6 +110,26 @@ mentiRouter.put("/ChangeMentor/:id", changeMentorValidator(), async (req: Reques
     const { mentor_id } = req.body;
 
     await changeMentor(Number(id), mentor_id);
+    res.status(StatusCodes.OK).send();
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+mentiRouter.put("/UpdateProfile/:id", updateProfileValidator(), async (req: Request, res: Response) => {
+  try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { id } = req.params;
+    const { name, email, phone_number, education, experience, goals, comments } = req.body;
+
+    await updateProfileController(Number(id), { name, email, phone_number, education, experience, goals, comments });
     res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;

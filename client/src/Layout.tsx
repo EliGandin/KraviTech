@@ -10,8 +10,8 @@ import Mentis from "./pages/Mentis/Mentis.tsx";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup/Signup";
 import AdminBoard from "@/pages/Admin/AdminBoard";
-import MentorProfile from "@/pages/Profile/MentorProfile";
-import MentiProfile from "@/pages/Profile/MentiProfile.tsx";
+import MentorProfile from "@/pages/Profile/MentorProfile/MentorProfile.tsx";
+import MentiProfile from "@/pages/Profile/MentiProfile/MentiProfile.tsx";
 
 const Layout = () => {
   return (

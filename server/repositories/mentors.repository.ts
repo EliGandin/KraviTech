@@ -63,3 +63,11 @@ export const changeStatus = async (id: number, status: string): Promise<void> =>
 
   await db.query(query, [status, id]);
 };
+
+export const updateProfile = async (id: number, setClause: string, values: (string | number | undefined)[], idPosition: number): Promise<void> => {
+  const query = `UPDATE mentors
+                 SET ${setClause}
+                 where id = $${idPosition}`;
+
+  await db.query(query, [...values, id]);
+};

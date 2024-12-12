@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MentorSignupFormSchema } from "@/schemas/MentorSignupFormSchema.ts";
+import { MentorSignupFormSchema } from "@/schemas/signup/MentorSignupFormSchema.ts";
 import { IMentorSignup } from "@/global/interfaces/signupInterfaces.ts";
 
 export const mentorSignupMapper = (

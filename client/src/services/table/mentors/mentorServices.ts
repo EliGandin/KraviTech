@@ -25,3 +25,11 @@ export const changeMentorStatus = async (
     status,
   });
 };
+
+export const updateProfile = async (
+  id: number,
+  data: Partial<IMentor>,
+): Promise<void> => {
+  console.log(data);
+  await axios.put(`http://localhost:8000/mentors/UpdateProfile/${id}`, data);
+};
