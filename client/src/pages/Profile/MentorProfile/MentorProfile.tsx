@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   Avatar,
   AvatarFallback,
@@ -5,23 +7,34 @@ import {
 } from "@/components/ui/avatar.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
-import {
-  CalendarIcon,
-  BriefcaseIcon,
-  PhoneIcon,
-  MailIcon,
-  MapPinIcon,
-  GlobeIcon,
-} from "lucide-react";
 import { useParams } from "react-router-dom";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
 
 import { useGetMentor } from "@/hooks/profile/useGetMentor.ts";
-import ProfileField from "@/pages/Profile/ProfileField.tsx";
 import Loader from "@/components/ui/Loader.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { useUpdateProfile } from "@/hooks/profile/useUpdateMentorProfile.ts";
+import { UpdateProfileSchema } from "@/schemas/updateProfile/MentorUpdateProfileSchema.ts";
+import { mentorUpdateProfileResolver } from "@/resolvers/updateProfile/mentorProfileUpdateResolver.ts";
+import { IMentor } from "@/global/interfaces/userInterfaces.ts";
+import MentorEditableProfileGrid from "@/pages/Profile/MentorProfile/MentorEditableProfileGrid.tsx";
+import MentorProfileGrid from "@/pages/Profile/MentorProfile/MentorProfileGrid.tsx";
 
 const MentorProfile = () => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
   const { id } = useParams();
   const { mentor, isLoading } = useGetMentor(Number(id));
+  const { mutate, isPending } = useUpdateProfile(Number(id));
+  const form = useForm<z.infer<typeof UpdateProfileSchema>>(
+    mentorUpdateProfileResolver,
+  );
+
+  function onSubmit(data: z.infer<typeof UpdateProfileSchema>) {
+    mutate(data as Partial<IMentor>);
+    setIsEditing(false);
+  }
 
   if (isLoading) return <Loader />;
 
@@ -45,57 +58,50 @@ const MentorProfile = () => {
               <Badge variant="outline" className="px-3 py-1 text-lg">
                 {mentor?.status}
               </Badge>
+              <div className="mt-[50px] flex flex-row justify-between gap-2">
+                {isEditing ? (
+                  <>
+                    <Button
+                      variant="outline"
+                      className="w-1/2"
+                      onClick={() => setIsEditing(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className="w-1/2"
+                      form="menti-edit-form"
+                      type="submit"
+                      disabled={isPending}
+                    >
+                      {isPending ? "Saving..." : "Save"}
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      className="w-1/2"
+                      onClick={() => setIsEditing(true)}
+                    >
+                      Update Profile
+                    </Button>
+                    <Button variant="destructive" className="w-1/2">
+                      Delete Profile
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:w-2/3">
-              <ProfileField
-                icon={<MailIcon />}
-                label="Email"
-                value={mentor?.email}
+
+            {isEditing ? (
+              <MentorEditableProfileGrid
+                mentor={mentor}
+                form={form}
+                onSubmit={onSubmit}
               />
-              <ProfileField
-                icon={<PhoneIcon />}
-                label="Phone"
-                value={mentor?.phone_number}
-              />
-              <ProfileField
-                icon={<BriefcaseIcon />}
-                label="Company"
-                value={mentor?.company || "N/A"}
-              />
-              <ProfileField
-                icon={<GlobeIcon />}
-                label="Field"
-                value={mentor?.field}
-              />
-              <ProfileField
-                icon={<CalendarIcon />}
-                label="Experience"
-                value={mentor?.experience}
-              />
-              <ProfileField
-                icon={<MapPinIcon />}
-                label="Location"
-                value="San Francisco, CA"
-              />
-              <ProfileField
-                icon={<CalendarIcon />}
-                label="Start Date"
-                value={
-                  mentor?.start_date
-                    ? new Date(mentor?.start_date).toLocaleDateString()
-                    : "N/A"
-                }
-              />
-              <ProfileField
-                icon={<CalendarIcon />}
-                label="End Date"
-                value={
-                  mentor?.end_date
-                    ? new Date(mentor?.end_date).toLocaleDateString()
-                    : "N/A"
-                }
-              />
-            </div>
+            ) : (
+              <MentorProfileGrid mentor={mentor} />
+            )}
           </div>
         </CardContent>
       </Card>

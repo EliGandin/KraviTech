@@ -1,13 +1,13 @@
 import { Input } from "@/components/ui/input.tsx";
 import { ReactNode } from "react";
 import { ControllerRenderProps } from "react-hook-form/dist/types/controller";
-import { IMenti } from "@/global/interfaces/userInterfaces.ts";
+import { IMenti, IMentor } from "@/global/interfaces/userInterfaces.ts";
 
 interface EditableFieldProps {
   icon: ReactNode;
   label: string;
   placeholder: string | undefined;
-  field: ControllerRenderProps<Partial<IMenti>, keyof IMenti>;
+  field: ControllerRenderProps<Partial<IMenti>, keyof IMenti | keyof IMentor>;
 }
 
 const EditableField = ({
