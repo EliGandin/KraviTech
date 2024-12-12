@@ -1,8 +1,6 @@
 import axios from "axios";
-import { z } from "zod";
 
 import { IMenti } from "@/global/interfaces/userInterfaces.ts";
-import { UpdateProfileSchema } from "@/schemas/MentiUpdateProfileSchema.ts";
 
 export const getMentis = async (): Promise<IMenti[]> => {
   const { data } = (await axios.get("http://localhost:8000/mentis")).data;
