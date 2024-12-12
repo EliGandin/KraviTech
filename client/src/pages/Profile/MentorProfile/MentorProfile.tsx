@@ -10,16 +10,18 @@ import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
-import { useGetMentor } from "@/hooks/profile/useGetMentor.ts";
+import { useGetMentor } from "@/hooks/profile/mentor/useGetMentor.ts";
 import Loader from "@/components/ui/Loader.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { useUpdateProfile } from "@/hooks/profile/useUpdateMentorProfile.ts";
+import { useUpdateProfile } from "@/hooks/profile/mentor/useUpdateMentorProfile.ts";
 import { UpdateProfileSchema } from "@/schemas/updateProfile/MentorUpdateProfileSchema.ts";
 import { mentorUpdateProfileResolver } from "@/resolvers/updateProfile/mentorProfileUpdateResolver.ts";
 import { IMentor } from "@/global/interfaces/userInterfaces.ts";
 import MentorEditableProfileGrid from "@/pages/Profile/MentorProfile/MentorEditableProfileGrid.tsx";
 import MentorProfileGrid from "@/pages/Profile/MentorProfile/MentorProfileGrid.tsx";
+import { useDeleteMentor } from "@/hooks/tables/mentors/useDeleteMentor.ts";
 
 const MentorProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -27,6 +29,7 @@ const MentorProfile = () => {
   const { id } = useParams();
   const { mentor, isLoading } = useGetMentor(Number(id));
   const { mutate, isPending } = useUpdateProfile(Number(id));
+  const { deactivateMentor } = useDeleteMentor(Number(id));
   const form = useForm<z.infer<typeof UpdateProfileSchema>>(
     mentorUpdateProfileResolver,
   );
@@ -35,6 +38,19 @@ const MentorProfile = () => {
     mutate(data as Partial<IMentor>);
     setIsEditing(false);
   }
+
+  const handleDelete = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure you want to delete this profile?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    });
+
+    if (result.isConfirmed) {
+      deactivateMentor();
+    }
+  };
 
   if (isLoading) return <Loader />;
 
@@ -85,7 +101,11 @@ const MentorProfile = () => {
                     >
                       Update Profile
                     </Button>
-                    <Button variant="destructive" className="w-1/2">
+                    <Button
+                      variant="destructive"
+                      className="w-1/2"
+                      onClick={handleDelete}
+                    >
                       Delete Profile
                     </Button>
                   </>

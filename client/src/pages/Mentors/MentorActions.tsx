@@ -29,7 +29,7 @@ const MentorActions = ({ id }: MentorActionProps) => {
   const [selectedAction, setSelectedAction] = useState<string>("");
 
   const navigate = useNavigate();
-  const { deactivateMentor } = useDeleteMentor();
+  const { deactivateMentor } = useDeleteMentor(id);
 
   const handleDelete = async () => {
     const result = await Swal.fire({
@@ -40,7 +40,7 @@ const MentorActions = ({ id }: MentorActionProps) => {
     });
 
     if (result.isConfirmed) {
-      deactivateMentor({ id });
+      deactivateMentor();
     }
   };
 
