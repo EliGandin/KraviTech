@@ -11,7 +11,7 @@ export const useDeleteMentor = (id: number) => {
       await queryClient.invalidateQueries({
         queryKey: ["getMentors"],
       });
-      await queryClient.invalidateQueries({ queryKey: ["getMenti", id] });
+      await queryClient.invalidateQueries({ queryKey: ["getMentor", id] });
     },
     onError: (error) => {
       console.log(error);
