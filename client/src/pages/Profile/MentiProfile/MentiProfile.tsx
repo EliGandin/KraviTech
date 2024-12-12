@@ -11,21 +11,25 @@ import { Button } from "@/components/ui/button.tsx";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
-import { useGetMenti } from "@/hooks/profile/useGetMenti.ts";
+import { useGetMenti } from "@/hooks/profile/menti/useGetMenti.ts";
 import Loader from "@/components/ui/Loader.tsx";
 import MentiProfileGrid from "@/pages/Profile/MentiProfile/MentiProfileGrid.tsx";
 import MentiEditableProfileGrid from "@/pages/Profile/MentiProfile/MentiEditableProfileGrid.tsx";
 import { UpdateProfileSchema } from "@/schemas/updateProfile/MentiUpdateProfileSchema.ts";
 import { mentiUpdateProfileResolver } from "@/resolvers/updateProfile/mentiProfileUpdateResolver.ts";
-import { useUpdateProfile } from "@/hooks/profile/useUpdateMentiProfile.ts";
+import { useUpdateProfile } from "@/hooks/profile/menti/useUpdateMentiProfile.ts";
 import { IMenti } from "@/global/interfaces/userInterfaces.ts";
+import { useDeleteMenti } from "@/hooks/tables/mentis/useDeleteMenti.ts";
 
 const MentiProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+
   const { id } = useParams();
   const { menti, isLoading } = useGetMenti(Number(id));
   const { mutate, isPending } = useUpdateProfile(Number(id));
+  const { deactivateMenti } = useDeleteMenti(Number(id));
   const form = useForm<z.infer<typeof UpdateProfileSchema>>(
     mentiUpdateProfileResolver,
   );
@@ -34,6 +38,19 @@ const MentiProfile = () => {
     mutate(data as Partial<IMenti>);
     setIsEditing(false);
   }
+
+  const handleDelete = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure you want to delete this profile?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+    });
+
+    if (result.isConfirmed) {
+      deactivateMenti();
+    }
+  };
 
   if (isLoading) return <Loader />;
 
@@ -84,7 +101,11 @@ const MentiProfile = () => {
                       >
                         Update Profile
                       </Button>
-                      <Button variant="destructive" className="w-1/2">
+                      <Button
+                        variant="destructive"
+                        className="w-1/2"
+                        onClick={handleDelete}
+                      >
                         Delete Menti
                       </Button>
                     </>
