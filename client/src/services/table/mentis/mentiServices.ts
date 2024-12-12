@@ -47,7 +47,7 @@ export const changeMentiMentor = async (
 
 export const updateProfile = async (
   id: number,
-  data: z.infer<typeof UpdateProfileSchema>,
+  data: Partial<IMenti>,
 ): Promise<void> => {
   await axios.put(`http://localhost:8000/mentis/UpdateProfile/${id}`, data);
 };
