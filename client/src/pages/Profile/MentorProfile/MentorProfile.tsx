@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 import { useGetMentor } from "@/hooks/profile/mentor/useGetMentor.ts";
-import Loader from "@/components/ui/Loader.tsx";
+import Loader from "@/components/shared/Loader.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useUpdateProfile } from "@/hooks/profile/mentor/useUpdateMentorProfile.ts";
 import { UpdateProfileSchema } from "@/schemas/updateProfile/MentorUpdateProfileSchema.ts";

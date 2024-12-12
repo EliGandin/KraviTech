@@ -31,7 +31,7 @@ import { useGetAllOperators } from "@/hooks/operators/useGetAllOperators.ts";
 import { useGetAllMessages } from "@/hooks/admin/useGetMessages.ts";
 import { Message, Operator } from "@/global/interfaces/Props/MessageProps.ts";
 import { useUpdateMessage } from "@/hooks/admin/useUpdateMessage.ts";
-import Loader from "@/components/ui/Loader.tsx";
+import Loader from "@/components/shared/Loader.tsx";
 
 const Messages = () => {
   const [selectedMessage, setSelectedMessage] = useState<Message | undefined>();

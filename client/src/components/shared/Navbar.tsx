@@ -1,18 +1,17 @@
 import {
   NavigationMenu,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu";
+} from "@/components/ui/navigation-menu.tsx";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-import { userAtom } from "@/state/atoms/userAtom";
+import { userAtom } from "@/state/atoms/userAtom.ts";
 
 const Navbar = () => {
   const user = useRecoilValue(userAtom);
 
   return (
-    <NavigationMenu
-      className="flex w-full max-w-full items-center justify-between bg-zinc-700 px-4 py-2 text-lg text-zinc-200">
+    <NavigationMenu className="flex w-full max-w-full items-center justify-between bg-zinc-700 px-4 py-2 text-lg text-zinc-200">
       <NavigationMenuList className="flex gap-5">
         {user ? (
           <>

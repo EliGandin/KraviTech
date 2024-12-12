@@ -1,7 +1,7 @@
 import { MentorColumns } from "@/pages/Mentors/MentorColumns.tsx";
-import TableComponent from "@/components/ui/TableComponent.tsx";
+import TableComponent from "@/components/shared/TableComponent.tsx";
 import { useMentors } from "@/hooks/tables/mentors/useMentors.ts";
-import Loader from "@/components/ui/Loader.tsx";
+import Loader from "@/components/shared/Loader.tsx";
 
 const Mentors = () => {
   const { mentors, isLoading } = useMentors();

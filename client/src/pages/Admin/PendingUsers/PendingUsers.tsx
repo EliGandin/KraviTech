@@ -39,7 +39,7 @@ import {
   capitalizeValue,
   formatPhoneNumber,
 } from "@/utils/formatters/formatFields";
-import Loader from "@/components/ui/Loader.tsx";
+import Loader from "@/components/shared/Loader.tsx";
 
 const PendingUsers = () => {
   const [selectedUser, setSelectedUser] = useState<IMenti | IMentor | null>(

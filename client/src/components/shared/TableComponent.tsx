@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/table.tsx";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -18,14 +18,14 @@ import {
   VisibilityState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "./button";
-import { Input } from "./input";
+import { Button } from "../ui/button.tsx";
+import { Input } from "../ui/input.tsx";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu.tsx";
 import { useState } from "react";
 
 interface DataTableProps<IData, IValue> {

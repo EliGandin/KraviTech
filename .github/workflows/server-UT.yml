@@ -1,14 +1,14 @@
-#name: Integration Tests - Server
-#
-#on:
-#  pull_request:
-#    branches:
-#      - main  # Change to your main branch name if different
-#
-#jobs:
-#  test:
-#    runs-on: ubuntu-latest
-#
+name: Integration Tests - Server
+
+on:
+  pull_request:
+    branches:
+      - main  # Change to your main branch name if different
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
 #    services:
 #      docker:
 #        image: docker:20.10.7
