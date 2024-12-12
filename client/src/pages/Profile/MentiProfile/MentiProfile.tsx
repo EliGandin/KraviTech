@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 import { useGetMenti } from "@/hooks/profile/menti/useGetMenti.ts";
-import Loader from "@/components/ui/Loader.tsx";
+import Loader from "@/components/shared/Loader.tsx";
 import MentiProfileGrid from "@/pages/Profile/MentiProfile/MentiProfileGrid.tsx";
 import MentiEditableProfileGrid from "@/pages/Profile/MentiProfile/MentiEditableProfileGrid.tsx";
 import { UpdateProfileSchema } from "@/schemas/updateProfile/MentiUpdateProfileSchema.ts";

@@ -1,7 +1,7 @@
 import { MentiColumns } from "@/pages/Mentis/MentiColumns.tsx";
-import TableComponent from "@/components/ui/TableComponent.tsx";
+import TableComponent from "@/components/shared/TableComponent.tsx";
 import { useMentis } from "@/hooks/tables/mentis/useMentis.ts";
-import Loader from "@/components/ui/Loader.tsx";
+import Loader from "@/components/shared/Loader.tsx";
 
 const Mentis = () => {
   const { mentis, isLoading } = useMentis();

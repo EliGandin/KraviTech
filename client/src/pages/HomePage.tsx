@@ -8,7 +8,7 @@ const HomePage = () => {
 
       <div className="flex flex-col justify-center align-middle">
         <Button asChild>
-          <Link to="/login">Let's get started</Link>
+          <Link to="/login">Let&lsquo;s get started</Link>
         </Button>
       </div>
     </div>
