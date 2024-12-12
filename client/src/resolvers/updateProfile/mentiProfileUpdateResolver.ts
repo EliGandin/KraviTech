@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { UpdateProfileSchema } from "@/schemas/MentiUpdateProfileSchema.ts";
+import { UpdateProfileSchema } from "@/schemas/updateProfile/MentiUpdateProfileSchema.ts";
 
 export const mentiUpdateProfileResolver = {
   resolver: zodResolver(UpdateProfileSchema),

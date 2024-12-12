@@ -16,8 +16,8 @@ import { useGetMenti } from "@/hooks/profile/useGetMenti.ts";
 import Loader from "@/components/ui/Loader.tsx";
 import MentiProfileGrid from "@/pages/Profile/MentiProfile/MentiProfileGrid.tsx";
 import MentiEditableProfileGrid from "@/pages/Profile/MentiProfile/MentiEditableProfileGrid.tsx";
-import { UpdateProfileSchema } from "@/schemas/MentiUpdateProfileSchema.ts";
-import { mentiUpdateProfileResolver } from "@/resolvers/mentiProfileUpdateResolver.ts";
+import { UpdateProfileSchema } from "@/schemas/updateProfile/MentiUpdateProfileSchema.ts";
+import { mentiUpdateProfileResolver } from "@/resolvers/updateProfile/mentiProfileUpdateResolver.ts";
 import { useUpdateProfile } from "@/hooks/profile/useUpdateMentiProfile.ts";
 import { IMenti } from "@/global/interfaces/userInterfaces.ts";
 

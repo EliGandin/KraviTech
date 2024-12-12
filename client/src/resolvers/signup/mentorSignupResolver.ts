@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { MentorSignupFormSchema } from "@/schemas/MentorSignupFormSchema.ts";
+import { MentorSignupFormSchema } from "@/schemas/signup/MentorSignupFormSchema.ts";
 
 export const mentorSignupResolver = {
   resolver: zodResolver(MentorSignupFormSchema),

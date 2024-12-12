@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MentiSignupFormSchema } from "@/schemas/MentiSignupFormSchema.ts";
+import { MentiSignupFormSchema } from "@/schemas/signup/MentiSignupFormSchema.ts";
 
 export const mentiSignupResolver = {
   resolver: zodResolver(MentiSignupFormSchema),

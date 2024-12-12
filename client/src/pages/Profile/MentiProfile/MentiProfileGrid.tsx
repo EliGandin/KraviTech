@@ -10,7 +10,7 @@ import {
 
 import { MentiProfileGridProps } from "@/global/interfaces/Props/ProfileGridProps.ts";
 
-const MentiProfileGrid = ({ menti, onSubmit }: MentiProfileGridProps) => {
+const MentiProfileGrid = ({ menti }: MentiProfileGridProps) => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:w-2/3">
       <ProfileField icon={<MailIcon />} label="Email" value={menti?.email} />

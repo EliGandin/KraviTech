@@ -12,8 +12,8 @@ import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 
-import { MentiSignupFormSchema } from "@/schemas/MentiSignupFormSchema.ts";
-import { mentiSignupResolver } from "@/resolvers/mentiSignupResolver.ts";
+import { MentiSignupFormSchema } from "@/schemas/signup/MentiSignupFormSchema.ts";
+import { mentiSignupResolver } from "@/resolvers/signup/mentiSignupResolver.ts";
 import { useMentiSignup } from "@/hooks/users/useMentiSignup.ts";
 import { mentiSignupMapper } from "@/utils/mappers/signup/mentiSignupMapper.ts";
 
