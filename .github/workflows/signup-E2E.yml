@@ -33,6 +33,11 @@ jobs:
       - name: see logs
         run:
           docker compose logs
+      - name: Setup test
+        id: setup
+        working-directory: ./E2E/tests
+        run: |
+          npx playwright install
       - name: Signup E2E
         id: signup
         working-directory: ./E2E/tests
