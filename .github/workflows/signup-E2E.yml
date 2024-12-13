@@ -39,11 +39,11 @@ jobs:
         run: |
           passed=""
           echo "# Test Results! 🚀" >> $GITHUB_STEP_SUMMARY
-          cd E2E && npx playwright test tests/signup.spec.ts || passed="false"
+          npx playwright test tests/signup.spec.ts || passed="false"
           if [[ -n "$passed" ]]; then
-            echo "Signup E2E failed!__ ❌" >> $GITHUB_STEP_SUMMARY
+            echo "Signup E2E failed! __ ❌" >> $GITHUB_STEP_SUMMARY
           else
-            echo "Signup E2E passed!__ ✅" >> $GITHUB_STEP_SUMMARY
+            echo "Signup E2E passed! __ ✅" >> $GITHUB_STEP_SUMMARY
           fi
           echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: post test logs
@@ -52,7 +52,7 @@ jobs:
         run: |
           docker compose down
           Result=${{ steps.signup.outputs.passed }}
-          if [[ -n "$api" ]] || [[ -n "$ui" ]] || [[ -n "$login" ]] || [[ -n "$unit" ]]; then
+          if [[ -n "$signup" ]]; then
             echo "not all tests passed, failing the workflow"
             exit 1
           else
