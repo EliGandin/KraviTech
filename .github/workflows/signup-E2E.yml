@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref || github.ref_name }}
       - name: setup test
@@ -45,8 +45,6 @@ jobs:
           else
             echo "Signup E2E passed!__ ✅" >> $GITHUB_STEP_SUMMARY
           fi
-          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"          
-          rm output.txt || echo "no output"
           echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: post test logs
         run: docker compose logs
