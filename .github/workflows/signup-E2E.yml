@@ -42,15 +42,12 @@ jobs:
         id: signup
         working-directory: ./E2E/tests
         run: |
-          passed=""
           echo "# Test Results! 🚀" >> $GITHUB_STEP_SUMMARY
-          npx playwright test tests/signup.spec.ts || passed="false"
-          if [[ -n "$passed" ]]; then
-            echo "Signup E2E failed!  ❌" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "Signup E2E passed!  ✅" >> $GITHUB_STEP_SUMMARY
-          fi
-          echo "passed=$passed" >> $GITHUB_OUTPUT
+          npx playwright test tests/signup.spec.ts || {
+            echo "Signup E2E failed! ❌" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          }
+          echo "Signup E2E passed! ✅" >> $GITHUB_STEP_SUMMARY
       - name: post test logs
         run: docker compose logs
       - name: consolidate
