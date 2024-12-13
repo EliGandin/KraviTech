@@ -46,9 +46,9 @@ jobs:
           echo "# Test Results! 🚀" >> $GITHUB_STEP_SUMMARY
           npx playwright test tests/signup.spec.ts || passed="false"
           if [[ -n "$passed" ]]; then
-            echo "Signup E2E failed!__❌" >> $GITHUB_STEP_SUMMARY
+            echo "Signup E2E failed!  ❌" >> $GITHUB_STEP_SUMMARY
           else
-            echo "Signup E2E passed!__✅" >> $GITHUB_STEP_SUMMARY
+            echo "Signup E2E passed!  ✅" >> $GITHUB_STEP_SUMMARY
           fi
           echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: post test logs
