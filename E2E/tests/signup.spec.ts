@@ -38,7 +38,7 @@ test.describe("Signup Roles", () => {
     await page.getByText("Create an account").click();
 
     // Handle Swal2
-    await page.click("button:has-text('OK')");
+    // await page.click("button:has-text('OK')");
 
     // Login
     await page.goto(`${baseURL}/login`);
