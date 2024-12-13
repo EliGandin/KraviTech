@@ -1,0 +1,62 @@
+name: Signup E2E
+run-name: Running Signup End to End testing on ${{ github.head_ref || github.ref_name }} -> ${{ github.sha }}
+on:
+  pull_request:
+    branches: [ "main" ]
+#env:
+#  DB_PASSWORD: 1234
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - name: setup test
+        working-directory: ./E2E/tests
+        run:
+          npm install
+      - name: launch app
+        run: |
+          docker compose build
+          docker compose up -d
+      - name: wait for api
+        run: |
+          if ! curl "http://localhost:8000/healthcheck"; then
+              sleep 5;
+          fi
+      - name: see containers
+        run:
+          docker ps
+      - name: see logs
+        run:
+          docker compose logs
+      - name: Signup E2E
+        id: signup
+        working-directory: ./E2E/tests
+        run: |
+          passed=""
+          echo "# Test Results! 🚀" >> $GITHUB_STEP_SUMMARY
+          cd E2E && npx playwright test tests/signup.spec.ts || passed="false"
+          if [[ -n "$passed" ]]; then
+            echo "Signup E2E failed!__ ❌" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Signup E2E passed!__ ✅" >> $GITHUB_STEP_SUMMARY
+          fi
+          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"          
+          rm output.txt || echo "no output"
+          echo "passed=$passed" >> $GITHUB_OUTPUT
+      - name: post test logs
+        run: docker compose logs
+      - name: consolidate
+        run: |
+          docker compose down
+          Result=${{ steps.signup.outputs.passed }}
+          if [[ -n "$api" ]] || [[ -n "$ui" ]] || [[ -n "$login" ]] || [[ -n "$unit" ]]; then
+            echo "not all tests passed, failing the workflow"
+            exit 1
+          else
+            echo "__Great Success!__" >> $GITHUB_STEP_SUMMARY
+          fi
