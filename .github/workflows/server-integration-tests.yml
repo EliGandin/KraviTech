@@ -1,0 +1,43 @@
+name: Integration Tests - Server
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - name: setup tests
+        working-directory: ./server
+        run:
+          npm install
+      - name: launch app
+        run: |
+          docker compose build
+          docker compose up -d
+      - name: wait for api
+        run: |
+          if ! curl "http://localhost:8000/healthcheck"; then
+              sleep 5;
+          fi
+      - name: see containers
+        run:
+          docker ps
+      - name: see logs
+        run:
+          docker compose logs
+      - name: Run Tests
+        id: test
+        working-directory: ./server
+        run: |
+          echo "# Test Results! 🚀" >> $GITHUB_STEP_SUMMARY
+          npm run test || {
+            echo "Integration Tests failed! ❌" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          }
+          echo "Integration Tests passed! ✅" >> $GITHUB_STEP_SUMMARY
