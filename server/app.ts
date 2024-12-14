@@ -12,7 +12,6 @@ import mentiRouter from "./routes/api/tables/menti.routes";
 import adminRouter from "@/routes/admin/admin.routes";
 import operatorRouter from "@/routes/operators/operator.routes";
 
-
 const app = express();
 
 dotenv.config();
@@ -31,10 +30,6 @@ app.use("/operator", operatorRouter);
 app.use("/healthcheck", (req, res) => {
   console.log("Hello, world!");
   res.status(200).send("Hello, world!");
-});
-
-app.listen(process.env.BACKEND_PORT || 8000, () => {
-  console.log(`Server is running on port ${process.env.BACKEND_PORT || 8000}`);
 });
 
 export default app;
