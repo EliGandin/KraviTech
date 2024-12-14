@@ -2,7 +2,7 @@
 
 ### Enums
 
-`feild : Data | Hardware | Software`  
+`field : Data | Hardware | Software`  
 `role : Mentor | Menti | Admin`  
 `status : Pending | Pre Production | Active | Inactive | Success`
 
