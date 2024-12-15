@@ -5,6 +5,8 @@ export const Status = {
   INACTIVE: "INACTIVE",
 };
 
+export const Roles = { ADMIN: "ADMIN", MENTOR: "MENTOR", MENTI: "MENTI" };
+
 export const dbTables = ["mentors", "mentis", "admins", "messages"];
 
 export const MessageStatus = {
