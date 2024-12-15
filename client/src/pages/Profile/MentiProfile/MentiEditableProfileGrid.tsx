@@ -1,10 +1,14 @@
 import {
-  BriefcaseIcon,
-  CalendarIcon,
-  GlobeIcon,
+  Award,
   MailIcon,
-  MapPinIcon,
   PhoneIcon,
+  Target,
+  CalendarCheck2,
+  CalendarX2,
+  UserCog,
+  UserPlus,
+  GraduationCap,
+  MessageSquareMore,
 } from "lucide-react";
 import { Controller } from "react-hook-form";
 
@@ -52,7 +56,7 @@ const MentiEditableProfileGrid = ({
         control={form.control}
         render={({ field }) => (
           <EditableField
-            icon={<BriefcaseIcon />}
+            icon={<GraduationCap />}
             label="Education"
             placeholder={menti?.education || "N/A"}
             field={field}
@@ -64,7 +68,7 @@ const MentiEditableProfileGrid = ({
         control={form.control}
         render={({ field }) => (
           <EditableField
-            icon={<GlobeIcon />}
+            icon={<Target />}
             label="Goals"
             placeholder={menti?.goals}
             field={field}
@@ -76,7 +80,7 @@ const MentiEditableProfileGrid = ({
         control={form.control}
         render={({ field }) => (
           <EditableField
-            icon={<CalendarIcon />}
+            icon={<Award />}
             label="Experience"
             placeholder={menti?.experience}
             field={field}
@@ -88,7 +92,7 @@ const MentiEditableProfileGrid = ({
         control={form.control}
         render={({ field }) => (
           <EditableField
-            icon={<MapPinIcon />}
+            icon={<MessageSquareMore />}
             label="Comments"
             placeholder={menti?.comments}
             field={field}
@@ -97,17 +101,17 @@ const MentiEditableProfileGrid = ({
       />
 
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<UserCog />}
         label={"Operator Name"}
         value={menti?.operator_name ? menti?.operator_name : "N/A"}
       />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<UserPlus />}
         label={"Mentor Name"}
         value={menti?.mentor_name ? menti?.mentor_name : "N/A"}
       />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<CalendarCheck2 />}
         label="Start Date"
         value={
           menti?.start_date
@@ -116,7 +120,7 @@ const MentiEditableProfileGrid = ({
         }
       />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<CalendarX2 />}
         label="End Date"
         value={
           menti?.end_date

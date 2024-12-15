@@ -1,10 +1,12 @@
 import {
+  Atom,
+  Award,
   BriefcaseIcon,
-  CalendarIcon,
-  GlobeIcon,
+  CalendarCheck2,
+  CalendarX2,
   MailIcon,
-  MapPinIcon,
   PhoneIcon,
+  Users,
 } from "lucide-react";
 
 import { MentorProfileGridProps } from "@/global/interfaces/Props/ProfileGridProps.ts";
@@ -24,15 +26,19 @@ const MentorProfileGrid = ({ mentor }: MentorProfileGridProps) => {
         label="Company"
         value={mentor?.company || "N/A"}
       />
-      <ProfileField icon={<GlobeIcon />} label="Field" value={mentor?.field} />
+      <ProfileField icon={<Atom />} label="Field" value={mentor?.field} />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<Award />}
         label="Experience"
         value={mentor?.experience}
       />
-      <ProfileField icon={<MapPinIcon />} label="MENTIS" value="5" />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<Users />}
+        label="Number of Mentis"
+        value={mentor?.menti_count}
+      />
+      <ProfileField
+        icon={<CalendarCheck2 />}
         label="Start Date"
         value={
           mentor?.start_date
@@ -41,7 +47,7 @@ const MentorProfileGrid = ({ mentor }: MentorProfileGridProps) => {
         }
       />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<CalendarX2 />}
         label="End Date"
         value={
           mentor?.end_date
