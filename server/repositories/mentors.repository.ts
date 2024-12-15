@@ -29,19 +29,23 @@ export const getAllMentors = async (): Promise<Mentor[]> => {
 };
 
 export const getMentor = async (id: number): Promise<Mentor> => {
-  const query = `SELECT id,
-                        name,
-                        email,
-                        phone_number,
-                        field,
-                        company,
-                        position,
-                        experience,
-                        status,
-                        start_date,
-                        end_date
-                 FROM mentors
-                 WHERE id = $1`;
+  const query = `SELECT mentor.id,
+                        mentor.name,
+                        mentor.email,
+                        mentor.phone_number,
+                        mentor.field,
+                        mentor.company,
+                        mentor.position,
+                        mentor.experience,
+                        mentor.status,
+                        mentor.start_date,
+                        mentor.end_date,
+                        COUNT(menti.id) AS menti_count
+                 FROM mentors mentor
+                          LEFT JOIN mentis menti ON mentor.id = menti.mentor_id
+                 WHERE mentor.id = $1
+                 GROUP BY mentor.id, mentor.name, mentor.email, mentor.phone_number, mentor.field, mentor.company,
+                          mentor.position, mentor.experience, mentor.status, mentor.start_date, mentor.end_date`;
 
   const { rows } = await db.query(query, [id]);
   return rows[0];

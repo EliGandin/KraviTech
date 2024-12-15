@@ -1,11 +1,15 @@
 import ProfileField from "@/pages/Profile/ProfileField.tsx";
 import {
-  BriefcaseIcon,
-  CalendarIcon,
-  GlobeIcon,
+  Award,
   MailIcon,
-  MapPinIcon,
   PhoneIcon,
+  Target,
+  CalendarCheck2,
+  CalendarX2,
+  UserCog,
+  UserPlus,
+  GraduationCap,
+  MessageSquareMore,
 } from "lucide-react";
 
 import { MentiProfileGridProps } from "@/global/interfaces/Props/ProfileGridProps.ts";
@@ -20,33 +24,33 @@ const MentiProfileGrid = ({ menti }: MentiProfileGridProps) => {
         value={menti?.phone_number}
       />
       <ProfileField
-        icon={<BriefcaseIcon />}
+        icon={<GraduationCap />}
         label="Education"
         value={menti?.education || "N/A"}
       />
-      <ProfileField icon={<GlobeIcon />} label="Goals" value={menti?.goals} />
+      <ProfileField icon={<Target />} label="Goals" value={menti?.goals} />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<Award />}
         label="Experience"
         value={menti?.experience}
       />
       <ProfileField
-        icon={<MapPinIcon />}
+        icon={<MessageSquareMore />}
         label="Comments"
         value={menti?.comments}
       />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<UserCog />}
         label={"Operator Name"}
         value={menti?.operator_name ? menti?.operator_name : "N/A"}
       />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<UserPlus />}
         label={"Mentor Name"}
         value={menti?.mentor_name ? menti?.mentor_name : "N/A"}
       />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<CalendarCheck2 />}
         label="Start Date"
         value={
           menti?.start_date
@@ -55,7 +59,7 @@ const MentiProfileGrid = ({ menti }: MentiProfileGridProps) => {
         }
       />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<CalendarX2 />}
         label="End Date"
         value={
           menti?.end_date

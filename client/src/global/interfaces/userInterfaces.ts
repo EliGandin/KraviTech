@@ -25,6 +25,7 @@ export interface IMentor extends IUser {
   field?: string;
   company?: string;
   experience?: string;
+  menti_count?: number;
   start_date?: string;
   end_date?: string;
 }
