@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 const baseURL = "http://localhost:5172";
 
 const admin = {
-  email: "amit@test.com",
+  email: "fiona.green@example.com",
   password: "1234",
 };
 
@@ -38,13 +38,18 @@ test.describe("Signup Roles", () => {
     await page.getByText("Create an account").click();
 
     // Handle Swal2
-    // await page.click("button:has-text('OK')");
+    await page.click("button:has-text('OK')");
 
-    // Login
+    // Admin Login
     await page.goto(`${baseURL}/login`);
     await page.locator("input[name=\"email\"]").fill(admin.email);
     await page.locator("input[name=\"password\"]").fill(admin.password);
     await page.click("button:has-text('Login')");
+
+    // Admin Approval
+    await page.goto(`${baseURL}/app/admin/board`);
+    await page.getByText(menti.name).click();
+    await page.getByText("Approve").click();
 
     // Navigate to Mentis Component
     await page.goto(`${baseURL}/app/mentis`);
@@ -64,7 +69,7 @@ test.describe("Signup Roles", () => {
   test("Mentor Signup", async ({ page }) => {
     const mentor = {
       name: "Test User",
-      email: "teste2e@test.com",
+      email: "teste2ementor@test.com",
       phoneNumber: "0123456789",
       password: "1234",
     };
@@ -82,16 +87,30 @@ test.describe("Signup Roles", () => {
     await page.locator("input[name=\"password\"]").fill(mentor.password);
     await page.locator("input[name=\"confirmPassword\"]").fill(mentor.password);
 
+    // Combobox selection
+    await page.getByText("Select field").click();
+    await page.getByText("Data").click();
+    await page.getByText("Specify Experience").click();
+    await page.getByText("5+ years").click();
+
     // Submit the form
     await page.getByText("Create an account").click();
 
-    // Login
+    // Handle Swal2
+    await page.click("button:has-text('OK')");
+
+    // Admin Login
     await page.goto(`${baseURL}/login`);
     await page.locator("input[name=\"email\"]").fill(admin.email);
     await page.locator("input[name=\"password\"]").fill(admin.password);
     await page.click("button:has-text('Login')");
 
-    // Navigate to Mentis Component
+    // Admin Approval
+    await page.goto(`${baseURL}/app/admin/board`);
+    await page.getByText(mentor.name).click();
+    await page.getByText("Approve").click();
+
+    // Navigate to Mentors Component
     await page.goto(`${baseURL}/app/mentors`);
 
     // Assert that the menti is in the list
