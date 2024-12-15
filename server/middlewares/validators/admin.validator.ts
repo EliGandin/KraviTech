@@ -1,11 +1,17 @@
 import { body } from "express-validator";
 
 import { FieldErrors } from "@/globals/errors/fieldErrors";
+import { Roles } from "@/globals/constants";
 
-export const adminValidator = () => {
+export const adminActivationValidator = () => {
   return [
     body("id").isNumeric().withMessage(FieldErrors.INVALID_NAME),
-    body("role").isEmail().withMessage(FieldErrors.INVALID_ROLE),
+    body("role").custom((value: string) => {
+      if (Object.values(Roles).includes(value.toUpperCase())) {
+        return true;
+      }
+      throw new Error(FieldErrors.INVALID_ROLE);
+    }),
   ];
 };
 

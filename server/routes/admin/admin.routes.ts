@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { getAllMessages, getAllPendingUsers } from "@/repositories/admin.repository";
-import { updateMessageValidator, adminValidator } from "@/middlewares/validators/admin.validator";
+import { updateMessageValidator, adminActivationValidator } from "@/middlewares/validators/admin.validator";
 import { activationController, updateMessageController } from "@/controllers/admin/admin.controller";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
 
@@ -19,7 +19,7 @@ adminRouter.get("/PendingUsers", async (req: Request, res: Response) => {
   }
 });
 
-adminRouter.put("/activate", adminValidator(), async (req: Request, res: Response) => {
+adminRouter.put("/activate", adminActivationValidator(), async (req: Request, res: Response) => {
   try {
     const fieldValidationResult = fieldValidation(req);
     if (fieldValidationResult) {
