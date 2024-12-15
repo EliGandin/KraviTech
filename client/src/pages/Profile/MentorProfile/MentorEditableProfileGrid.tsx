@@ -1,15 +1,17 @@
 import { Controller } from "react-hook-form";
+import {
+  Atom,
+  Award,
+  BriefcaseIcon,
+  CalendarCheck2,
+  CalendarX2,
+  MailIcon,
+  PhoneIcon,
+  Users,
+} from "lucide-react";
 
 import { MentorEditableProfileGridProps } from "@/global/interfaces/Props/ProfileGridProps.ts";
 import EditableField from "@/pages/Profile/EditableField.tsx";
-import {
-  BriefcaseIcon,
-  CalendarIcon,
-  GlobeIcon,
-  MailIcon,
-  MapPinIcon,
-  PhoneIcon,
-} from "lucide-react";
 import ProfileField from "@/pages/Profile/ProfileField.tsx";
 
 const MentorEditableProfileGrid = ({
@@ -64,7 +66,7 @@ const MentorEditableProfileGrid = ({
         control={form.control}
         render={({ field }) => (
           <EditableField
-            icon={<GlobeIcon />}
+            icon={<Atom />}
             label="Field"
             placeholder={mentor?.field}
             field={field}
@@ -76,16 +78,20 @@ const MentorEditableProfileGrid = ({
         control={form.control}
         render={({ field }) => (
           <EditableField
-            icon={<CalendarIcon />}
+            icon={<Award />}
             label="Experience"
             placeholder={mentor?.experience}
             field={field}
           />
         )}
       />
-      <ProfileField icon={<MapPinIcon />} label="MENTIS" value="5" />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<Users />}
+        label="Number of Mentis"
+        value={mentor?.menti_count}
+      />
+      <ProfileField
+        icon={<CalendarCheck2 />}
         label="Start Date"
         value={
           mentor?.start_date
@@ -94,7 +100,7 @@ const MentorEditableProfileGrid = ({
         }
       />
       <ProfileField
-        icon={<CalendarIcon />}
+        icon={<CalendarX2 />}
         label="End Date"
         value={
           mentor?.end_date

@@ -23,6 +23,7 @@ export type Menti = {
   operator_name?: string;
   mentor_id?: number;
   mentor_name?: string;
+  menti_count?: number
   status: string;
 }
 
