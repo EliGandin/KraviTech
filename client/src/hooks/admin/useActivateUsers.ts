@@ -12,6 +12,12 @@ export const useActivateUsers = () => {
       await queryClient.invalidateQueries({
         queryKey: ["getPendingUsers"],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ["getMentis"],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["getMentors"],
+      });
     },
     onError: (error) => {
       console.log(error);

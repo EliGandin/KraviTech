@@ -16,3 +16,18 @@ export const capitalizeName = (name: string | undefined): string => {
 
   return name.replace(/\b(\w)/g, (s) => s.toUpperCase());
 };
+
+export const normalizePhoneNumber = (
+  phoneNumber: string | undefined,
+): string => {
+  if (!phoneNumber) return "";
+
+  if (phoneNumber.startsWith("+972")) {
+    phoneNumber.replace("+972", "0");
+  }
+
+  if (phoneNumber.indexOf("-") > 0) {
+    phoneNumber.split("-").toString().replace(",", "");
+  }
+  return phoneNumber;
+};

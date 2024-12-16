@@ -17,6 +17,28 @@ jest.mock("@tanstack/react-query", () => ({
   useMutation: jest.fn(),
 }));
 
+const menti = {
+  name: "John Doe",
+  email: "johndoe@example.com",
+  phone_number: "0545454455",
+  password: "password123",
+  education: "Harvard University",
+  experience: "Software Engineering",
+  goals: "Career growth",
+  comments: "I am passionate about coding.",
+};
+
+const mentor = {
+  name: "John Doe",
+  email: "johndoe@example.com",
+  phone_number: "054545445",
+  password: "password123",
+  position: "Developer",
+  company: "Apple Inc.",
+  experience: undefined,
+  field: undefined,
+};
+
 describe("Signup Component - Successful Submission", () => {
   const mockMutate = jest.fn();
 
@@ -38,28 +60,28 @@ describe("Signup Component - Successful Submission", () => {
     );
 
     fireEvent.change(screen.getByPlaceholderText(/Israel Israeli/i), {
-      target: { value: "John Doe" },
+      target: { value: menti.name },
     });
     fireEvent.change(screen.getByPlaceholderText(/m@example.com/i), {
-      target: { value: "johndoe@example.com" },
+      target: { value: menti.email },
     });
     fireEvent.change(screen.getByPlaceholderText(/054545445/i), {
-      target: { value: "054545445" },
+      target: { value: menti.phone_number },
     });
     fireEvent.change(screen.getByPlaceholderText("Password"), {
-      target: { value: "password123" },
+      target: { value: menti.password },
     });
     fireEvent.change(screen.getByPlaceholderText("Confirm Password"), {
-      target: { value: "password123" },
+      target: { value: menti.password },
     });
     fireEvent.change(screen.getByPlaceholderText("Tel Aviv University"), {
-      target: { value: "Harvard University" },
+      target: { value: menti.education },
     });
     fireEvent.change(screen.getByPlaceholderText("What is your experience"), {
-      target: { value: "Software Engineering" },
+      target: { value: menti.experience },
     });
     fireEvent.change(screen.getByPlaceholderText("What you need help with"), {
-      target: { value: "Career growth" },
+      target: { value: menti.goals },
     });
     fireEvent.change(
       screen.getByPlaceholderText("Anything we need to know about you?"),
@@ -72,14 +94,9 @@ describe("Signup Component - Successful Submission", () => {
 
     await waitFor(() => {
       expect(mockMutate).toHaveBeenCalledWith({
-        name: "John Doe",
-        email: "johndoe@example.com",
-        phone_number: "054545445",
-        password: "password123",
-        education: "Harvard University",
-        experience: "Software Engineering",
-        goals: "Career growth",
-        comments: "I am passionate about coding.",
+        ...menti,
+        confirmPassword: menti.password,
+        phoneNumber: menti.phone_number,
       });
     });
   });
@@ -117,26 +134,10 @@ describe("Signup Component - Successful Submission", () => {
 
     await waitFor(() => {
       expect(mockMutate).toHaveBeenCalledWith({
-        name: "John Doe",
-        email: "johndoe@example.com",
-        phone_number: "054545445",
-        password: "password123",
-        position: "Developer",
-        company: "Apple Inc.",
-        experience: undefined,
-        field: undefined,
+        ...mentor,
+        confirmPassword: mentor.password,
+        phoneNumber: mentor.phone_number,
       });
     });
-
-    // expect(mockMutate).toHaveBeenCalledWith({
-    //   name: "John Doe",
-    //   email: "johndoe@example.com",
-    //   phone_number: "054545445",
-    //   password: "password123",
-    //   position: "Developer",
-    //   company: "Apple Inc.",
-    //   experience: undefined,
-    //   field: undefined,
-    // });
   });
 });
