@@ -10,7 +10,7 @@ const admin = {
 test.describe("Signup Roles", () => {
   test("Menti Signup", async ({ page }) => {
     const menti = {
-      name: "Test User",
+      name: "Test User Menti",
       email: "teste2e@test.com",
       phoneNumber: "0123456789",
       password: "1234",
@@ -68,7 +68,7 @@ test.describe("Signup Roles", () => {
 
   test("Mentor Signup", async ({ page }) => {
     const mentor = {
-      name: "Test User",
+      name: "Test User Mentor",
       email: "teste2ementor@test.com",
       phoneNumber: "0123456789",
       password: "1234",
