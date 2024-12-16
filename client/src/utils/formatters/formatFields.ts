@@ -26,7 +26,7 @@ export const normalizePhoneNumber = (
     phoneNumber.replace("+972", "0");
   }
 
-  if (phoneNumber.split("-")) {
+  if (phoneNumber.indexOf("-") > 0) {
     phoneNumber.split("-").toString().replace(",", "");
   }
   return phoneNumber;

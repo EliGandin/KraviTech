@@ -43,8 +43,8 @@ describe("Signup Component - Successful Submission", () => {
     fireEvent.change(screen.getByPlaceholderText(/m@example.com/i), {
       target: { value: "johndoe@example.com" },
     });
-    fireEvent.change(screen.getByPlaceholderText(/054545445/i), {
-      target: { value: "054545445" },
+    fireEvent.change(screen.getByPlaceholderText(/0545454455/i), {
+      target: { value: "0545454455" },
     });
     fireEvent.change(screen.getByPlaceholderText("Password"), {
       target: { value: "password123" },
