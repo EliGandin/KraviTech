@@ -1,11 +1,11 @@
-// import { Router } from "express";
+import { Router } from "express";
 // import { StatusCodes } from "http-status-codes";
-//
+
 // import { mongo } from "@/db/mongo";
-// // import db from "@/db/db";
-//
-// const testRouter = Router();
-//
+// import db from "@/db/db";
+
+const testRouter = Router();
+
 // testRouter.get("/healthcheck", async (req, res) => {
 //   try {
 //     const sqlDB = db;
@@ -20,5 +20,5 @@
 //     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
 //   }
 // });
-//
-// export default testRouter;
+
+export default testRouter;
