@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Background from "./components/shared/Background.tsx";
 import Navbar from "./components/shared/Navbar.tsx";
 import HomePage from "./pages/HomePage";
-import Dashboard from "./pages/Dashboard";
 import Tables from "./pages/Tables";
 import Mentors from "@/pages/Mentors/Mentors.tsx";
 import Mentis from "./pages/Mentis/Mentis.tsx";
@@ -12,6 +11,7 @@ import Signup from "./pages/Signup/Signup";
 import AdminBoard from "@/pages/Admin/AdminBoard";
 import MentorProfile from "@/pages/Profile/MentorProfile/MentorProfile.tsx";
 import MentiProfile from "@/pages/Profile/MentiProfile/MentiProfile.tsx";
+import MentorDashboard from "@/pages/Tasks/MentorDashboard.tsx";
 
 const Layout = () => {
   return (
@@ -20,7 +20,7 @@ const Layout = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<MentorDashboard />} />
         <Route path="/app/tables" element={<Tables />} />
         <Route path="/app/mentors" element={<Mentors />} />
         <Route path="/app/mentors/:id" element={<MentorProfile />} />

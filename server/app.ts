@@ -11,6 +11,7 @@ import mentorRouter from "./routes/api/tables/mentor.routes";
 import mentiRouter from "./routes/api/tables/menti.routes";
 import adminRouter from "@/routes/admin/admin.routes";
 import operatorRouter from "@/routes/operators/operator.routes";
+import testRouter from "@/routes/testRoutes/testRouter";
 
 const app = express();
 
@@ -27,9 +28,6 @@ app.use("/mentis", mentiRouter);
 app.use("/admin", adminRouter);
 app.use("/operator", operatorRouter);
 
-app.use("/healthcheck", (req, res) => {
-  console.log("Hello, world!");
-  res.status(200).send("Hello, world!");
-});
+app.use("/test", testRouter);
 
 export default app;
