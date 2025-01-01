@@ -1,8 +1,10 @@
 CREATE TYPE experience AS ENUM ('LOW', 'MID', 'HIGH');
 CREATE TYPE field AS ENUM ('DATA', 'HARDWARE', 'SOFTWARE');
 CREATE TYPE role AS ENUM ('MENTOR', 'MENTI', 'ADMIN');
-CREATE TYPE status AS ENUM ('PENDING', 'PREPRODUCTION', 'ACTIVE', 'INACTIVE', 'SUCCESS');
+CREATE TYPE mentor_status AS ENUM ('PENDING', 'ACTIVE', 'INACTIVE');
+CREATE TYPE menti_status AS ENUM ('PENDING', 'PREPRODUCTION', 'ACTIVE', 'INACTIVE', 'SUCCESS');
 CREATE TYPE message_status AS ENUM ('OPEN', 'CLOSED');
+CREATE TYPE task_status AS ENUM ('NEW', 'IN_PROGRESS', 'DONE');
 
 CREATE TABLE IF NOT EXISTS mentors
 (
@@ -15,9 +17,9 @@ CREATE TABLE IF NOT EXISTS mentors
     company      VARCHAR,
     position     VARCHAR,
     experience   experience,
-    status       status DEFAULT 'PENDING',
-    start_date   DATE   DEFAULT CURRENT_DATE,
-    end_date     DATE   DEFAULT NULL
+    status       mentor_status DEFAULT 'PENDING',
+    start_date   DATE          DEFAULT CURRENT_DATE,
+    end_date     DATE          DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS admins
@@ -43,9 +45,9 @@ CREATE TABLE IF NOT EXISTS mentis
     comments     VARCHAR,
     operator_id  INTEGER        REFERENCES admins (id) ON DELETE SET NULL,
     mentor_id    INTEGER        REFERENCES mentors (id) ON DELETE SET NULL,
-    status       status DEFAULT 'PENDING',
-    start_date   DATE   DEFAULT CURRENT_DATE,
-    end_date     DATE   DEFAULT NULL
+    status       menti_status DEFAULT 'PENDING',
+    start_date   DATE         DEFAULT CURRENT_DATE,
+    end_date     DATE         DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS messages
@@ -59,6 +61,17 @@ CREATE TABLE IF NOT EXISTS messages
     status       message_status DEFAULT 'OPEN',
     date         DATE           DEFAULT CURRENT_DATE,
     operator_id  INTEGER REFERENCES admins (id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS tasks
+(
+    id          SERIAL PRIMARY KEY,
+    task        VARCHAR NOT NULL,
+    status      status DEFAULT 'PENDING',
+    start_date  DATE   DEFAULT CURRENT_DATE,
+    end_date    DATE   DEFAULT NULL,
+    operator_id INTEGER REFERENCES admins (id) ON DELETE SET NULL,
+    menti_id    INTEGER REFERENCES mentis (id) ON DELETE SET NULL
 );
 
 INSERT INTO mentors (name, email, phone_number, password, field, company, position, experience, status, start_date,
