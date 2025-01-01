@@ -11,7 +11,8 @@ import mentorRouter from "./routes/api/tables/mentor.routes";
 import mentiRouter from "./routes/api/tables/menti.routes";
 import adminRouter from "@/routes/admin/admin.routes";
 import operatorRouter from "@/routes/operators/operator.routes";
-import testRouter from "@/routes/testRoutes/testRouter";
+import testsRoutes from "@/routes/testRoutes/tests.routes";
+import taskRouter from "@/routes/api/tasks.routes";
 
 const app = express();
 
@@ -27,7 +28,8 @@ app.use("/mentors", mentorRouter);
 app.use("/mentis", mentiRouter);
 app.use("/admin", adminRouter);
 app.use("/operator", operatorRouter);
+app.use("/tasks", taskRouter);
 
-app.use("/test", testRouter);
+app.use("/test", testsRoutes);
 
 export default app;
