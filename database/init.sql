@@ -4,7 +4,7 @@ CREATE TYPE role AS ENUM ('MENTOR', 'MENTI', 'ADMIN');
 CREATE TYPE mentor_status AS ENUM ('PENDING', 'ACTIVE', 'INACTIVE');
 CREATE TYPE menti_status AS ENUM ('PENDING', 'PREPRODUCTION', 'ACTIVE', 'INACTIVE', 'SUCCESS');
 CREATE TYPE message_status AS ENUM ('OPEN', 'CLOSED');
-CREATE TYPE task_status AS ENUM ('NEW', 'IN_PROGRESS', 'DONE');
+CREATE TYPE task_status AS ENUM ('NEW', 'IN PROGRESS', 'DONE');
 
 CREATE TABLE IF NOT EXISTS mentors
 (
@@ -65,13 +65,16 @@ CREATE TABLE IF NOT EXISTS messages
 
 CREATE TABLE IF NOT EXISTS tasks
 (
-    id          SERIAL PRIMARY KEY,
-    task        VARCHAR NOT NULL,
-    status      status DEFAULT 'PENDING',
-    start_date  DATE   DEFAULT CURRENT_DATE,
-    end_date    DATE   DEFAULT NULL,
-    operator_id INTEGER REFERENCES admins (id) ON DELETE SET NULL,
-    menti_id    INTEGER REFERENCES mentis (id) ON DELETE SET NULL
+    id               SERIAL PRIMARY KEY,
+    title            VARCHAR NOT NULL,
+    description      VARCHAR NOT NULL,
+    status           task_status DEFAULT 'NEW',
+    created_date     DATE        DEFAULT CURRENT_DATE,
+    in_progress_date DATE        DEFAULT NULL,
+    completed_date   DATE        DEFAULT NULL,
+    menti_id         INTEGER REFERENCES mentis (id) ON DELETE SET NULL,
+    mentor_id        INTEGER REFERENCES mentors (id) ON DELETE SET NULL,
+    sub_tasks        JSONB       DEFAULT '[]'
 );
 
 INSERT INTO mentors (name, email, phone_number, password, field, company, position, experience, status, start_date,
@@ -109,3 +112,38 @@ VALUES ('Yuval Regev', 'yuval@test.com', '0532648574', '$2a$12$0B.EaJM27vxqP7kZb
 INSERT INTO messages (name, email, phone_number, title, message, status, operator_id)
 VALUES ('John Doe', 'john@test.com', '0501234567', 'help', 'I have a question', 'OPEN', 1),
        ('Jane Doe', 'jane@test.com', '0501234567', 'question', 'I have a question', 'OPEN', 1);
+
+INSERT INTO tasks (title, description, status, created_date, in_progress_date, completed_date, menti_id, mentor_id,
+                   sub_tasks)
+VALUES ('Learn Python', 'Learn Python basics', 'NEW', '2021-01-01', null, null, 1, 1, '[
+  {
+    "title": "Install Python",
+    "description": "Install Python on your computer",
+    "status": "NEW",
+    "created_date": "2021-01-01",
+    "in_progress_date": null,
+    "completed_date": null
+  },
+  {
+    "title": "Learn Python syntax",
+    "description": "Learn the basic syntax of Python"
+  }
+]'),
+       ('Learn SQL', 'Learn SQL basics', 'NEW', '2021-01-01', null, null, 2, 1, '[
+         {
+           "title": "Install MySQL",
+           "description": "Install MySQL on your computer",
+           "status": "NEW",
+           "created_date": "2021-01-01",
+           "in_progress_date": null,
+           "completed_date": null
+         },
+         {
+           "title": "Learn SQL syntax",
+           "description": "Learn the basic syntax of SQL",
+           "status": "NEW",
+           "created_date": "2021-01-01",
+           "in_progress_date": null,
+           "completed_date": null
+         }
+       ]')
