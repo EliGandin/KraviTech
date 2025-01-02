@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,24 +11,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { PlusCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-import { Task } from "@/global/interfaces/tasksInterfaces.ts";
+import { TaskDetailsProps } from "@/global/interfaces/Props/TasksProps.ts";
 
-interface TaskDetailProps {
-  task: Task;
-  dialogOpen: boolean;
-  setDialogOpen: Dispatch<SetStateAction<boolean>>;
-  mentiId: number;
-}
-
-export default function TaskDetail({
-  task,
-  dialogOpen,
-  setDialogOpen,
-}: TaskDetailProps) {
-  const [newSubtask, setNewSubtask] = useState("");
+const TaskDetails = ({ task, dialogOpen, setDialogOpen }: TaskDetailsProps) => {
+  const [newSubtask, setNewSubtask] = useState<string>("");
 
   const addSubtask = () => {
-    // Implement add subtask logic here
+    if (!newSubtask.length) return;
+
     console.log("Adding subtask:", newSubtask);
     setNewSubtask("");
   };
@@ -112,4 +102,6 @@ export default function TaskDetail({
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default TaskDetails;

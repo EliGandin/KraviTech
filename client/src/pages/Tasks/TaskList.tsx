@@ -3,18 +3,13 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button.tsx";
+import { PlusCircle } from "lucide-react";
 
 import TaskDetails from "./TaskDetails";
 import { Task } from "@/global/interfaces/tasksInterfaces.ts";
-import { PlusCircle } from "lucide-react";
+import { TaskListProps } from "@/global/interfaces/Props/TasksProps.ts";
 
-interface TaskListProps {
-  mentiId: number;
-  mentiName: string;
-  tasks?: Task[];
-}
-
-export default function TaskList({ mentiId, mentiName, tasks }: TaskListProps) {
+const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
@@ -30,7 +25,6 @@ export default function TaskList({ mentiId, mentiName, tasks }: TaskListProps) {
           <CardTitle className="my-auto flex flex-row justify-between align-middle">
             Tasks for {mentiName}
             <Button
-              // className="fixed bottom-4 right-4"
               onClick={() => {
                 /* Add new task logic */
               }}
@@ -86,4 +80,6 @@ export default function TaskList({ mentiId, mentiName, tasks }: TaskListProps) {
       )}
     </>
   );
-}
+};
+
+export default TaskList;
