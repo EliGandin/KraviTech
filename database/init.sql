@@ -126,7 +126,11 @@ VALUES ('Learn Python', 'Learn Python basics', 'NEW', '2021-01-01', null, null, 
   },
   {
     "title": "Learn Python syntax",
-    "description": "Learn the basic syntax of Python"
+    "description": "Learn the basic syntax of Python",
+    "status": "NEW",
+    "created_date": "2021-01-01",
+    "in_progress_date": null,
+    "completed_date": null
   }
 ]'),
        ('Learn SQL', 'Learn SQL basics', 'NEW', '2021-01-01', null, null, 2, 1, '[
