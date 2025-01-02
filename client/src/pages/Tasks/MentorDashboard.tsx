@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+
+import { useParams } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -8,42 +9,26 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+
 import TaskList from "./TaskList";
-import TaskDetails from "./TaskDetails";
+import { useGetTasksByMentor } from "@/hooks/tasks/mentors/useGetTasksByMentor.ts";
+import Loader from "@/components/shared/Loader.tsx";
+import { MentorTasks } from "@/global/interfaces/tasksInterfaces.ts";
 
-interface Mentee {
-  id: number;
-  name: string;
-  tasksCount: number;
-}
-
-// Mock API call - replace with your actual API
-const fetchMentees = async (): Promise<Mentee[]> => {
-  // Simulated API call
-  return [
-    { id: 1, name: "Alice Johnson", tasksCount: 3 },
-    { id: 2, name: "Bob Smith", tasksCount: 2 },
-    // Add more mentees as needed
-  ];
+type SelectedMenti = {
+  mentiId: number;
+  mentiName: string;
 };
 
 const MentorDashboard = () => {
-  const [selectedMentee, setSelectedMentee] = useState<number | null>(null);
-  const [selectedTask, setSelectedTask] = useState<number | null>(null);
+  const [selectedMenti, setSelectedMenti] = useState<SelectedMenti | null>(
+    null,
+  );
 
-  const {
-    data: mentees,
-    isLoading,
-    error,
-  } = useQuery<Mentee[], Error>({
-    queryKey: ["mentees"],
-    queryFn: fetchMentees,
-  });
+  const { id } = useParams();
+  const { tasks, isLoading } = useGetTasksByMentor(Number(id));
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred: {error.message}</div>;
+  if (isLoading) return <Loader />;
 
   return (
     <div className="container mx-auto p-4">
@@ -51,35 +36,35 @@ const MentorDashboard = () => {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card className="col-span-1">
           <CardHeader>
-            <CardTitle>Mentees</CardTitle>
+            <CardTitle>Mentis</CardTitle>
             <CardDescription>
-              Select a mentee to view their tasks
+              Select a menti to view their tasks
             </CardDescription>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2">
-              {mentees?.map((mentee) => (
+              {tasks?.map((task) => (
                 <li
-                  key={mentee.id}
+                  key={task.menti_id}
                   className="flex cursor-pointer items-center justify-between rounded p-2 hover:bg-gray-100"
-                  onClick={() => setSelectedMentee(mentee.id)}
+                  onClick={() =>
+                    setSelectedMenti({
+                      mentiId: task.menti_id,
+                      mentiName: task.menti_name,
+                    })
+                  }
                 >
                   <div className="flex items-center">
                     <Avatar className="mr-2 h-8 w-8">
                       <AvatarImage
-                        src={`https://api.dicebear.com/6.x/initials/svg?seed=${mentee.name}`}
+                        src={`https://api.dicebear.com/6.x/initials/svg?seed=Menti${task.menti_id}`}
                       />
-                      <AvatarFallback>
-                        {mentee.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
+                      <AvatarFallback>M{task.menti_id}</AvatarFallback>
                     </Avatar>
-                    <span>{mentee.name}</span>
+                    <span>{task.menti_name}</span>
                   </div>
                   <span className="text-sm text-gray-500">
-                    {mentee.tasksCount} tasks
+                    {tasks.length} tasks
                   </span>
                 </li>
               ))}
@@ -87,34 +72,25 @@ const MentorDashboard = () => {
           </CardContent>
         </Card>
         <Card className="col-span-2">
-          {selectedMentee ? (
+          {selectedMenti ? (
             <TaskList
-              menteeId={selectedMentee}
-              onSelectTask={setSelectedTask}
+              mentiId={selectedMenti.mentiId}
+              mentiName={selectedMenti.mentiName}
+              tasks={
+                tasks?.find(
+                  (el: MentorTasks) => el.menti_id === selectedMenti.mentiId,
+                )?.tasks
+              }
             />
           ) : (
-            <CardContent className="p-8 text-center">
+            <CardContent className="p-8 text-center align-middle">
               <p className="text-gray-500">
-                Select a mentee to view their tasks
+                Select a menti to view their tasks
               </p>
             </CardContent>
           )}
         </Card>
       </div>
-      {selectedTask && (
-        <TaskDetails
-          taskId={selectedTask}
-          onClose={() => setSelectedTask(null)}
-        />
-      )}
-      <Button
-        className="fixed bottom-4 right-4"
-        onClick={() => {
-          /* Add new task logic */
-        }}
-      >
-        <PlusCircle className="mr-2 h-4 w-4" /> Add New Task
-      </Button>
     </div>
   );
 };

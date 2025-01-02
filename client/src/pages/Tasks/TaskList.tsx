@@ -1,93 +1,89 @@
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button.tsx";
 
-interface Task {
-  id: number;
-  title: string;
-  status: "Not Started" | "In Progress" | "Completed";
-  subtasks: number;
-  comments: number;
-}
-
-// Mock API call - replace with your actual API
-const fetchTasks = async (menteeId: number): Promise<Task[]> => {
-  // Simulated API call
-  return [
-    {
-      id: 1,
-      title: "Complete React Tutorial",
-      status: "In Progress",
-      subtasks: 3,
-      comments: 2,
-    },
-    {
-      id: 2,
-      title: "Review TypeScript Basics",
-      status: "Not Started",
-      subtasks: 2,
-      comments: 0,
-    },
-    // Add more tasks as needed
-  ];
-};
+import TaskDetails from "./TaskDetails";
+import { Task } from "@/global/interfaces/tasksInterfaces.ts";
+import { PlusCircle } from "lucide-react";
 
 interface TaskListProps {
-  menteeId: number;
-  onSelectTask: (taskId: number) => void;
+  mentiId: number;
+  mentiName: string;
+  tasks?: Task[];
 }
 
-export default function TaskList({ menteeId, onSelectTask }: TaskListProps) {
-  const {
-    data: tasks,
-    isLoading,
-    error,
-  } = useQuery<Task[], Error>({
-    queryKey: ["tasks", menteeId],
-    queryFn: () => fetchTasks(menteeId),
-  });
+export default function TaskList({ mentiId, mentiName, tasks }: TaskListProps) {
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-  if (isLoading) return <div>Loading tasks...</div>;
-  if (error) return <div>Error loading tasks: {error.message}</div>;
+  const handleDialog = (task: Task) => {
+    setSelectedTask(task);
+    setDialogOpen(true);
+  };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Tasks</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ul className="space-y-2">
-          {tasks?.map((task) => (
-            <li
-              key={task.id}
-              className="rounded-lg border p-4 hover:bg-gray-50"
+    <>
+      <Card>
+        <CardHeader>
+          <CardTitle className="my-auto flex flex-row justify-between align-middle">
+            Tasks for {mentiName}
+            <Button
+              // className="fixed bottom-4 right-4"
+              onClick={() => {
+                /* Add new task logic */
+              }}
             >
-              <div className="mb-2 flex items-center justify-between">
-                <h3 className="text-lg font-semibold">{task.title}</h3>
-                <Badge
-                  variant={
-                    task.status === "In Progress" ? "default" : "secondary"
-                  }
-                >
-                  {task.status}
-                </Badge>
-              </div>
-              <div className="flex items-center justify-between text-sm text-gray-500">
-                <span>{task.subtasks} subtasks</span>
-                <span>{task.comments} comments</span>
-              </div>
-              <Button
-                variant="outline"
-                className="mt-2"
-                onClick={() => onSelectTask(task.id)}
+              <PlusCircle className="mr-2 h-4 w-4" /> Add New Task
+            </Button>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-2">
+            {tasks?.map((task: Task) => (
+              <li
+                key={task.id}
+                className="rounded-lg border p-4 hover:bg-gray-50"
               >
-                View Details
-              </Button>
-            </li>
-          ))}
-        </ul>
-      </CardContent>
-    </Card>
+                <div className="mb-2 flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">{task.title}</h3>
+                  <Badge
+                    variant={
+                      task.status === "IN_PROGRESS" ? "default" : "secondary"
+                    }
+                  >
+                    {task.status}
+                  </Badge>
+                </div>
+                <p className="mb-2 text-sm text-gray-600">{task.description}</p>
+                <div className="flex items-center justify-between text-sm text-gray-500">
+                  <span>{task.sub_tasks.length} subtasks</span>
+                  <span>
+                    Created: {new Date(task.created_date).toLocaleDateString()}
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  className="mt-2"
+                  onClick={() => handleDialog(task)}
+                >
+                  View Details
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
+
+      {dialogOpen && selectedTask && (
+        <TaskDetails
+          task={selectedTask}
+          dialogOpen={dialogOpen}
+          setDialogOpen={setDialogOpen}
+          mentiId={mentiId}
+        />
+      )}
+    </>
   );
 }

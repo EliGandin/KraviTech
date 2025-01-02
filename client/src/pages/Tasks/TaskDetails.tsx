@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,127 +8,108 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-// import { Textarea } from "@/components/ui/textarea";
-import { PlusCircle, X } from "lucide-react";
-import CommentSection from "./CommentSection";
+import { PlusCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
-// // Mock API calls - replace with your actual API
-// const fetchTaskDetails = async (taskId: number) => {
-//   // Simulated API call
-//   return {
-//     id: taskId,
-//     title: "Complete React Tutorial",
-//     description: "Go through the entire React tutorial on the official website",
-//     status: "In Progress",
-//     subtasks: [
-//       { id: 1, title: "Setup development environment", completed: true },
-//       { id: 2, title: "Learn about components", completed: false },
-//       { id: 3, title: "Understand state and props", completed: false },
-//     ],
-//   };
-// };
-//
-// const addSubtask = async (taskId: number, subtaskTitle: string) => {
-//   // Simulated API call
-//   console.log(`Adding subtask "${subtaskTitle}" to task ${taskId}`);
-//   return { id: Date.now(), title: subtaskTitle, completed: false };
-// };
-
-const task = {
-  id: 1,
-  title: "Complete React Tutorial",
-  description: "Go through the entire React tutorial on the official website",
-  status: "In Progress",
-  subtasks: [
-    { id: 1, title: "Setup development environment", completed: true },
-    { id: 2, title: "Learn about components", completed: false },
-    { id: 3, title: "Understand state and props", completed: false },
-  ],
-};
+import { Task } from "@/global/interfaces/tasksInterfaces.ts";
 
 interface TaskDetailProps {
-  taskId: number;
-  onClose: () => void;
+  task: Task;
+  dialogOpen: boolean;
+  setDialogOpen: Dispatch<SetStateAction<boolean>>;
+  mentiId: number;
 }
 
-const TaskDetails = ({ taskId, onClose }: TaskDetailProps) => {
+export default function TaskDetail({
+  task,
+  dialogOpen,
+  setDialogOpen,
+}: TaskDetailProps) {
   const [newSubtask, setNewSubtask] = useState("");
-  console.log(taskId);
-  // const queryClient = useQueryClient();
 
-  // const {
-  //   data: task,
-  //   isLoading,
-  //   error,
-  // } = useQuery(["task", taskId], () => fetchTaskDetails(taskId));
-  //
-  // const addSubtaskMutation = useMutation(
-  //   (subtaskTitle: string) => addSubtask(taskId, subtaskTitle),
-  //   {
-  //     onSuccess: (newSubtask) => {
-  //       queryClient.setQueryData(["task", taskId], (oldData: any) => ({
-  //         ...oldData,
-  //         subtasks: [...oldData.subtasks, newSubtask],
-  //       }));
-  //       setNewSubtask("");
-  //     },
-  //   },
-  // );
-
-  // if (isLoading) return <div>Loading task details...</div>;
-  // if (error) return <div>Error loading task details</div>;
+  const addSubtask = () => {
+    // Implement add subtask logic here
+    console.log("Adding subtask:", newSubtask);
+    setNewSubtask("");
+  };
 
   return (
-    <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl">
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <DialogContent className="max-w-3xl p-9">
         <DialogHeader>
-          <DialogTitle>TITLE</DialogTitle>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="absolute right-4 top-4"
-          >
-            <X className="h-4 w-4" />
-          </Button>
+          <DialogTitle className="flex items-center justify-between">
+            <span>{task.title}</span>
+            <Badge
+              variant={task.status === "IN_PROGRESS" ? "default" : "secondary"}
+            >
+              {task.status}
+            </Badge>
+          </DialogTitle>
         </DialogHeader>
         <div className="grid gap-4">
           <div>
             <h3 className="mb-2 text-lg font-semibold">Description</h3>
-            <p>DESCRIPTION</p>
+            <p>{task.description}</p>
           </div>
           <div>
             <h3 className="mb-2 text-lg font-semibold">Subtasks</h3>
             <ul className="space-y-2">
-              {task?.subtasks?.map((subtask) => (
-                <li key={subtask.id} className="flex items-center">
+              {task.sub_tasks.map((subtask, index) => (
+                <li key={index} className="flex items-center">
                   <Checkbox
-                    id={`subtask-${subtask.id}`}
-                    checked={subtask.completed}
+                    id={`subtask-${index}`}
+                    checked={subtask.status === "COMPLETED"}
                   />
-                  <label htmlFor={`subtask-${subtask.id}`} className="ml-2">
+                  <label
+                    htmlFor={`subtask-${index}`}
+                    className="ml-2 flex-grow"
+                  >
                     {subtask.title}
                   </label>
+                  <Badge
+                    variant={
+                      subtask.status === "IN_PROGRESS" ? "default" : "secondary"
+                    }
+                    className="ml-2"
+                  >
+                    {subtask.status}
+                  </Badge>
                 </li>
               ))}
             </ul>
-            <div className="mt-2 flex">
+            <div className="mt-3 flex">
               <Input
                 placeholder="New subtask"
                 value={newSubtask}
                 onChange={(e) => setNewSubtask(e.target.value)}
                 className="mr-2"
               />
-              <Button>
+              <Button onClick={addSubtask}>
                 <PlusCircle className="mr-2 h-4 w-4" /> Add
               </Button>
             </div>
           </div>
-          <CommentSection />
+          <div>
+            <p>
+              <strong>Created:</strong>{" "}
+              {new Date(task.created_date).toLocaleString()}
+            </p>
+            {task.in_progress_date && (
+              <p>
+                <strong>Started:</strong>{" "}
+                {new Date(task.in_progress_date).toLocaleString()}
+              </p>
+            )}
+            {task.completed_date && (
+              <p>
+                <strong>Completed:</strong>{" "}
+                {new Date(task.completed_date).toLocaleString()}
+              </p>
+            )}
+          </div>
         </div>
+        <Button className="mx-auto mt-6 w-1/3">Save Changes</Button>
       </DialogContent>
     </Dialog>
   );
-};
-
-export default TaskDetails;
+}
