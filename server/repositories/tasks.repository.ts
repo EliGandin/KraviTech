@@ -2,17 +2,23 @@ import db from "@/db/db";
 import { Task } from "@/globals/types/Task.type";
 
 export const getTasksByMentor = async (id: number): Promise<Task[]> => {
-  const query = `SELECT id,
-                        title,
-                        description,
-                        status,
-                        created_date,
-                        in_progress_date,
-                        completed_date,
-                        menti_id,
-                        sub_tasks
-                 FROM tasks
-                 WHERE mentor_id = $1`;
+  const query = `SELECT t.menti_id,
+                        m.name      AS menti_name,
+                        json_agg(json_build_object(
+                                'id', t.id,
+                                'title', t.title,
+                                'description', t.description,
+                                'status', t.status,
+                                'created_date', t.created_date,
+                                'in_progress_date', t.in_progress_date,
+                                'completed_date', t.completed_date,
+                                'sub_tasks', t.sub_tasks
+                                 )) AS tasks
+                 FROM tasks t
+                          JOIN mentis m ON t.menti_id = m.id
+                 WHERE t.mentor_id = $1
+                 GROUP BY t.menti_id, m.name
+                 ORDER BY t.menti_id`;
 
   const { rows } = await db.query(query, [id]);
   return rows;
@@ -33,4 +39,26 @@ export const getTasksByMenti = async (id: number): Promise<Task[]> => {
 
   const { rows } = await db.query(query, [id]);
   return rows;
+};
+
+export const addSubtask = async (id: number, taskId: number, subtask: Task): Promise<void> => {
+  const query = `
+      UPDATE tasks
+      SET sub_tasks = sub_tasks || $3::jsonb
+      WHERE menti_id = $1
+        AND id = $2;
+  `;
+
+  const subtaskJson = [
+    {
+      title: subtask.title,
+      description: subtask.description,
+      status: "NEW",
+      created_date: new Date().toISOString(),
+      in_progress_date: null,
+      completed_date: null,
+    },
+  ];
+
+  await db.query(query, [id, taskId, JSON.stringify(subtaskJson)]);
 };
