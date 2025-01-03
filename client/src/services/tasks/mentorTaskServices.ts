@@ -1,10 +1,34 @@
 import axios from "axios";
 
-import { MentorTasks } from "@/global/interfaces/tasksInterfaces.ts";
+import {
+  MentorTasks,
+  Subtask,
+  TaskDetails,
+} from "@/global/interfaces/tasksInterfaces.ts";
 
 export const getTasksByMentor = async (id: number): Promise<MentorTasks[]> => {
   const { data } = (await axios.get(`http://localhost:8000/tasks/mentor/${id}`))
     .data;
 
   return data;
+};
+
+export const getTaskDetails = async (
+  mentiId: number,
+  taskId: number,
+): Promise<TaskDetails[]> => {
+  const { data } = (
+    await axios.get(
+      `http://localhost:8000/tasks/TaskDetails/${mentiId}/${taskId}`,
+    )
+  ).data;
+
+  return data.subTasks;
+};
+
+export const addSubtask = async (mentiId: number, subtask: Subtask) => {
+  await axios.post(
+    `http://localhost:8000/tasks/SubTask/menti/${mentiId}`,
+    subtask,
+  );
 };

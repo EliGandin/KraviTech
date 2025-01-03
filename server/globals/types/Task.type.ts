@@ -8,10 +8,10 @@ export type Task = {
   completed_date: Date;
   menti_id: number;
   mentor_id?: number;
-  sub_tasks: SubTasks[];
+  sub_tasks_count: number;
 }
 
-type SubTasks = {
+export type SubTask = {
   title: string;
   description: string;
   status: string;
