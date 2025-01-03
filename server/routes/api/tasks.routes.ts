@@ -2,9 +2,9 @@ import { Request, Response, Router } from "express";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
 import { StatusCodes } from "http-status-codes";
 
-import { addSubtask, getTasksByMenti, getTasksByMentor } from "@/repositories/tasks.repository";
+import { addSubtask, getTaskDetails, getTasksByMenti, getTasksByMentor } from "@/repositories/tasks.repository";
 import {
-  addSubtaskValidator,
+  addSubtaskValidator, taskDetailsByMentorValidator,
   tasksByMentiValidator,
   tasksByMentorValidator,
 } from "@/middlewares/validators/tasks.validator";
@@ -23,6 +23,25 @@ taskRouter.get("/mentor/:id", tasksByMentorValidator(), async (req: Request, res
 
     const tasks = await getTasksByMentor(Number(id));
     res.status(StatusCodes.OK).json({ data: tasks });
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+taskRouter.get("/TaskDetails/:mentiId/:taskId", taskDetailsByMentorValidator(), async (req: Request, res: Response) => {
+  try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { mentiId, taskId } = req.params;
+
+    const taskDetails = await getTaskDetails(Number(taskId), Number(mentiId));
+    res.status(StatusCodes.OK).json({ data: taskDetails });
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);

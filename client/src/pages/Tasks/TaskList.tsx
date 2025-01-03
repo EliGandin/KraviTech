@@ -52,7 +52,7 @@ const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
                 </div>
                 <p className="mb-2 text-sm text-gray-600">{task.description}</p>
                 <div className="flex items-center justify-between text-sm text-gray-500">
-                  <span>{task.sub_tasks.length} subtasks</span>
+                  <span>{task.sub_tasks_count} subtasks</span>
                   <span>
                     Created: {new Date(task.created_date).toLocaleDateString()}
                   </span>

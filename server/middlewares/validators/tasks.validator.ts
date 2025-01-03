@@ -6,6 +6,10 @@ export const tasksByMentorValidator = () => {
   return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID)];
 };
 
+export const taskDetailsByMentorValidator = () => {
+  return [param("taskId").isNumeric().withMessage(FieldErrors.INVALID_ID), param("mentiId").isNumeric().withMessage(FieldErrors.INVALID_ID)];
+};
+
 export const tasksByMentiValidator = () => {
   return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID)];
 };

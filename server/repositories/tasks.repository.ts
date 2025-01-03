@@ -1,5 +1,5 @@
 import db from "@/db/db";
-import { Task } from "@/globals/types/Task.type";
+import { SubTask, Task } from "@/globals/types/Task.type";
 
 export const getTasksByMentor = async (id: number): Promise<Task[]> => {
   const query = `SELECT t.menti_id,
@@ -12,16 +12,27 @@ export const getTasksByMentor = async (id: number): Promise<Task[]> => {
                                 'created_date', t.created_date,
                                 'in_progress_date', t.in_progress_date,
                                 'completed_date', t.completed_date,
-                                'sub_tasks', t.sub_tasks
+                                'sub_tasks_count', jsonb_array_length(t.sub_tasks)
                                  )) AS tasks
                  FROM tasks t
                           JOIN mentis m ON t.menti_id = m.id
                  WHERE t.mentor_id = $1
                  GROUP BY t.menti_id, m.name
-                 ORDER BY t.menti_id`;
+                 ORDER BY t.menti_id;`;
 
   const { rows } = await db.query(query, [id]);
   return rows;
+};
+
+export const getTaskDetails = async (taskId: number, mentiId: number): Promise<SubTask[]> => {
+  const query = `SELECT jsonb_agg(sub_task) AS "subTasks"
+                 FROM (SELECT jsonb_array_elements(sub_tasks) AS sub_task
+                       FROM tasks
+                       WHERE id = $1
+                         AND menti_id = $2) subtask_elements`;
+
+  const { rows } = await db.query(query, [taskId, mentiId]);
+  return rows[0];
 };
 
 export const getTasksByMenti = async (id: number): Promise<Task[]> => {

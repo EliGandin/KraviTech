@@ -14,6 +14,7 @@ import TaskList from "./TaskList";
 import { useGetTasksByMentor } from "@/hooks/tasks/mentors/useGetTasksByMentor.ts";
 import Loader from "@/components/shared/Loader.tsx";
 import { MentorTasks } from "@/global/interfaces/tasksInterfaces.ts";
+import { formatInitials } from "@/utils/formatters/formatFields.ts";
 
 type SelectedMenti = {
   mentiId: number;
@@ -59,12 +60,14 @@ const MentorDashboard = () => {
                       <AvatarImage
                         src={`https://api.dicebear.com/6.x/initials/svg?seed=Menti${task.menti_id}`}
                       />
-                      <AvatarFallback>M{task.menti_id}</AvatarFallback>
+                      <AvatarFallback>
+                        {formatInitials(task.menti_name)}
+                      </AvatarFallback>
                     </Avatar>
                     <span>{task.menti_name}</span>
                   </div>
                   <span className="text-sm text-gray-500">
-                    {tasks.length} tasks
+                    {task.tasks.length} tasks
                   </span>
                 </li>
               ))}
