@@ -29,3 +29,19 @@ export const addSubtaskValidator = () => {
       .isString()
       .withMessage(FieldErrors.INVALID_TASK_DESCRIPTION)];
 };
+
+export const addTaskValidator = () => {
+  return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID),
+    body("mentor_id").isNumeric().withMessage(FieldErrors.INVALID_ID),
+    body("task")
+      .isObject()
+      .bail(),
+    body("task.title")
+      .notEmpty()
+      .isString()
+      .withMessage(FieldErrors.INVALID_TASK_TITLE),
+    body("task.description")
+      .notEmpty()
+      .isString()
+      .withMessage(FieldErrors.INVALID_TASK_DESCRIPTION)];
+};

@@ -52,7 +52,7 @@ export const getTasksByMenti = async (id: number): Promise<Task[]> => {
   return rows;
 };
 
-export const addSubtask = async (id: number, taskId: number, subtask: Task): Promise<void> => {
+export const addSubtask = async (id: number, taskId: number, subtask: Partial<SubTask>): Promise<void> => {
   const query = `
       UPDATE tasks
       SET sub_tasks = sub_tasks || $3::jsonb
@@ -72,4 +72,11 @@ export const addSubtask = async (id: number, taskId: number, subtask: Task): Pro
   ];
 
   await db.query(query, [id, taskId, JSON.stringify(subtaskJson)]);
+};
+
+export const addTask = async (mentiId: number, mentorId: number, task: Partial<Task>): Promise<void> => {
+  const query = `INSERT INTO tasks (title, description, menti_id, mentor_id)
+                 VALUES ($1, $2, $3, $4);`;
+
+  await db.query(query, [task.title, task.description, mentiId, mentorId]);
 };

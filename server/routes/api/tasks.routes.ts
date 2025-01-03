@@ -2,9 +2,15 @@ import { Request, Response, Router } from "express";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
 import { StatusCodes } from "http-status-codes";
 
-import { addSubtask, getTaskDetails, getTasksByMenti, getTasksByMentor } from "@/repositories/tasks.repository";
 import {
-  addSubtaskValidator, taskDetailsByMentorValidator,
+  addSubtask,
+  addTask,
+  getTaskDetails,
+  getTasksByMenti,
+  getTasksByMentor,
+} from "@/repositories/tasks.repository";
+import {
+  addSubtaskValidator, addTaskValidator, taskDetailsByMentorValidator,
   tasksByMentiValidator,
   tasksByMentorValidator,
 } from "@/middlewares/validators/tasks.validator";
@@ -81,6 +87,28 @@ taskRouter.post("/SubTask/menti/:id", addSubtaskValidator(), async (req: Request
     const { subtask } = req.body;
 
     await addSubtask(Number(id), Number(taskId), subtask);
+    res.status(StatusCodes.OK).send();
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+taskRouter.post("/:id", addTaskValidator(), async (req: Request, res: Response) => {
+  try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { id } = req.params;
+    const { mentor_id } = req.body;
+    const { task } = req.body;
+
+
+    await addTask(Number(id), Number(mentor_id), task);
     res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;

@@ -13,3 +13,9 @@ export interface TaskDetailsProps {
   setDialogOpen: Dispatch<SetStateAction<boolean>>;
   mentiId: number;
 }
+
+export interface AddTaskDialogProps {
+  isOpen: boolean;
+  onClose: Dispatch<SetStateAction<boolean>>;
+  mentiId: number;
+}

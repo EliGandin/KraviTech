@@ -8,10 +8,13 @@ import { PlusCircle } from "lucide-react";
 import TaskDetails from "./TaskDetails";
 import { Task } from "@/global/interfaces/tasksInterfaces.ts";
 import { TaskListProps } from "@/global/interfaces/Props/TasksProps.ts";
+import AddTaskDialog from "@/pages/Tasks/AddTaskDialog.tsx";
 
 const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [isAddTaskDialogOpen, setIsAddTaskDialogOpen] =
+    useState<boolean>(false);
 
   const handleDialog = (task: Task) => {
     setSelectedTask(task);
@@ -26,7 +29,7 @@ const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
             Tasks for {mentiName}
             <Button
               onClick={() => {
-                /* Add new task logic */
+                setIsAddTaskDialogOpen(true);
               }}
             >
               <PlusCircle className="mr-2 h-4 w-4" /> Add New Task
@@ -75,6 +78,14 @@ const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
           task={selectedTask}
           dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
+          mentiId={mentiId}
+        />
+      )}
+
+      {isAddTaskDialogOpen && (
+        <AddTaskDialog
+          isOpen={isAddTaskDialogOpen}
+          onClose={setIsAddTaskDialogOpen}
           mentiId={mentiId}
         />
       )}

@@ -2,6 +2,7 @@ import axios from "axios";
 
 import {
   MentorTasks,
+  NewTask,
   Subtask,
   TaskDetails,
 } from "@/global/interfaces/tasksInterfaces.ts";
@@ -24,6 +25,12 @@ export const getTaskDetails = async (
   ).data;
 
   return data.subTasks;
+};
+
+export const addTask = (mentiId: number, task: NewTask): Promise<void> => {
+  console.log(mentiId);
+
+  return axios.post(`http://localhost:8000/tasks/${mentiId}`, task);
 };
 
 export const addSubtask = async (mentiId: number, subtask: Subtask) => {

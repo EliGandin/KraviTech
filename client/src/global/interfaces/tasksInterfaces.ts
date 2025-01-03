@@ -34,3 +34,11 @@ export interface Subtask {
     description: string;
   };
 }
+
+export interface NewTask {
+  mentor_id: number;
+  task: {
+    title: string;
+    description: string;
+  };
+}

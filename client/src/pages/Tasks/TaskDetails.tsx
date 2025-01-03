@@ -22,8 +22,8 @@ import { z } from "zod";
 
 import Loader from "@/components/shared/Loader.tsx";
 import { TaskDetailsProps } from "@/global/interfaces/Props/TasksProps.ts";
-import { SubtaskSchema } from "@/schemas/tasks/SubtaskSchema.ts";
-import { subtaskResolver } from "@/resolvers/tasks/subtaskResolver.ts";
+import { TaskSchema } from "@/schemas/tasks/TaskSchema.ts";
+import { taskResolver } from "@/resolvers/tasks/taskResolver.ts";
 import { useGetTaskDetails } from "@/hooks/tasks/useGetTaskDetails.ts";
 import { useAddSubtask } from "@/hooks/tasks/useAddSubtask.ts";
 
@@ -35,9 +35,9 @@ const TaskDetails = ({
 }: TaskDetailsProps) => {
   const { taskDetails, isLoading } = useGetTaskDetails(task.id, mentiId);
   const { mutateSubtask, isPending } = useAddSubtask(mentiId);
-  const form = useForm<z.infer<typeof SubtaskSchema>>(subtaskResolver);
+  const form = useForm<z.infer<typeof TaskSchema>>(taskResolver);
 
-  function onSubmit(subtask: z.infer<typeof SubtaskSchema>) {
+  function onSubmit(subtask: z.infer<typeof TaskSchema>) {
     if (!subtask.title || !subtask.description) {
       return;
     }
@@ -70,46 +70,52 @@ const TaskDetails = ({
           <div>
             <h3 className="text-lg font-semibold">Subtasks</h3>
             <Accordion type="single" collapsible className="w-full">
-              {taskDetails?.map((subtask, index) => (
-                <AccordionItem key={index} value={`subtask-${index}`}>
-                  <AccordionTrigger>
-                    <div className="flex w-full items-center justify-between">
-                      <span>{subtask.title}</span>
-                      <Badge
-                        variant={
-                          subtask.status === "IN_PROGRESS"
-                            ? "default"
-                            : "secondary"
-                        }
-                        className="ml-2"
-                      >
-                        {subtask.status}
-                      </Badge>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <p className="mb-2">{subtask.description}</p>
-                    <div className="text-sm text-gray-500">
-                      <p>
-                        Created:{" "}
-                        {new Date(subtask.created_date).toLocaleString()}
-                      </p>
-                      {subtask.in_progress_date && (
+              {taskDetails?.length ? (
+                taskDetails?.map((subtask, index) => (
+                  <AccordionItem key={index} value={`subtask-${index}`}>
+                    <AccordionTrigger>
+                      <div className="flex w-full items-center justify-between">
+                        <span>{subtask.title}</span>
+                        <Badge
+                          variant={
+                            subtask.status === "IN_PROGRESS"
+                              ? "default"
+                              : "secondary"
+                          }
+                          className="ml-2"
+                        >
+                          {subtask.status}
+                        </Badge>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <p className="mb-2">{subtask.description}</p>
+                      <div className="text-sm text-gray-500">
                         <p>
-                          Started:{" "}
-                          {new Date(subtask.in_progress_date).toLocaleString()}
+                          Created:{" "}
+                          {new Date(subtask.created_date).toLocaleString()}
                         </p>
-                      )}
-                      {subtask.completed_date && (
-                        <p>
-                          Completed:{" "}
-                          {new Date(subtask.completed_date).toLocaleString()}
-                        </p>
-                      )}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
+                        {subtask.in_progress_date && (
+                          <p>
+                            Started:{" "}
+                            {new Date(
+                              subtask.in_progress_date,
+                            ).toLocaleString()}
+                          </p>
+                        )}
+                        {subtask.completed_date && (
+                          <p>
+                            Completed:{" "}
+                            {new Date(subtask.completed_date).toLocaleString()}
+                          </p>
+                        )}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))
+              ) : (
+                <p>No subtasks</p>
+              )}
             </Accordion>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
