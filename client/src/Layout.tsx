@@ -12,6 +12,7 @@ import AdminBoard from "@/pages/Admin/AdminBoard";
 import MentorProfile from "@/pages/Profile/MentorProfile/MentorProfile.tsx";
 import MentiProfile from "@/pages/Profile/MentiProfile/MentiProfile.tsx";
 import MentorDashboard from "@/pages/Tasks/MentorDashboard.tsx";
+import MentiDashboard from "@/pages/Tasks/MentiDashboard.tsx";
 
 const Layout = () => {
   return (
@@ -20,7 +21,11 @@ const Layout = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/dashboard" element={<MentorDashboard />} />
+        <Route
+          path="/app/mentors/:id/dashboard"
+          element={<MentorDashboard />}
+        />
+        <Route path="/app/mentis/:id/dashboard" element={<MentiDashboard />} />
         <Route path="/app/tables" element={<Tables />} />
         <Route path="/app/mentors" element={<Mentors />} />
         <Route path="/app/mentors/:id" element={<MentorProfile />} />

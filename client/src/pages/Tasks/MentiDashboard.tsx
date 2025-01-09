@@ -5,28 +5,35 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button.tsx";
 import { PlusCircle } from "lucide-react";
 
-import TaskDetails from "./TaskDetails";
-import { Task } from "@/global/interfaces/tasksInterfaces.ts";
-import { TaskListProps } from "@/global/interfaces/Props/TasksProps.ts";
+import { MentiTasks } from "@/global/interfaces/tasksInterfaces.ts";
 import AddTaskDialog from "@/pages/Tasks/AddTaskDialog.tsx";
+import { useParams } from "react-router-dom";
+import { useGetTaskByMenti } from "@/hooks/tasks/mentis/useGetTasksByMenti.ts";
+import Loader from "@/components/shared/Loader.tsx";
+import TaskDetails from "@/pages/Tasks/TaskDetails.tsx";
 
-const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
+const MentiDashboard = () => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [selectedTask, setSelectedTask] = useState<MentiTasks | null>(null);
   const [isAddTaskDialogOpen, setIsAddTaskDialogOpen] =
     useState<boolean>(false);
 
-  const handleDialog = (task: Task) => {
+  const { id } = useParams();
+  const { tasks, isLoading } = useGetTaskByMenti(Number(id));
+
+  const handleDialog = (task: MentiTasks) => {
     setSelectedTask(task);
     setDialogOpen(true);
   };
 
+  if (isLoading) return <Loader />;
+
   return (
     <>
-      <Card>
+      <Card className="mx-auto mt-4 w-5/6">
         <CardHeader>
           <CardTitle className="my-auto flex flex-row justify-between align-middle">
-            Tasks for {mentiName}
+            Your Tasks
             <Button
               onClick={() => {
                 setIsAddTaskDialogOpen(true);
@@ -38,7 +45,7 @@ const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
         </CardHeader>
         <CardContent>
           <ul className="space-y-2">
-            {tasks?.map((task: Task) => (
+            {tasks?.map((task: MentiTasks) => (
               <li
                 key={task.id}
                 className="rounded-lg border p-4 hover:bg-gray-50"
@@ -78,7 +85,7 @@ const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
           task={selectedTask}
           dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
-          mentiId={mentiId}
+          mentiId={Number(id)}
         />
       )}
 
@@ -86,11 +93,11 @@ const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
         <AddTaskDialog
           isOpen={isAddTaskDialogOpen}
           onClose={setIsAddTaskDialogOpen}
-          mentiId={mentiId}
+          mentiId={Number(id)}
         />
       )}
     </>
   );
 };
 
-export default TaskList;
+export default MentiDashboard;

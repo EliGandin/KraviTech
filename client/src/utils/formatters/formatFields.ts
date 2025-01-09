@@ -31,3 +31,12 @@ export const normalizePhoneNumber = (
   }
   return phoneNumber;
 };
+
+export const formatInitials = (name: string): string => {
+  if (!name) return "";
+
+  return name
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase())
+    .join("");
+};
