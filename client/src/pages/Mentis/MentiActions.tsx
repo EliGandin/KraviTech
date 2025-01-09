@@ -44,7 +44,7 @@ const MentiActions = ({ id }: MentiActionProps) => {
     });
 
     if (result.isConfirmed) {
-      deactivateMenti({ id });
+      deactivateMenti(Number(id));
     }
   };
 

@@ -7,7 +7,10 @@ interface EditableFieldProps {
   icon: ReactNode;
   label: string;
   placeholder: string | undefined;
-  field: ControllerRenderProps<Partial<IMenti>, keyof IMenti | keyof IMentor>;
+  field: ControllerRenderProps<
+    Partial<IMenti & IMentor>,
+    keyof IMenti & keyof IMentor
+  >;
 }
 
 const EditableField = ({
