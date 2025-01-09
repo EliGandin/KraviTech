@@ -117,6 +117,7 @@ INSERT INTO tasks (title, description, status, created_date, in_progress_date, c
                    sub_tasks)
 VALUES ('Learn Python', 'Learn Python basics', 'NEW', '2021-01-01', null, null, 1, 1, '[
   {
+    "id": "1_1",
     "title": "Install Python",
     "description": "Install Python on your computer",
     "status": "NEW",
@@ -125,6 +126,7 @@ VALUES ('Learn Python', 'Learn Python basics', 'NEW', '2021-01-01', null, null, 
     "completed_date": null
   },
   {
+    "id": "1_2",
     "title": "Learn Python syntax",
     "description": "Learn the basic syntax of Python",
     "status": "NEW",
@@ -135,6 +137,7 @@ VALUES ('Learn Python', 'Learn Python basics', 'NEW', '2021-01-01', null, null, 
 ]'),
        ('Learn SQL', 'Learn SQL basics', 'NEW', '2021-01-01', null, null, 2, 1, '[
          {
+           "id": "2_1",
            "title": "Install MySQL",
            "description": "Install MySQL on your computer",
            "status": "NEW",
