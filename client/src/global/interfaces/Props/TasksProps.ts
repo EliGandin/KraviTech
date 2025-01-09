@@ -19,3 +19,11 @@ export interface AddTaskDialogProps {
   onClose: Dispatch<SetStateAction<boolean>>;
   mentiId: number;
 }
+
+export interface ChangeTaskStatusProps {
+  id: number;
+  dialogOpen: boolean;
+  setDialogOpen: Dispatch<SetStateAction<boolean>>;
+  subtaskId?: string;
+  setSubtaskId?: Dispatch<SetStateAction<string | undefined>>;
+}

@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
-import { fieldValidation } from "@/globals/validations/fieldValidation";
 import { StatusCodes } from "http-status-codes";
+
+import { fieldValidation } from "@/globals/validations/fieldValidation";
 
 import {
   addSubtask,
@@ -10,10 +11,11 @@ import {
   getTasksByMentor,
 } from "@/repositories/tasks.repository";
 import {
-  addSubtaskValidator, addTaskValidator, taskDetailsByMentorValidator,
+  addSubtaskValidator, addTaskValidator, changeTaskStatusValidator, taskDetailsByMentorValidator,
   tasksByMentiValidator,
   tasksByMentorValidator,
 } from "@/middlewares/validators/tasks.validator";
+import { changeSubtaskStatusController, changeTaskStatusController } from "@/controllers/tasks/tasks.controller";
 
 const taskRouter = Router();
 
@@ -109,6 +111,46 @@ taskRouter.post("/:id", addTaskValidator(), async (req: Request, res: Response) 
 
 
     await addTask(Number(id), Number(mentor_id), task);
+    res.status(StatusCodes.OK).send();
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+taskRouter.put("/ChangeTaskStatus/:id", changeTaskStatusValidator(), async (req: Request, res: Response) => {
+  try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { id } = req.params;
+    const { status } = req.body;
+
+    await changeTaskStatusController(Number(id), status);
+    res.status(StatusCodes.OK).send();
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+taskRouter.put("/ChangeSubtaskStatus/:taskId", async (req: Request, res: Response) => {
+  try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { taskId: id } = req.params;
+    const { subtaskId, status } = req.body;
+
+    await changeSubtaskStatusController(Number(id), subtaskId, status);
     res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;

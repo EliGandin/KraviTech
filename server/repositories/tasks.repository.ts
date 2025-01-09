@@ -43,8 +43,7 @@ export const getTasksByMenti = async (id: number): Promise<Task[]> => {
                         created_date,
                         in_progress_date,
                         completed_date,
-                        menti_id,
-                        sub_tasks
+                        jsonb_array_length(sub_tasks) AS sub_tasks_count
                  FROM tasks
                  WHERE menti_id = $1`;
 
@@ -79,4 +78,60 @@ export const addTask = async (mentiId: number, mentorId: number, task: Partial<T
                  VALUES ($1, $2, $3, $4);`;
 
   await db.query(query, [task.title, task.description, mentiId, mentorId]);
+};
+
+export const changeTaskStatus = async (id: number, status: string): Promise<void> => {
+  const query = `
+      UPDATE tasks
+      SET status           = $2,
+          in_progress_date = CASE
+                                 WHEN $2::task_status = 'IN PROGRESS' THEN CURRENT_DATE
+                                 ELSE in_progress_date
+              END,
+          completed_date   = CASE
+                                 WHEN $2::task_status = 'COMPLETED' THEN CURRENT_DATE
+                                 ELSE completed_date
+              END
+      WHERE id = $1`;
+
+  await db.query(query, [id, status]);
+};
+
+export const changeSubtaskStatus = async (taskId: number, subtaskId: string, status: string): Promise<void> => {
+  const query = `
+      WITH updated_task AS (SELECT id,
+                                   jsonb_agg(
+                                           CASE
+                                               WHEN sub_task ->> 'id' = $2 THEN
+                                                   jsonb_set(
+                                                           jsonb_set(
+                                                                   jsonb_set(sub_task, '{status}', to_jsonb($3::TEXT)), -- Update status
+                                                                   '{in_progress_date}',
+                                                                   CASE
+                                                                       WHEN $3::task_status = 'IN PROGRESS'
+                                                                           THEN to_jsonb(CURRENT_DATE::TEXT)
+                                                                       ELSE sub_task -> 'in_progress_date'
+                                                                       END
+                                                           ),
+                                                           '{completed_date}',
+                                                           CASE
+                                                               WHEN $3::task_status = 'COMPLETED'
+                                                                   THEN to_jsonb(CURRENT_DATE::TEXT)
+                                                               ELSE sub_task -> 'completed_date'
+                                                               END
+                                                   )
+                                               ELSE sub_task
+                                               END
+                                   ) AS updated_sub_tasks
+                            FROM tasks,
+                                 jsonb_array_elements(sub_tasks) AS sub_task
+                            WHERE id = $1
+                            GROUP BY id)
+      UPDATE tasks
+      SET sub_tasks = updated_task.updated_sub_tasks
+      FROM updated_task
+      WHERE tasks.id = updated_task.id;
+  `;
+
+  await db.query(query, [taskId, subtaskId, status]);
 };

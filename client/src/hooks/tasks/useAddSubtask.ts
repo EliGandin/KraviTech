@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { addSubtask } from "@/services/tasks/mentorTaskServices.ts";
+import { addSubtask } from "@/services/taskServices.ts";
 import { Subtask } from "@/global/interfaces/tasksInterfaces.ts";
 
 export const useAddSubtask = (id: number) => {
@@ -11,6 +11,9 @@ export const useAddSubtask = (id: number) => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["getTasksByMentor", id],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["getTasksByMenti", id],
       });
     },
     onError: (error) => {

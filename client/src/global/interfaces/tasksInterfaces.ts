@@ -4,6 +4,17 @@ export interface MentorTasks {
   tasks: Task[];
 }
 
+export interface MentiTasks {
+  id: number;
+  title: string;
+  description: string;
+  status: string;
+  created_date: Date;
+  in_progress_date: Date;
+  completed_date: Date;
+  sub_tasks_count: number;
+}
+
 export interface Task {
   id: number;
   title: string;
@@ -12,13 +23,14 @@ export interface Task {
   created_date: Date;
   in_progress_date: Date;
   completed_date: Date;
-  menti_id: number;
+  menti_id?: number;
   mentor_id?: number;
   sub_tasks_count: number;
   sub_tasks?: TaskDetails[];
 }
 
 export interface TaskDetails {
+  id: string;
   title: string;
   description: string;
   status: string;

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { MentorTasks } from "@/global/interfaces/tasksInterfaces.ts";
-import { getTasksByMentor } from "@/services/tasks/mentorTaskServices.ts";
+import { getTasksByMentor } from "@/services/taskServices.ts";
 
 export const useGetTasksByMentor = (id: number) => {
   const { data: tasks, isLoading } = useQuery<MentorTasks[]>({

@@ -58,7 +58,7 @@ const MentorDashboard = () => {
                   <div className="flex items-center">
                     <Avatar className="mr-2 h-8 w-8">
                       <AvatarImage
-                        src={`https://api.dicebear.com/6.x/initials/svg?seed=Menti${task.menti_id}`}
+                        src={`https://api.dicebear.com/6.x/initials/svg?seed=${formatInitials(task.menti_name)}`}
                       />
                       <AvatarFallback>
                         {formatInitials(task.menti_name)}

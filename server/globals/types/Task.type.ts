@@ -12,6 +12,7 @@ export type Task = {
 }
 
 export type SubTask = {
+  id: string;
   title: string;
   description: string;
   status: string;

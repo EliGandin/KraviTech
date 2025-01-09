@@ -25,3 +25,9 @@ export const Experience = {
   MID: "MID",
   HIGH: "HIGH",
 };
+
+export const TaskStatus = {
+  NEW: "NEW",
+  IN_PROGRESS: "IN PROGRESS",
+  COMPLETED: "COMPLETED",
+};

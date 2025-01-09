@@ -1,6 +1,7 @@
 import { body, param } from "express-validator";
 
 import { FieldErrors } from "@/globals/errors/fieldErrors";
+import { TaskStatus } from "@/globals/constants";
 
 export const tasksByMentorValidator = () => {
   return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID)];
@@ -44,4 +45,14 @@ export const addTaskValidator = () => {
       .notEmpty()
       .isString()
       .withMessage(FieldErrors.INVALID_TASK_DESCRIPTION)];
+};
+
+export const changeTaskStatusValidator = () => {
+  return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID),
+    body("status").isString().custom((value: string) => {
+      if (Object.values(TaskStatus).includes(value.toUpperCase())) {
+        return true;
+      }
+      throw new Error(FieldErrors.INVALID_STATUS);
+    })];
 };
