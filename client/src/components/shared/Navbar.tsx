@@ -1,42 +1,127 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  NavigationMenu,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu.tsx";
+  LayoutDashboard,
+  Home,
+  Table,
+  Users,
+  Brain,
+  ShieldCheck,
+  ChevronDown,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import { userAtom } from "@/state/atoms/userAtom.ts";
+import { formatInitials } from "@/utils/formatters/formatFields.ts";
+
+const navItems = [
+  { name: "Home", href: "app/", icon: Home },
+  { name: "Dashboard", href: "app/dashboard", icon: LayoutDashboard },
+  { name: "Tables", href: "app/tables", icon: Table },
+  { name: "Mentors", href: "app/mentors", icon: Users },
+  { name: "Mentis", href: "app/mentis", icon: Brain },
+];
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const user = useRecoilValue(userAtom);
 
   return (
-    <NavigationMenu className="flex w-full max-w-full items-center justify-between bg-zinc-700 px-4 py-2 text-lg text-zinc-200">
-      <NavigationMenuList className="flex gap-5">
-        {user ? (
-          <>
-            <Link to={"app/"}>Home</Link>
-            <Link to={"app/dashboard"}>Dashboard</Link>
-            <Link to={"app/tables"}>Tables</Link>
-            <Link to={"app/mentors"}>Mentors</Link>
-            <Link to={"app/mentis"}>Mentis</Link>
+    <nav className="relative w-full bg-zinc-800 px-4 py-2 text-zinc-100 shadow-md">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          {user ? (
+            <>
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-zinc-800 px-4 py-2 text-sm font-medium transition-colors hover:bg-zinc-700 hover:text-zinc-100 focus:bg-zinc-700 focus:text-zinc-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                >
+                  <item.icon className="mr-2 h-4 w-4" />
+                  {item.name}
+                </Link>
+              ))}
+              {user.role === "admin" && (
+                <Link
+                  to="app/admin/board"
+                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-zinc-800 px-4 py-2 text-sm font-medium transition-colors hover:bg-zinc-700 hover:text-zinc-100 focus:bg-zinc-700 focus:text-zinc-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                >
+                  <ShieldCheck className="mr-2 h-4 w-4" />
+                  Admin Board
+                </Link>
+              )}
+            </>
+          ) : (
+            <Link to="/login">
+              <Button
+                variant="outline"
+                className="text-zinc-700 hover:bg-zinc-700 hover:text-zinc-100"
+              >
+                Login
+              </Button>
+            </Link>
+          )}
+        </div>
 
-            {user.role === "admin" && (
-              <Link to={"app/admin/board"}>Admin Board</Link>
+        {user && (
+          <div className="relative">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex items-center space-x-2 rounded-md bg-zinc-800 px-4 py-2 text-sm font-medium transition-colors hover:bg-zinc-700 focus:bg-zinc-700 focus:outline-none"
+            >
+              <Avatar className="mr-2 h-8 w-8">
+                <AvatarImage
+                  src={`https://api.dicebear.com/6.x/initials/svg?seed=${formatInitials(user.name)}`}
+                />
+                <AvatarFallback>{formatInitials(user.name)}</AvatarFallback>
+              </Avatar>
+              <span>Hello, {user.name}</span>
+              <ChevronDown
+                className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+            {isOpen && (
+              <div className="absolute right-0 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                <div
+                  className="py-1"
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="options-menu"
+                >
+                  <Link
+                    to={`/app/${user.role}s/${user.id}`}
+                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
+                    role="menuitem"
+                  >
+                    <div className="text-sm font-medium leading-none text-gray-900">
+                      Profile
+                    </div>
+                    <p className="line-clamp-2 text-sm leading-snug text-gray-600">
+                      View and edit your profile
+                    </p>
+                  </Link>
+                  <Link
+                    to="/logout"
+                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
+                    role="menuitem"
+                  >
+                    <div className="text-sm font-medium leading-none text-gray-900">
+                      Logout
+                    </div>
+                    <p className="line-clamp-2 text-sm leading-snug text-gray-600">
+                      Sign out of your account
+                    </p>
+                  </Link>
+                </div>
+              </div>
             )}
-          </>
-        ) : (
-          <Link to={"/login"}>Login</Link>
+          </div>
         )}
-      </NavigationMenuList>
-
-      {user && (
-        <Link
-          to={`/profile/${user.id}`}
-          className="ml-auto"
-        >{`Hello ${user.name}`}</Link>
-      )}
-    </NavigationMenu>
+      </div>
+    </nav>
   );
 };
 
