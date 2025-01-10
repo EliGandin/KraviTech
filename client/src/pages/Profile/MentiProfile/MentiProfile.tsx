@@ -8,7 +8,7 @@ import {
 import { Badge } from "@/components/ui/badge.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
@@ -29,7 +29,8 @@ const MentiProfile = () => {
   const { id } = useParams();
   const { menti, isLoading } = useGetMenti(Number(id));
   const { mutate, isPending } = useUpdateProfile(Number(id));
-  const { deactivateMenti } = useDeleteMenti(Number(id));
+  const { deactivateMenti } = useDeleteMenti();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof UpdateProfileSchema>>(
     mentiUpdateProfileResolver,
   );
@@ -48,7 +49,8 @@ const MentiProfile = () => {
     });
 
     if (result.isConfirmed) {
-      deactivateMenti();
+      deactivateMenti(Number(id));
+      navigate("/signup");
     }
   };
 
@@ -106,7 +108,7 @@ const MentiProfile = () => {
                         className="w-1/2"
                         onClick={handleDelete}
                       >
-                        Delete Menti
+                        Delete Profile
                       </Button>
                     </>
                   )}
