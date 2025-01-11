@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { useRecoilValue } from "recoil";
 
 import { useGetMentor } from "@/hooks/profile/mentor/useGetMentor.ts";
 import Loader from "@/components/shared/Loader.tsx";
@@ -22,10 +23,12 @@ import { IMentor } from "@/global/interfaces/userInterfaces.ts";
 import MentorEditableProfileGrid from "@/pages/Profile/MentorProfile/MentorEditableProfileGrid.tsx";
 import MentorProfileGrid from "@/pages/Profile/MentorProfile/MentorProfileGrid.tsx";
 import { useDeleteMentor } from "@/hooks/tables/mentors/useDeleteMentor.ts";
+import { userAtom } from "@/state/atoms/userAtom.ts";
 
 const MentorProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
+  const user = useRecoilValue(userAtom);
   const { id } = useParams();
   const { mentor, isLoading } = useGetMentor(Number(id));
   const { mutate, isPending } = useUpdateProfile(Number(id));
@@ -56,7 +59,7 @@ const MentorProfile = () => {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <Card className="mx-auto max-w-4xl overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900 dark:to-indigo-900">
+      <Card className="mx-auto max-w-4xl overflow-hidden bg-white">
         <CardContent className="p-8">
           <div className="flex flex-col gap-8 md:flex-row">
             <div className="text-center md:w-1/3 md:text-left">
@@ -75,41 +78,42 @@ const MentorProfile = () => {
                 {mentor?.status}
               </Badge>
               <div className="mt-[50px] flex flex-row justify-between gap-2">
-                {isEditing ? (
-                  <>
-                    <Button
-                      variant="outline"
-                      className="w-1/2"
-                      onClick={() => setIsEditing(false)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      className="w-1/2"
-                      form="menti-edit-form"
-                      type="submit"
-                      disabled={isPending}
-                    >
-                      {isPending ? "Saving..." : "Save"}
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button
-                      className="w-1/2"
-                      onClick={() => setIsEditing(true)}
-                    >
-                      Update Profile
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      className="w-1/2"
-                      onClick={handleDelete}
-                    >
-                      Delete Profile
-                    </Button>
-                  </>
-                )}
+                {(user?.id === mentor?.id || user?.role === "admin") &&
+                  (isEditing ? (
+                    <>
+                      <Button
+                        variant="outline"
+                        className="w-1/2"
+                        onClick={() => setIsEditing(false)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        className="w-1/2"
+                        form="menti-edit-form"
+                        type="submit"
+                        disabled={isPending}
+                      >
+                        {isPending ? "Saving..." : "Save"}
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        className="w-1/2"
+                        onClick={() => setIsEditing(true)}
+                      >
+                        Update Profile
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        className="w-1/2"
+                        onClick={handleDelete}
+                      >
+                        Delete Profile
+                      </Button>
+                    </>
+                  ))}
               </div>
             </div>
 

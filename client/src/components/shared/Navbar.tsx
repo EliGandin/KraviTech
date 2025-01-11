@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -10,23 +11,34 @@ import {
   ShieldCheck,
   ChevronDown,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
 import { userAtom } from "@/state/atoms/userAtom.ts";
 import { formatInitials } from "@/utils/formatters/formatFields.ts";
 
-const navItems = [
-  { name: "Home", href: "app/", icon: Home },
-  { name: "Dashboard", href: "app/dashboard", icon: LayoutDashboard },
-  { name: "Tables", href: "app/tables", icon: Table },
-  { name: "Mentors", href: "app/mentors", icon: Users },
-  { name: "Mentis", href: "app/mentis", icon: Brain },
-];
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = useRecoilValue(userAtom);
+
+  const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userAtom);
+
+  const navItems = [
+    { name: "Home", href: "/", icon: Home },
+    {
+      name: "Dashboard",
+      href: `app/${user?.role}s/${user?.id}/dashboard`,
+      icon: LayoutDashboard,
+    },
+    { name: "Tables", href: "app/tables", icon: Table },
+    { name: "Mentors", href: "app/mentors", icon: Users },
+    { name: "Mentis", href: "app/mentis", icon: Brain },
+  ];
+
+  const handleLogout = () => {
+    setUser(null);
+    navigate("/login");
+  };
 
   return (
     <nav className="relative w-full bg-zinc-800 px-4 py-2 text-zinc-100 shadow-md">
@@ -103,18 +115,20 @@ const Navbar = () => {
                       View and edit your profile
                     </p>
                   </Link>
-                  <Link
-                    to="/logout"
-                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
-                    role="menuitem"
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none p-3 font-normal hover:bg-gray-100 focus:bg-gray-100"
+                    onClick={handleLogout}
                   >
-                    <div className="text-sm font-medium leading-none text-gray-900">
-                      Logout
+                    <div className="text-left">
+                      <div className="text-sm font-medium leading-none text-gray-900">
+                        Logout
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-gray-600">
+                        Sign out of your account
+                      </p>
                     </div>
-                    <p className="line-clamp-2 text-sm leading-snug text-gray-600">
-                      Sign out of your account
-                    </p>
-                  </Link>
+                  </Button>
                 </div>
               </div>
             )}

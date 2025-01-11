@@ -8,8 +8,8 @@ interface EditableFieldProps {
   label: string;
   placeholder: string | undefined;
   field: ControllerRenderProps<
-    Partial<IMenti & IMentor>,
-    keyof IMenti & keyof IMentor
+    Partial<IMenti | IMentor>,
+    keyof IMenti | keyof IMentor
   >;
 }
 

@@ -72,9 +72,6 @@ const TableComponent = <IData, IValue>({
           }
           className="max-w-sm"
         />
-      </div>
-
-      <div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -91,9 +88,7 @@ const TableComponent = <IData, IValue>({
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
+                    onCheckedChange={(value) => column.toggleVisibility(value)}
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
@@ -102,6 +97,7 @@ const TableComponent = <IData, IValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

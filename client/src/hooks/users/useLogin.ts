@@ -19,7 +19,7 @@ export const useLogin = () => {
       }
 
       setUser(data);
-      navigate(`/app/tables`);
+      navigate(`/app/${data?.role}s/${data?.id}/dashboard`);
     },
     onError: (error) => {
       console.error(error);
