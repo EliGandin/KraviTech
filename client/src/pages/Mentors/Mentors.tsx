@@ -1,3 +1,11 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
 import { MentorColumns } from "@/pages/Mentors/MentorColumns.tsx";
 import TableComponent from "@/components/shared/TableComponent.tsx";
 import { useMentors } from "@/hooks/tables/mentors/useMentors.ts";
@@ -10,15 +18,15 @@ const Mentors = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="mx-auto mt-4 flex h-[80vh] w-[95vw] flex-col justify-start rounded-xl bg-slate-100 p-4">
-      <div className="mx-auto mt-2 flex flex-col rounded-md border border-slate-950 p-1">
-        <p>Mentors</p>
-        <p>Here is a list of all the mentors</p>
-      </div>
-      <div className="my-4 rounded-md border border-black">
+    <Card className="mx-auto mb-2 mt-4 h-fit w-[95vw] px-4 pt-4">
+      <CardHeader>
+        <CardTitle>Mentors</CardTitle>
+        <CardDescription>Here is a list of all the mentors</CardDescription>
+      </CardHeader>
+      <CardContent>
         {mentors && <TableComponent data={mentors} columns={columns} />}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
