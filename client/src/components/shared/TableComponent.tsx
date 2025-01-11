@@ -98,7 +98,6 @@ const TableComponent = <IData, IValue>({
         </DropdownMenu>
       </div>
 
-      <div></div>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
