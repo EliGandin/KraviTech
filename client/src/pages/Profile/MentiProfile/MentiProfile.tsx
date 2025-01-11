@@ -58,7 +58,7 @@ const MentiProfile = () => {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <Card className="mx-auto max-w-4xl overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900 dark:to-indigo-900">
+      <Card className="mx-auto max-w-4xl overflow-hidden bg-white">
         <CardContent className="p-8">
           <div className="flex flex-col gap-8 md:flex-row">
             <div className="text-center md:w-1/3 md:text-left">
