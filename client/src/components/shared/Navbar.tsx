@@ -16,17 +16,22 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "@/state/atoms/userAtom.ts";
 import { formatInitials } from "@/utils/formatters/formatFields.ts";
 
-const navItems = [
-  { name: "Home", href: "app/", icon: Home },
-  { name: "Dashboard", href: "app/dashboard", icon: LayoutDashboard },
-  { name: "Tables", href: "app/tables", icon: Table },
-  { name: "Mentors", href: "app/mentors", icon: Users },
-  { name: "Mentis", href: "app/mentis", icon: Brain },
-];
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   const user = useRecoilValue(userAtom);
+
+  const navItems = [
+    { name: "Home", href: "app/", icon: Home },
+    {
+      name: "Dashboard",
+      href: `app/${user?.role}s/${user?.id}/dashboard`,
+      icon: LayoutDashboard,
+    },
+    { name: "Tables", href: "app/tables", icon: Table },
+    { name: "Mentors", href: "app/mentors", icon: Users },
+    { name: "Mentis", href: "app/mentis", icon: Brain },
+  ];
 
   return (
     <nav className="relative w-full bg-zinc-800 px-4 py-2 text-zinc-100 shadow-md">
