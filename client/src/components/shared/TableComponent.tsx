@@ -88,9 +88,7 @@ const TableComponent = <IData, IValue>({
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
+                    onCheckedChange={(value) => column.toggleVisibility(value)}
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
@@ -100,34 +98,7 @@ const TableComponent = <IData, IValue>({
         </DropdownMenu>
       </div>
 
-      <div>
-        {/*<DropdownMenu>*/}
-        {/*  <DropdownMenuTrigger asChild>*/}
-        {/*    <Button variant="outline" className="ml-auto">*/}
-        {/*      Columns*/}
-        {/*    </Button>*/}
-        {/*  </DropdownMenuTrigger>*/}
-        {/*  <DropdownMenuContent align="end">*/}
-        {/*    {table*/}
-        {/*      .getAllColumns()*/}
-        {/*      .filter((column) => column.getCanHide())*/}
-        {/*      .map((column) => {*/}
-        {/*        return (*/}
-        {/*          <DropdownMenuCheckboxItem*/}
-        {/*            key={column.id}*/}
-        {/*            className="capitalize"*/}
-        {/*            checked={column.getIsVisible()}*/}
-        {/*            onCheckedChange={(value) =>*/}
-        {/*              column.toggleVisibility(!!value)*/}
-        {/*            }*/}
-        {/*          >*/}
-        {/*            {column.id}*/}
-        {/*          </DropdownMenuCheckboxItem>*/}
-        {/*        );*/}
-        {/*      })}*/}
-        {/*  </DropdownMenuContent>*/}
-        {/*</DropdownMenu>*/}
-      </div>
+      <div></div>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
