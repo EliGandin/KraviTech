@@ -7,10 +7,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+} from "@/components/ui/card.tsx";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar.tsx";
 
-import TaskList from "./TaskList";
+import TaskList from "@/pages/Tasks/TaskList.tsx";
 import { useGetTasksByMentor } from "@/hooks/tasks/mentors/useGetTasksByMentor.ts";
 import Loader from "@/components/shared/Loader.tsx";
 import { MentorTasks } from "@/global/interfaces/tasksInterfaces.ts";
@@ -21,7 +25,7 @@ type SelectedMenti = {
   mentiName: string;
 };
 
-const MentorDashboard = () => {
+const Dashboard = () => {
   const [selectedMenti, setSelectedMenti] = useState<SelectedMenti | null>(
     null,
   );
@@ -33,7 +37,6 @@ const MentorDashboard = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="mb-6 text-3xl font-bold">Mentor Dashboard</h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card className="col-span-1">
           <CardHeader>
@@ -98,4 +101,4 @@ const MentorDashboard = () => {
   );
 };
 
-export default MentorDashboard;
+export default Dashboard;

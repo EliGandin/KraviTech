@@ -11,7 +11,7 @@ import Signup from "./pages/Signup/Signup";
 import AdminBoard from "@/pages/Admin/AdminBoard";
 import MentorProfile from "@/pages/Profile/MentorProfile/MentorProfile.tsx";
 import MentiProfile from "@/pages/Profile/MentiProfile/MentiProfile.tsx";
-import MentorDashboard from "@/pages/Tasks/MentorDashboard.tsx";
+import MentorDashboard from "@/pages/Mentors/Dashboard/MentorDashboard.tsx";
 import MentiDashboard from "@/pages/Tasks/MentiDashboard.tsx";
 
 const Layout = () => {
