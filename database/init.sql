@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS mentors
     experience   experience,
     status       mentor_status DEFAULT 'PENDING',
     start_date   DATE          DEFAULT CURRENT_DATE,
-    end_date     DATE          DEFAULT NULL
+    end_date     DATE          DEFAULT NULL,
+    image_string VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS admins
@@ -29,7 +30,8 @@ CREATE TABLE IF NOT EXISTS admins
     email        VARCHAR UNIQUE NOT NULL,
     phone_number VARCHAR        NOT NULL,
     password     VARCHAR        NOT NULL,
-    mentor_id    INTEGER        REFERENCES mentors (id) ON DELETE SET NULL
+    mentor_id    INTEGER        REFERENCES mentors (id) ON DELETE SET NULL,
+    image_string VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS mentis
@@ -47,7 +49,8 @@ CREATE TABLE IF NOT EXISTS mentis
     mentor_id    INTEGER        REFERENCES mentors (id) ON DELETE SET NULL,
     status       menti_status DEFAULT 'PENDING',
     start_date   DATE         DEFAULT CURRENT_DATE,
-    end_date     DATE         DEFAULT NULL
+    end_date     DATE         DEFAULT NULL,
+    image_string VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS messages

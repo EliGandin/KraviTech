@@ -111,3 +111,11 @@ export const getDashboardData = async (id: number): Promise<MentorDashboardData>
   const { rows } = await db.query(query, [id]);
   return rows[0];
 };
+
+export const putProfileImageString = async (imageName: string, id: number): Promise<void> => {
+  const query = `UPDATE mentors
+                 SET image_string = $1
+                 WHERE id = $2`;
+
+  await db.query(query, [imageName, id]);
+};
