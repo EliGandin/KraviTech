@@ -2,6 +2,7 @@ import db from "@/db/db";
 import { MentorSignup } from "@/globals/types/Signup.types";
 import { Mentor } from "@/globals/types/User.types";
 import { Status } from "@/globals/constants";
+import { MentorDashboardData } from "@/globals/types/Dashboard.types";
 
 export const createMentor = async (mentor: MentorSignup): Promise<void> => {
   const query = `INSERT INTO mentors (name, email, phone_number, password, field, company, position, experience, status)
@@ -74,4 +75,39 @@ export const updateProfile = async (id: number, setClause: string, values: (stri
                  where id = $${idPosition}`;
 
   await db.query(query, [...values, id]);
+};
+
+export const getDashboardData = async (id: number): Promise<MentorDashboardData> => {
+  const query = `WITH menti_counts AS (SELECT mentor_id,
+                                              COUNT(*) AS menti_count
+                                       FROM mentis
+                                       WHERE mentor_id = $1
+                                       GROUP BY mentor_id),
+                      menti_task_details AS (SELECT m.id        AS menti_id,
+                                                    m.name      AS menti_name,
+                                                    COUNT(t.id) AS total_tasks,
+                                                    JSON_AGG(
+                                                            JSON_BUILD_OBJECT(
+                                                                    'task_id', t.id,
+                                                                    'status', t.status
+                                                            )
+                                                    )           AS tasks
+                                             FROM mentis m
+                                                      LEFT JOIN tasks t ON m.id = t.menti_id
+                                             WHERE m.mentor_id = $1
+                                             GROUP BY m.id, m.name)
+                 SELECT mc.menti_count,
+                        COALESCE(JSON_AGG(
+                                         JSON_BUILD_OBJECT(
+                                                 'menti_id', mtd.menti_id,
+                                                 'menti_name', mtd.menti_name,
+                                                 'tasks', mtd.tasks
+                                         )
+                                 ), '[]'::JSON) AS mentis_tasks
+                 FROM menti_counts mc
+                          LEFT JOIN menti_task_details mtd ON mc.mentor_id = $1
+                 GROUP BY mc.menti_count`;
+
+  const { rows } = await db.query(query, [id]);
+  return rows[0];
 };

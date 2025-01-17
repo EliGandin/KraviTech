@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { deleteMentor, getAllMentors, getMentor } from "@/repositories/mentors.repository";
+import { deleteMentor, getAllMentors, getDashboardData, getMentor } from "@/repositories/mentors.repository";
 import {
   changeStatusValidator,
-  deleteMentorValidator,
+  mentorIdValidator,
   updateProfileValidator,
 } from "@/middlewares/validators/mentor.validator";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
@@ -35,7 +35,7 @@ mentorRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-mentorRouter.delete("/:id", deleteMentorValidator(), async (req: Request, res: Response) => {
+mentorRouter.delete("/:id", mentorIdValidator(), async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await deleteMentor(Number(id));
@@ -80,6 +80,20 @@ mentorRouter.put("/UpdateProfile/:id", updateProfileValidator(), async (req: Req
 
     await updateProfileController(Number(id), { name, email, phone_number, position, company, field, experience });
     res.status(StatusCodes.OK).send();
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+mentorRouter.get("/Dashboard/:id", mentorIdValidator(), async (req: Request, res: Response) => {
+  try {
+
+    const { id } = req.params;
+
+    const data = await getDashboardData(Number(id));
+    res.status(StatusCodes.OK).json(data);
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);

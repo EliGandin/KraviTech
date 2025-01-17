@@ -4,7 +4,7 @@ import { FieldErrors } from "@/globals/errors/fieldErrors";
 import { Experience, Status } from "@/globals/constants";
 import { Field } from "@/globals/constants";
 
-export const deleteMentorValidator = () => {
+export const mentorIdValidator = () => {
   return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID)];
 };
 
