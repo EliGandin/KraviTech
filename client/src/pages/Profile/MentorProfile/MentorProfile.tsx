@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   Avatar,
@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
+import { Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useRecoilValue } from "recoil";
@@ -27,6 +28,8 @@ import { userAtom } from "@/state/atoms/userAtom.ts";
 
 const MentorProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isHovering, setIsHovering] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const user = useRecoilValue(userAtom);
   const { id } = useParams();
@@ -55,6 +58,21 @@ const MentorProfile = () => {
     }
   };
 
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Here you would typically upload the file to your server
+      // and update the mentor's avatar URL
+      console.log("File selected:", file);
+      // For demonstration, we'll just log the file. In a real app,
+      // you'd want to upload this file and update the mentor's avatar.
+    }
+  };
+
   if (isLoading) return <Loader />;
 
   return (
@@ -63,13 +81,32 @@ const MentorProfile = () => {
         <CardContent className="p-8">
           <div className="flex flex-col gap-8 md:flex-row">
             <div className="text-center md:w-1/3 md:text-left">
-              <Avatar className="mx-auto h-32 w-32 border-4 border-white shadow-lg md:mx-0">
-                <AvatarImage
-                  src={`https://api.dicebear.com/6.x/micah/svg?seed=${mentor?.name}`}
-                  alt={mentor?.name}
-                />
-                <AvatarFallback>{mentor?.name}</AvatarFallback>
-              </Avatar>
+              <div
+                className="relative mx-auto h-32 w-32 md:mx-0"
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+                onClick={handleAvatarClick}
+              >
+                <Avatar className="h-32 w-32 cursor-pointer border-4 border-white shadow-lg">
+                  <AvatarImage
+                    src={`https://api.dicebear.com/6.x/micah/svg?seed=${mentor?.name}`}
+                    alt={mentor?.name}
+                  />
+                  <AvatarFallback>{mentor?.name}</AvatarFallback>
+                </Avatar>
+                {isHovering && (
+                  <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-50">
+                    <Camera className="text-white" size={24} />
+                  </div>
+                )}
+              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/*"
+                className="hidden"
+              />
               <h2 className="mb-2 mt-4 text-3xl font-bold">{mentor?.name}</h2>
               <p className="mb-4 text-xl text-muted-foreground">
                 {mentor?.position}
