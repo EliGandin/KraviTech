@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import { Label, Pie, PieChart } from "recharts";
 import {
   Card,
@@ -13,48 +15,52 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { TrendingUp } from "lucide-react";
+import { useParams } from "react-router-dom";
 
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-];
-
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
-} satisfies ChartConfig;
+import Loader from "@/components/shared/Loader.tsx";
+import { useGetMentorDashboard } from "@/hooks/mentorDashboard/useGetMentorDashboard.ts";
 
 const PieChartMentiTasks = () => {
+  const { id } = useParams();
+  const { data, isLoading } = useGetMentorDashboard(Number(id));
+
+  const chartData = useMemo(() => {
+    const statusCounts: Record<string, number> = {};
+    data?.mentis_tasks.forEach((menti) => {
+      menti.tasks.forEach((task) => {
+        statusCounts[task.status] = (statusCounts[task.status] || 0) + 1;
+      });
+    });
+    return Object.entries(statusCounts).map(([status, count]) => ({
+      status,
+      count,
+      fill: `var(--color-${status.toLowerCase()})`,
+    }));
+  }, [data]);
+
+  const totalTasks = useMemo(() => {
+    return chartData.reduce((acc, curr) => acc + curr.count, 0);
+  }, [chartData]);
+
+  const chartConfig: ChartConfig = useMemo(() => {
+    return chartData.reduce((config, { status }) => {
+      config[status.toLowerCase()] = {
+        label: status,
+        color: `hsl(var(--chart-${Object.keys(config).length + 1}))`,
+      };
+      return config;
+    }, {} as ChartConfig);
+  }, [chartData]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <Card className="mr-2 flex w-full flex-col">
+    <Card className="flex w-full flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Task Status Distribution</CardTitle>
+        <CardDescription>All Mentis' Tasks</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -68,8 +74,8 @@ const PieChartMentiTasks = () => {
             />
             <Pie
               data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
+              dataKey="count"
+              nameKey="status"
               innerRadius={60}
               strokeWidth={5}
             >
@@ -88,14 +94,14 @@ const PieChartMentiTasks = () => {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {/*{totalVisitors.toLocaleString()}*/}PEOPLE
+                          {totalTasks.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Tasks
                         </tspan>
                       </text>
                     );
@@ -108,10 +114,10 @@ const PieChartMentiTasks = () => {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          {data?.menti_count} Mentis
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing task status distribution for all mentis
         </div>
       </CardFooter>
     </Card>
