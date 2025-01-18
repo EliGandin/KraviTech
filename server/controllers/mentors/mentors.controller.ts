@@ -1,6 +1,6 @@
-import { changeStatus, putProfileImageString, updateProfile } from "@/repositories/mentors.repository";
+import { changeStatus, getImageString, putProfileImageString, updateProfile } from "@/repositories/mentors.repository";
 import { Mentor } from "@/globals/types/User.types";
-import { putImage } from "@/aws/s3/s3";
+import { getImageUrl, putImage } from "@/aws/s3/s3";
 
 export const changeStatusController = async (id: number, status: string) => {
   const formattedStatus = status.toUpperCase();
@@ -25,7 +25,21 @@ export const updateProfileController = async (id: number, mentor: Partial<Mentor
   return updateProfile(id, setClause, values, keys.length + 1);
 };
 
-export const profileImageController = async (file: Express.Multer.File, fileType: string, id: number) => {
+export const getImagesController = async (id: number) => {
+  const imageString = await getImageString(id);
+  if (!imageString) {
+    throw new Error("No image found");
+  }
+
+  const imageURL = await getImageUrl(imageString);
+  if (!imageURL) {
+    throw new Error("Error getting image URL");
+  }
+
+  return imageURL;
+};
+
+export const putProfileImageController = async (file: Express.Multer.File, fileType: string, id: number) => {
   const imageName = `mentor_${id}.${fileType}`;
   const result = await putImage(file, imageName);
   if (!result) {

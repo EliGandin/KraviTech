@@ -10,8 +10,8 @@ import {
 } from "@/middlewares/validators/mentor.validator";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
 import {
-  changeStatusController,
-  profileImageController,
+  changeStatusController, getImagesController,
+  putProfileImageController,
   updateProfileController,
 } from "@/controllers/mentors/mentors.controller";
 
@@ -107,6 +107,25 @@ mentorRouter.get("/Dashboard/:id", mentorIdValidator(), async (req: Request, res
   }
 });
 
+mentorRouter.get("/image/:id", mentorIdValidator(), async (req: Request, res: Response) => {
+  try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { id } = req.params;
+
+    const image = await getImagesController(Number(id));
+    res.status(StatusCodes.OK).send(image);
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
 mentorRouter.put("/image/:id", upload.single("image"), async (req: Request, res: Response) => {
   try {
     const fieldValidationResult = fieldValidation(req);
@@ -128,7 +147,7 @@ mentorRouter.put("/image/:id", upload.single("image"), async (req: Request, res:
       return;
     }
 
-    await profileImageController(
+    await putProfileImageController(
       file,
       fileType,
       Number(id),
