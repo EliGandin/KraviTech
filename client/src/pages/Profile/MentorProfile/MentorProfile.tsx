@@ -89,9 +89,8 @@ const MentorProfile = () => {
                 <Avatar className="h-32 w-32 cursor-pointer border-4 border-white shadow-lg">
                   <AvatarImage
                     src={
-                      image
-                        ? image
-                        : `https://api.dicebear.com/6.x/initials/svg?seed=${formatInitials(user?.name)}`
+                      image ||
+                      `https://api.dicebear.com/6.x/initials/svg?seed=${formatInitials(user?.name)}`
                     }
                     alt={mentor?.name}
                   />

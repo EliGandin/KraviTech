@@ -49,3 +49,19 @@ export const updateProfile = async (
 ): Promise<void> => {
   await axios.put(`http://localhost:8000/mentis/UpdateProfile/${id}`, data);
 };
+
+export const getProfileImage = async (id: number): Promise<string | null> => {
+  const { data } = await axios.get(`http://localhost:8000/mentis/Image/${id}`);
+  if (data.length === 0 || !data) {
+    return null;
+  }
+  return data;
+};
+
+export const putProfileImage = async (id: number, formData: FormData) => {
+  await axios.put(`http://localhost:8000/mentis/image/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};

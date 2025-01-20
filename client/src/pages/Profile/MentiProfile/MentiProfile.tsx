@@ -1,10 +1,6 @@
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar.tsx";
+import { Avatar, AvatarImage } from "@/components/ui/avatar.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -23,6 +19,8 @@ import { useUpdateProfile } from "@/hooks/profile/menti/useUpdateMentiProfile.ts
 import { IMenti } from "@/global/interfaces/userInterfaces.ts";
 import { useDeleteMenti } from "@/hooks/tables/mentis/useDeleteMenti.ts";
 import { Camera } from "lucide-react";
+import { useGetMentiProfileImage } from "@/hooks/profile/menti/useGetMentiProfileImage.ts";
+import { useUpdateMentiProfileImage } from "@/hooks/profile/menti/useUpdateMentiProfileImage.ts";
 
 const MentiProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -33,6 +31,8 @@ const MentiProfile = () => {
   const { menti, isLoading } = useGetMenti(Number(id));
   const { mutate, isPending } = useUpdateProfile(Number(id));
   const { deactivateMenti } = useDeleteMenti();
+  const { image } = useGetMentiProfileImage(Number(id));
+  const { uploadImage } = useUpdateMentiProfileImage(Number(id));
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof UpdateProfileSchema>>(
     mentiUpdateProfileResolver,
@@ -61,14 +61,12 @@ const MentiProfile = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      // Here you would typically upload the file to your server
-      // and update the mentor's avatar URL
-      console.log("File selected:", file);
-      // For demonstration, we'll just log the file. In a real app,
-      // you'd want to upload this file and update the mentor's avatar.
+      const formData = new FormData();
+      formData.append("image", file);
+      uploadImage(formData);
     }
   };
 
@@ -88,10 +86,12 @@ const MentiProfile = () => {
               >
                 <Avatar className="h-32 w-32 cursor-pointer border-4 border-white shadow-lg">
                   <AvatarImage
-                    src={`https://api.dicebear.com/6.x/micah/svg?seed=${menti?.name}`}
+                    src={
+                      image ||
+                      `https://api.dicebear.com/6.x/micah/svg?seed=${menti?.name}`
+                    }
                     alt={menti?.name}
                   />
-                  <AvatarFallback>{menti?.name}</AvatarFallback>
                 </Avatar>
                 {isHovering && (
                   <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-50">
