@@ -26,13 +26,13 @@ const ChangeStatus = ({ id, dialogOpen, setDialogOpen }: ActionProps) => {
   const [selectedStatus, setSelectedStatus] = useState<string>("");
 
   const { changeStatus } = useChangeStatus();
-
   const handleChangeStatus = () => {
     if (!selectedStatus) {
       return;
     }
 
     changeStatus({ id, status: selectedStatus });
+    setDialogOpen(false);
   };
 
   return (

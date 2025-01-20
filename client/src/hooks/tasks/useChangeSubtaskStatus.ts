@@ -1,4 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+
 import { changeSubtaskStatus } from "@/services/taskServices.ts";
 
 export const useChangeSubtaskStatus = (id: number) => {
@@ -14,6 +16,8 @@ export const useChangeSubtaskStatus = (id: number) => {
         status: string;
       }) => changeSubtaskStatus(id, subtaskId, status),
       onSuccess: async () => {
+        toast.success("Subtask status has been changed successfully");
+
         await queryClient.invalidateQueries({
           queryKey: ["getTasksByMentor"],
         });
