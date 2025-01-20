@@ -5,6 +5,9 @@ interface IUser {
   phone_number: string;
   role: "mentor" | "menti" | "admin";
   status: "Pending" | "Pre-production" | "Active" | "Inactive";
+  start_date?: string;
+  end_date?: string;
+  image_string?: string;
 }
 
 export interface IMenti extends IUser {
@@ -16,8 +19,6 @@ export interface IMenti extends IUser {
   mentor_id?: string;
   operator_name?: string;
   operator_id?: string;
-  start_date?: string;
-  end_date?: string;
 }
 
 export interface IMentor extends IUser {
@@ -26,6 +27,4 @@ export interface IMentor extends IUser {
   company?: string;
   experience?: string;
   menti_count?: number;
-  start_date?: string;
-  end_date?: string;
 }

@@ -28,15 +28,10 @@ export const updateProfileController = async (id: number, mentor: Partial<Mentor
 export const getImagesController = async (id: number) => {
   const imageString = await getImageString(id);
   if (!imageString) {
-    throw new Error("No image found");
+    return undefined;
   }
 
-  const imageURL = await getImageUrl(imageString);
-  if (!imageURL) {
-    throw new Error("Error getting image URL");
-  }
-
-  return imageURL;
+  return await getImageUrl(imageString);
 };
 
 export const putProfileImageController = async (file: Express.Multer.File, fileType: string, id: number) => {

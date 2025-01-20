@@ -1,10 +1,6 @@
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar.tsx";
+import { Avatar, AvatarImage } from "@/components/ui/avatar.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useParams } from "react-router-dom";
@@ -25,6 +21,9 @@ import MentorEditableProfileGrid from "@/pages/Profile/MentorProfile/MentorEdita
 import MentorProfileGrid from "@/pages/Profile/MentorProfile/MentorProfileGrid.tsx";
 import { useDeleteMentor } from "@/hooks/tables/mentors/useDeleteMentor.ts";
 import { userAtom } from "@/state/atoms/userAtom.ts";
+import { useGetProfileImage } from "@/hooks/profile/mentor/useGetProfileImage.ts";
+import { formatInitials } from "@/utils/formatters/formatFields.ts";
+import { useUpdateMentorProfileImage } from "@/hooks/profile/mentor/useUpdateMentorProfileImage.ts";
 
 const MentorProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -33,9 +32,11 @@ const MentorProfile = () => {
 
   const user = useRecoilValue(userAtom);
   const { id } = useParams();
+  const { image } = useGetProfileImage(Number(id));
   const { mentor, isLoading } = useGetMentor(Number(id));
   const { mutate, isPending } = useUpdateProfile(Number(id));
   const { deactivateMentor } = useDeleteMentor(Number(id));
+  const { uploadImage } = useUpdateMentorProfileImage(Number(id));
   const form = useForm<z.infer<typeof UpdateProfileSchema>>(
     mentorUpdateProfileResolver,
   );
@@ -62,14 +63,12 @@ const MentorProfile = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      // Here you would typically upload the file to your server
-      // and update the mentor's avatar URL
-      console.log("File selected:", file);
-      // For demonstration, we'll just log the file. In a real app,
-      // you'd want to upload this file and update the mentor's avatar.
+      const formData = new FormData();
+      formData.append("image", file);
+      uploadImage(formData);
     }
   };
 
@@ -82,20 +81,23 @@ const MentorProfile = () => {
           <div className="flex flex-col gap-8 md:flex-row">
             <div className="text-center md:w-1/3 md:text-left">
               <div
-                className="relative mx-auto h-32 w-32 md:mx-0"
+                className="relative mx-auto md:mx-0"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
                 onClick={handleAvatarClick}
               >
                 <Avatar className="h-32 w-32 cursor-pointer border-4 border-white shadow-lg">
                   <AvatarImage
-                    src={`https://api.dicebear.com/6.x/micah/svg?seed=${mentor?.name}`}
+                    src={
+                      image
+                        ? image
+                        : `https://api.dicebear.com/6.x/initials/svg?seed=${formatInitials(user?.name)}`
+                    }
                     alt={mentor?.name}
                   />
-                  <AvatarFallback>{mentor?.name}</AvatarFallback>
                 </Avatar>
                 {isHovering && (
-                  <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-50">
+                  <div className="absolute inset-0 z-50 flex h-32 w-32 items-center justify-center rounded-full bg-black bg-opacity-50">
                     <Camera className="text-white" size={24} />
                   </div>
                 )}

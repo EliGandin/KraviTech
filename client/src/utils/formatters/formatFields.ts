@@ -32,7 +32,7 @@ export const normalizePhoneNumber = (
   return phoneNumber;
 };
 
-export const formatInitials = (name: string): string => {
+export const formatInitials = (name: string | undefined): string => {
   if (!name) return "";
 
   return name

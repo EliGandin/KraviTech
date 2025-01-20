@@ -118,6 +118,11 @@ mentorRouter.get("/image/:id", mentorIdValidator(), async (req: Request, res: Re
     const { id } = req.params;
 
     const image = await getImagesController(Number(id));
+    if (!image) {
+      res.status(StatusCodes.NO_CONTENT).send();
+      return;
+    }
+    
     res.status(StatusCodes.OK).send(image);
   } catch (error) {
     const e = error as Error;
