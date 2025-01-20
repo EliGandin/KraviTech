@@ -107,3 +107,24 @@ export const updateProfile = async (id: number, setClause: string, values: (stri
 
   await db.query(query, [...values, id]);
 };
+
+export const getImageString = async (id: number): Promise<string | undefined> => {
+  const query = `SELECT image_string
+                 FROM mentis
+                 WHERE id = $1`;
+
+  const { rows } = await db.query(query, [id]);
+  if (!rows[0]) {
+    return undefined;
+  }
+
+  return rows[0].image_string;
+};
+
+export const putProfileImageString = async (imageName: string, id: number): Promise<void> => {
+  const query = `UPDATE mentis
+                 SET image_string = $1
+                 WHERE id = $2`;
+
+  await db.query(query, [imageName, id]);
+};

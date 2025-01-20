@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import multer from "multer";
 
 import { deleteMentor, getAllMentors, getDashboardData, getMentor } from "@/repositories/mentors.repository";
 import {
@@ -8,9 +9,14 @@ import {
   updateProfileValidator,
 } from "@/middlewares/validators/mentor.validator";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
-import { changeStatusController, updateProfileController } from "@/controllers/mentors/mentors.controller";
+import {
+  changeStatusController, getImagesController,
+  putProfileImageController,
+  updateProfileController,
+} from "@/controllers/mentors/mentors.controller";
 
 const mentorRouter = Router();
+const upload = multer({ storage: multer.memoryStorage() });
 
 mentorRouter.get("/", async (req: Request, res: Response) => {
   try {
@@ -94,6 +100,65 @@ mentorRouter.get("/Dashboard/:id", mentorIdValidator(), async (req: Request, res
 
     const data = await getDashboardData(Number(id));
     res.status(StatusCodes.OK).json(data);
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+mentorRouter.get("/image/:id", mentorIdValidator(), async (req: Request, res: Response) => {
+  try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { id } = req.params;
+
+    const image = await getImagesController(Number(id));
+    if (!image) {
+      res.status(StatusCodes.NO_CONTENT).send();
+      return;
+    }
+    
+    res.status(StatusCodes.OK).send(image);
+  } catch (error) {
+    const e = error as Error;
+    console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+});
+
+mentorRouter.put("/image/:id", upload.single("image"), async (req: Request, res: Response) => {
+  try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { id } = req.params;
+    const file = req.file as Express.Multer.File;
+    if (!file) {
+      res.status(400).json({ error: `Missing file input.` });
+      return;
+    }
+
+    const fileType = file.originalname.split(".").pop();
+    if (!fileType) {
+      res.status(400).json({ error: "Invalid file type." });
+      return;
+    }
+
+    await putProfileImageController(
+      file,
+      fileType,
+      Number(id),
+    );
+
+    res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);

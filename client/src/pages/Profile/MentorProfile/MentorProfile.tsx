@@ -1,14 +1,11 @@
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar.tsx";
+import { Avatar, AvatarImage } from "@/components/ui/avatar.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
+import { Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useRecoilValue } from "recoil";
@@ -24,15 +21,22 @@ import MentorEditableProfileGrid from "@/pages/Profile/MentorProfile/MentorEdita
 import MentorProfileGrid from "@/pages/Profile/MentorProfile/MentorProfileGrid.tsx";
 import { useDeleteMentor } from "@/hooks/tables/mentors/useDeleteMentor.ts";
 import { userAtom } from "@/state/atoms/userAtom.ts";
+import { useGetProfileImage } from "@/hooks/profile/mentor/useGetProfileImage.ts";
+import { formatInitials } from "@/utils/formatters/formatFields.ts";
+import { useUpdateMentorProfileImage } from "@/hooks/profile/mentor/useUpdateMentorProfileImage.ts";
 
 const MentorProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isHovering, setIsHovering] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const user = useRecoilValue(userAtom);
   const { id } = useParams();
+  const { image } = useGetProfileImage(Number(id));
   const { mentor, isLoading } = useGetMentor(Number(id));
   const { mutate, isPending } = useUpdateProfile(Number(id));
   const { deactivateMentor } = useDeleteMentor(Number(id));
+  const { uploadImage } = useUpdateMentorProfileImage(Number(id));
   const form = useForm<z.infer<typeof UpdateProfileSchema>>(
     mentorUpdateProfileResolver,
   );
@@ -55,6 +59,19 @@ const MentorProfile = () => {
     }
   };
 
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("image", file);
+      uploadImage(formData);
+    }
+  };
+
   if (isLoading) return <Loader />;
 
   return (
@@ -63,13 +80,34 @@ const MentorProfile = () => {
         <CardContent className="p-8">
           <div className="flex flex-col gap-8 md:flex-row">
             <div className="text-center md:w-1/3 md:text-left">
-              <Avatar className="mx-auto h-32 w-32 border-4 border-white shadow-lg md:mx-0">
-                <AvatarImage
-                  src={`https://api.dicebear.com/6.x/micah/svg?seed=${mentor?.name}`}
-                  alt={mentor?.name}
-                />
-                <AvatarFallback>{mentor?.name}</AvatarFallback>
-              </Avatar>
+              <div
+                className="relative mx-auto md:mx-0"
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+                onClick={handleAvatarClick}
+              >
+                <Avatar className="h-32 w-32 cursor-pointer border-4 border-white shadow-lg">
+                  <AvatarImage
+                    src={
+                      image ||
+                      `https://api.dicebear.com/6.x/initials/svg?seed=${formatInitials(user?.name)}`
+                    }
+                    alt={mentor?.name}
+                  />
+                </Avatar>
+                {isHovering && (
+                  <div className="absolute inset-0 z-50 flex h-32 w-32 items-center justify-center rounded-full bg-black bg-opacity-50">
+                    <Camera className="text-white" size={24} />
+                  </div>
+                )}
+              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/*"
+                className="hidden"
+              />
               <h2 className="mb-2 mt-4 text-3xl font-bold">{mentor?.name}</h2>
               <p className="mb-4 text-xl text-muted-foreground">
                 {mentor?.position}
