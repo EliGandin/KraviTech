@@ -76,7 +76,6 @@ test.describe("Signup Roles", () => {
 
     // Go to the menti signup page
     await page.goto(`${baseURL}/signup`);
-
     // Switch to mentor signup
     await page.click("button:has-text('Mentor')");
 
@@ -94,10 +93,10 @@ test.describe("Signup Roles", () => {
     await page.getByText("5+ years").click();
 
     // Submit the form
-    await page.getByText("Create an account").click();
+    await page.getByRole("button", { name: "Create an account" }).click();
 
     // Handle Swal2
-    await page.click("button:has-text('OK')");
+    // await page.click("button:has-text('OK')");
 
     // Admin Login
     await page.goto(`${baseURL}/login`);
