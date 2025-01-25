@@ -56,7 +56,7 @@ ___
 * Input Parameters:
 
   | Key            | Data Type | Constraints  | Default Value | Required |
-      |----------------|-----------|--------------|---------------|----------|
+        |----------------|-----------|--------------|---------------|----------|
   | `name`         | `string`  |              |               | `Yes`    |
   | `email`        | `string`  | `UNIQUE`     |               | `Yes`    |
   | `phone_number` | `string`  |              |               | `Yes`    |
@@ -85,3 +85,12 @@ ___
     * `201` - Mentor account created successfully
     * `400` - Invalid input parameters or existing email
     * `500` - Internal server error
+
+___
+
+## Testing Coverage
+
+___
+
+* Integration tests for Menti and Mentor sign up
+* End-to-end tests for Menti and Mentor sign up
