@@ -41,7 +41,7 @@ jobs:
         working-directory: ./E2E/tests
         run: |
           echo "# Test Results! 🚀" >> $GITHUB_STEP_SUMMARY
-          npx playwright test tests/signup.spec.ts --config=playwright.config.ts || {
+          npx playwright test tests/signup.spec.ts --config=../playwright.config.ts || {
             echo "Signup E2E failed! ❌" >> $GITHUB_STEP_SUMMARY
             exit 1
           }
