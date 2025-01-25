@@ -51,7 +51,6 @@ const TaskDetails = ({
     }
 
     mutateSubtask({ taskId: task.id, subtask });
-    setDialogOpen(false);
   }
 
   if (isLoading) return <Loader />;

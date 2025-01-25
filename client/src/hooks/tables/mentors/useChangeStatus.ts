@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import { changeMentorStatus } from "@/services/table/mentors/mentorServices.ts";
 
@@ -9,6 +10,8 @@ export const useChangeStatus = () => {
     mutationFn: ({ id, status }: { id: number; status: string }) =>
       changeMentorStatus(id, status),
     onSuccess: async () => {
+      toast.success("Status has been changed successfully");
+      
       await queryClient.invalidateQueries({
         queryKey: ["getMentors"],
       });

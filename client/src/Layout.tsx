@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Toaster } from "sonner";
 
 import Background from "./components/shared/Background.tsx";
 import Navbar from "./components/shared/Navbar.tsx";
@@ -36,6 +37,16 @@ const Layout = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
+      <Toaster
+        toastOptions={{
+          classNames: {
+            error: "bg-red-400 text-white",
+            success: "text-white bg-green-500",
+            warning: "text-yellow-400",
+            info: "bg-blue-400",
+          },
+        }}
+      />
     </Router>
   );
 };

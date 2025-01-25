@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import { updateMessage } from "@/services/adminServices.ts";
 
@@ -14,6 +15,8 @@ export const useUpdateMessage = () => {
       operator_id: number | null;
     }) => updateMessage(id, operator_id),
     onSuccess: async () => {
+      toast.success("Message has been updated successfully");
+
       await queryClient.invalidateQueries({
         queryKey: ["getMessages"],
       });
