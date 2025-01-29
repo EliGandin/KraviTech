@@ -4,6 +4,10 @@ import { FieldErrors } from "@/globals/errors/fieldErrors";
 import { Experience, Status } from "@/globals/constants";
 import { Field } from "@/globals/constants";
 
+export const getAllMentorsValidator = () => {
+  return [param("page").optional().isNumeric(), param("limit").optional().isNumeric()];
+};
+
 export const mentorIdValidator = () => {
   return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID)];
 };

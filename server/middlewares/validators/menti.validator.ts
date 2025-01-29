@@ -3,6 +3,10 @@ import { body, param } from "express-validator";
 import { FieldErrors } from "@/globals/errors/fieldErrors";
 import { Status } from "@/globals/constants";
 
+export const getAllMentisValidator = () => {
+  return [param("page").optional().isNumeric(), param("limit").optional().isNumeric()];
+};
+
 export const mentiIdValidator = () => {
   return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID)];
 };
