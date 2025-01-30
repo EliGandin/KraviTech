@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner.tsx";
 
-import Background from "./components/shared/Background.tsx";
-import Navbar from "./components/shared/Navbar.tsx";
-import HomePage from "./pages/HomePage";
-import Tables from "./pages/Tables";
+import Background from "@/components/shared/Background.tsx";
+import Navbar from "@/components/shared/Navbar.tsx";
+import HomePage from "@/pages/HomePage";
+import Tables from "@/pages/Tables";
 import Mentors from "@/pages/Mentors/Mentors.tsx";
-import Mentis from "./pages/Mentis/Mentis.tsx";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup/Signup";
+import Mentis from "@/pages/Mentis/Mentis.tsx";
+import Login from "@/pages/Login";
+import Signup from "@/pages/Signup/Signup";
 import AdminBoard from "@/pages/Admin/AdminBoard";
 import MentorProfile from "@/pages/Profile/MentorProfile/MentorProfile.tsx";
 import MentiProfile from "@/pages/Profile/MentiProfile/MentiProfile.tsx";
