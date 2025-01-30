@@ -5,13 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import { AlertCircle } from "lucide-react";
 
 import { useLogin } from "@/hooks/users/useLogin.ts";
 import { LoginSchema } from "@/schemas/LoginSchema.ts";
 import { loginResolver } from "@/resolvers/loginResolver.ts";
 
 const Login = () => {
-  const { mutate } = useLogin();
+  const { mutate, error } = useLogin();
 
   const form = useForm<z.infer<typeof LoginSchema>>(loginResolver);
 
@@ -25,6 +26,12 @@ const Login = () => {
         <CardTitle className="text-2xl">Login</CardTitle>
       </CardHeader>
       <CardContent>
+        {error && (
+          <div className="mb-4 flex items-center gap-2 rounded-md border border-red-500 bg-red-50 p-3 text-sm text-red-800">
+            <AlertCircle className="h-4 w-4" />
+            <p>{error}</p>
+          </div>
+        )}
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
           <div className="grid gap-2">
             <Label>Email</Label>

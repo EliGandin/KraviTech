@@ -1,4 +1,5 @@
 import axios from "axios";
+import { StatusCodes } from "http-status-codes";
 
 import {
   ILoginResponse,
@@ -7,6 +8,11 @@ import {
 
 export const userLogin = async (
   loginData: IUserLogin,
-): Promise<ILoginResponse> => {
-  return (await axios.post("http://localhost:8000/login", loginData)).data;
+): Promise<ILoginResponse | undefined> => {
+  const response = await axios.post("http://localhost:8000/login", loginData);
+  if (response.status === StatusCodes.NOT_FOUND) {
+    return undefined;
+  }
+
+  return response.data;
 };

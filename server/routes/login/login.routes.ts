@@ -15,13 +15,13 @@ loginRouter.post("/",
       res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
       return;
     }
-    
+
     const { email, password } = req.body;
 
     try {
       const user = await loginController(email, password);
       if (!user) {
-        res.status(StatusCodes.BAD_REQUEST).send();
+        res.status(StatusCodes.NOT_FOUND).send();
         return;
       }
 
