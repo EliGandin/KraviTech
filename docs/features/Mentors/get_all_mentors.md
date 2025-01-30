@@ -10,17 +10,20 @@ This feature returns all the mentors and there information. Supports Pagination
 * Input Parameters:
 
   | Key     | Data Type | Required |
-    |---------|-----------|----------|
+        |---------|-----------|----------|
   | `page`  | `int`     | `No`     |
   | `limit` | `int`     | `No`     |
 
-* Example Url: `/Mentors?page=1&limit=10`
+* Example Url:
+    * `/Mentors`
+    * `/Mentors?page=1&limit=10`
+
+___
 
 * Example Response:
 
     ```json
-    {
-    "data": [
+      [
         {
             "id": 1,
             "name": "Mentor 1",
@@ -35,7 +38,6 @@ This feature returns all the mentors and there information. Supports Pagination
             "end_date": null
         }
       ]
-    }
     ```
 
 * Response Codes:
