@@ -27,11 +27,10 @@ mentorRouter.get("/", getAllMentorsValidator(), async (req: Request, res: Respon
       return;
     }
 
-    const page = Number(req.query.page as string) || 1;
-    const limit = Number(req.query.limit as string) || 10;
+    const { page, limit } = req.query;
 
-    const mentors = await getAllMentorsController(page, limit);
-    res.status(StatusCodes.OK).json({ data: mentors });
+    const mentors = await getAllMentorsController(Number(page) || 1, Number(limit) || 10);
+    res.status(StatusCodes.OK).json(mentors);
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
@@ -49,7 +48,7 @@ mentorRouter.get("/:id", async (req: Request, res: Response) => {
 
     const { id } = req.params;
     const mentor = await getMentor(Number(id));
-    res.status(StatusCodes.OK).json({ data: mentor });
+    res.status(StatusCodes.OK).json(mentor);
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);

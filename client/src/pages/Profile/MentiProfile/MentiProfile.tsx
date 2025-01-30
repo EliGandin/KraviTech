@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
 
 import { useGetMenti } from "@/hooks/profile/menti/useGetMenti.ts";
@@ -21,10 +22,12 @@ import { useDeleteMenti } from "@/hooks/tables/mentis/useDeleteMenti.ts";
 import { Camera } from "lucide-react";
 import { useGetMentiProfileImage } from "@/hooks/profile/menti/useGetMentiProfileImage.ts";
 import { useUpdateMentiProfileImage } from "@/hooks/profile/menti/useUpdateMentiProfileImage.ts";
+import { userAtom } from "@/state/atoms/userAtom.ts";
 
 const MentiProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isHovering, setIsHovering] = useState<boolean>(false);
+  const user = useRecoilValue(userAtom);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { id } = useParams();
@@ -114,7 +117,8 @@ const MentiProfile = () => {
                   {menti?.status}
                 </Badge>
                 <div className="flex flex-row justify-between gap-2">
-                  {isEditing ? (
+                  {(user?.id === menti?.id || user?.role === "admin") &&
+                  isEditing ? (
                     <>
                       <Button
                         variant="outline"

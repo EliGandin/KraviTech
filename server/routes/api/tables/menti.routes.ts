@@ -29,11 +29,10 @@ mentiRouter.get("/", getAllMentisValidator(), async (req: Request, res: Response
       return;
     }
 
-    const page = Number(req.query.page as string) || 1;
-    const limit = Number(req.query.limit as string) || 10;
+    const { page, limit } = req.query;
 
-    const mentis = await getAllMentisController(page, limit);
-    res.status(StatusCodes.OK).json({ data: mentis });
+    const mentis = await getAllMentisController(Number(page) || 1, Number(limit) || 10);
+    res.status(StatusCodes.OK).json(mentis);
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
@@ -45,7 +44,7 @@ mentiRouter.get("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const menti = await getMenti(Number(id));
-    res.status(StatusCodes.OK).json({ data: menti });
+    res.status(StatusCodes.OK).json(menti);
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
