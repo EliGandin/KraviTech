@@ -7,8 +7,8 @@ import cors from "cors";
 
 import signupRouter from "./routes/signup/signup.routes";
 import loginRouter from "./routes/login/login.routes";
-import mentorRouter from "./routes/api/tables/mentor.routes";
-import mentiRouter from "./routes/api/tables/menti.routes";
+import mentorRouter from "./routes/api/mentor.routes";
+import mentiRouter from "./routes/api/menti.routes";
 import adminRouter from "@/routes/admin/admin.routes";
 import operatorRouter from "@/routes/operators/operator.routes";
 import testsRoutes from "@/routes/testRoutes/tests.routes";

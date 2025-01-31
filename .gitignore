@@ -102,7 +102,6 @@ dist
 
 # vuepress v2.x temp and cache directory
 .temp
-.cache
 
 # Docusaurus cache and generated files
 .docusaurus
@@ -138,3 +137,4 @@ __pycache__/
 alembic.ini
 *.pyc
 .pyc
+volume
