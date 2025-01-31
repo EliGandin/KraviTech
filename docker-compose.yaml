@@ -29,8 +29,12 @@ services:
       DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
       DATABASE_URL: ${DATABASE_URL:-postgresql://docker:1234@db:5432/docker}
       DATABASE_PORT: ${DATABASE_PORT:-5433}
-  #    env_file:
-  #      - server/.env
+      DEBUG: ${AWS_DEBUG:-0}
+      SERVICES: "s3:4566"
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
+      AWS_ENDPOINT_URL: "http://s3-local:4566"
 
   db:
     image: postgres:14
@@ -48,8 +52,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  #    env_file:
-  #      - server/.env
 
   s3:
     container_name: s3-local
@@ -64,13 +66,13 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-test}
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+      - PERSISTENCE=1
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
     depends_on:
       - api
-  #    networks:
-  #      - my_network
+
   populate:
     depends_on:
       s3:
@@ -88,8 +90,6 @@ services:
     volumes:
       - ./assets:/aws
     command: [ "python3", "main.py", "--action", "bucket" ]
-  #    networks:
-  #      - my_network
   db_populate:
     depends_on:
       s3:
@@ -112,11 +112,6 @@ services:
       DATABASE_URL: ${DATABASE_URL:-postgresql://docker:1234@db:5432/docker}
       DATABASE_PORT: ${DATABASE_PORT:-5433}
     command: [ "python3", "main.py", "--action", "db" ]
-#    networks:
-#      - my_network
-#  volumes:
-#    db:
-#      driver: local
 
 volumes:
   postgres_data:
