@@ -2,24 +2,29 @@ import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import multer from "multer";
 
-import { deleteMentor, getDashboardData, getMentor } from "@/repositories/mentors.repository";
 import {
   changeStatusValidator,
   mentorIdValidator,
   updateProfileValidator,
-  getAllMentorsValidator,
 } from "@/middlewares/validators/mentor.validator";
-import { fieldValidation } from "@/globals/validations/fieldValidation";
 import {
-  changeStatusController, getAllMentorsController, getImagesController,
+  changeStatusController,
+  getImagesController,
   putProfileImageController,
   updateProfileController,
 } from "@/controllers/mentors/mentors.controller";
+import {
+  deleteMentor,
+  getAllMentors,
+  getDashboardData,
+  getMentor,
+} from "@/repositories/mentors.repository";
+import { fieldValidation } from "@/globals/validations/fieldValidation";
 
 const mentorRouter = Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-mentorRouter.get("/", getAllMentorsValidator(), async (req: Request, res: Response) => {
+mentorRouter.get("/", async (req: Request, res: Response) => {
   try {
     const fieldValidationResult = fieldValidation(req);
     if (fieldValidationResult) {
@@ -27,9 +32,7 @@ mentorRouter.get("/", getAllMentorsValidator(), async (req: Request, res: Respon
       return;
     }
 
-    const { page, limit } = req.query;
-
-    const mentors = await getAllMentorsController(Number(page) || 1, Number(limit) || 10);
+    const mentors = await getAllMentors();
     res.status(StatusCodes.OK).json(mentors);
   } catch (error) {
     const e = error as Error;

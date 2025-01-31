@@ -2,9 +2,7 @@ import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import multer from "multer";
 
-import { changeMentor, changeOperator, deleteMenti, getMenti } from "@/repositories/mentis.repository";
 import {
-  getAllMentisValidator,
   changeMentorValidator,
   changeOperatorValidator,
   changeStatusValidator,
@@ -12,16 +10,24 @@ import {
   updateProfileValidator,
 } from "@/middlewares/validators/menti.validator";
 import {
-  changeStatusController, getAllMentisController,
-  getImagesController, putProfileImageController,
+  changeStatusController,
+  getImagesController,
+  putProfileImageController,
   updateProfileController,
 } from "@/controllers/mentis/mentis.controller";
+import {
+  changeMentor,
+  changeOperator,
+  deleteMenti,
+  getAllMentis,
+  getMenti,
+} from "@/repositories/mentis.repository";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
 
 const mentiRouter = Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-mentiRouter.get("/", getAllMentisValidator(), async (req: Request, res: Response) => {
+mentiRouter.get("/", async (req: Request, res: Response) => {
   try {
     const fieldValidationResult = fieldValidation(req);
     if (fieldValidationResult) {
@@ -29,9 +35,7 @@ mentiRouter.get("/", getAllMentisValidator(), async (req: Request, res: Response
       return;
     }
 
-    const { page, limit } = req.query;
-
-    const mentis = await getAllMentisController(Number(page) || 1, Number(limit) || 10);
+    const mentis = await getAllMentis();
     res.status(StatusCodes.OK).json(mentis);
   } catch (error) {
     const e = error as Error;
