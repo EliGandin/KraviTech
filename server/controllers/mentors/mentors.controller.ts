@@ -1,6 +1,18 @@
-import { changeStatus, getImageString, putProfileImageString, updateProfile } from "@/repositories/mentors.repository";
+import {
+  changeStatus,
+  getAllMentors,
+  getImageString,
+  putProfileImageString,
+  updateProfile,
+} from "@/repositories/mentors.repository";
 import { Mentor } from "@/globals/types/User.types";
 import { getImageUrl, putImage } from "@/aws/s3/s3";
+
+export const getAllMentorsController = async (page: number, limit: number): Promise<Mentor[]> => {
+  const offset = (page - 1) * limit;
+
+  return await getAllMentors(limit, offset);
+};
 
 export const changeStatusController = async (id: number, status: string) => {
   const formattedStatus = status.toUpperCase();

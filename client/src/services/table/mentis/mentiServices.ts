@@ -3,12 +3,12 @@ import axios from "axios";
 import { IMenti } from "@/global/interfaces/userInterfaces.ts";
 
 export const getMentis = async (): Promise<IMenti[]> => {
-  const { data } = (await axios.get("http://localhost:8000/mentis")).data;
+  const { data } = await axios.get("http://localhost:8000/mentis");
   return data;
 };
 
 export const getMenti = async (id: number): Promise<IMenti> => {
-  const { data } = (await axios.get(`http://localhost:8000/mentis/${id}`)).data;
+  const { data } = await axios.get(`http://localhost:8000/mentis/${id}`);
   return data;
 };
 

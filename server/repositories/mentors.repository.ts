@@ -11,7 +11,7 @@ export const createMentor = async (mentor: MentorSignup): Promise<void> => {
   await db.query(query, [mentor.name, mentor.email, mentor.phone_number, mentor.password, mentor.field, mentor.company, mentor.position, mentor.experience, Status.PENDING]);
 };
 
-export const getAllMentors = async (): Promise<Mentor[]> => {
+export const getAllMentors = async (limit: number, offset: number): Promise<Mentor[]> => {
   const query = `SELECT id,
                         name,
                         email,
@@ -23,9 +23,10 @@ export const getAllMentors = async (): Promise<Mentor[]> => {
                         status,
                         start_date,
                         end_date
-                 FROM mentors`;
+                 FROM mentors
+                 LIMIT $1 OFFSET $2`;
 
-  const { rows } = await db.query(query);
+  const { rows } = await db.query(query, [limit, offset]);
   return rows;
 };
 

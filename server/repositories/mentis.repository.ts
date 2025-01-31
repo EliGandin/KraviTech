@@ -11,7 +11,7 @@ export const createMenti = async (menti: MentiSignup): Promise<void> => {
   await db.query(query, [menti.name, menti.email, menti.phone_number, menti.password, menti.education, menti.experience, menti.goals, menti.comments, Status.PENDING]);
 };
 
-export const getAllMentis = async (): Promise<Menti[]> => {
+export const getAllMentis = async (limit: number, offset: number): Promise<Menti[]> => {
   const query = `SELECT mentis.id,
                         mentis.name,
                         mentis.email,
@@ -33,9 +33,10 @@ export const getAllMentis = async (): Promise<Menti[]> => {
                           LEFT JOIN
                       admins
                       ON
-                          mentis.operator_id = admins.id`;
+                          mentis.operator_id = admins.id
+                 LIMIT $1 OFFSET $2`;
 
-  const { rows } = await db.query(query);
+  const { rows } = await db.query(query, [limit, offset]);
   return rows;
 };
 

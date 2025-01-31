@@ -2,6 +2,7 @@ import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import db from "@/db/db";
+import { populateMentors, populateMentis } from "@/repositories/populate.repository";
 
 const testsRoutes = Router();
 
@@ -15,6 +16,17 @@ testsRoutes.get("/healthcheck", async (req, res) => {
     }
 
     res.status(StatusCodes.OK).send("DB is connected !!");
+  } catch (err) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+  }
+});
+
+testsRoutes.post("/populate", async (_req, res) => {
+  try {
+    await populateMentors();
+    await populateMentis();
+
+    res.status(StatusCodes.OK).send();
   } catch (err) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
   }

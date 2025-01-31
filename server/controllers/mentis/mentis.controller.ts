@@ -1,7 +1,14 @@
-import { changeStatus, getImageString, updateProfile } from "@/repositories/mentis.repository";
+import { changeStatus, getAllMentis, getImageString, updateProfile } from "@/repositories/mentis.repository";
 import { Menti } from "@/globals/types/User.types";
 import { getImageUrl, putImage } from "@/aws/s3/s3";
 import { putProfileImageString } from "@/repositories/mentis.repository";
+
+
+export const getAllMentisController = async (page: number, limit: number): Promise<Menti[]> => {
+  const offset = (page - 1) * limit;
+
+  return await getAllMentis(limit, offset);
+};
 
 export const changeStatusController = async (id: number, status: string) => {
   const formattedStatus = status.toUpperCase();

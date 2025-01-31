@@ -2,8 +2,9 @@ import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import multer from "multer";
 
-import { changeMentor, changeOperator, deleteMenti, getAllMentis, getMenti } from "@/repositories/mentis.repository";
+import { changeMentor, changeOperator, deleteMenti, getMenti } from "@/repositories/mentis.repository";
 import {
+  getAllMentisValidator,
   changeMentorValidator,
   changeOperatorValidator,
   changeStatusValidator,
@@ -11,7 +12,7 @@ import {
   updateProfileValidator,
 } from "@/middlewares/validators/menti.validator";
 import {
-  changeStatusController,
+  changeStatusController, getAllMentisController,
   getImagesController, putProfileImageController,
   updateProfileController,
 } from "@/controllers/mentis/mentis.controller";
@@ -20,10 +21,18 @@ import { fieldValidation } from "@/globals/validations/fieldValidation";
 const mentiRouter = Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-mentiRouter.get("/", async (req: Request, res: Response) => {
+mentiRouter.get("/", getAllMentisValidator(), async (req: Request, res: Response) => {
   try {
-    const mentis = await getAllMentis();
-    res.status(StatusCodes.OK).json({ data: mentis });
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { page, limit } = req.query;
+
+    const mentis = await getAllMentisController(Number(page) || 1, Number(limit) || 10);
+    res.status(StatusCodes.OK).json(mentis);
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
@@ -35,7 +44,7 @@ mentiRouter.get("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const menti = await getMenti(Number(id));
-    res.status(StatusCodes.OK).json({ data: menti });
+    res.status(StatusCodes.OK).json(menti);
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);

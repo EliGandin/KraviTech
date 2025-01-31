@@ -4,13 +4,12 @@ import { IMentor } from "@/global/interfaces/userInterfaces.ts";
 import { MentorDashboardData } from "@/global/interfaces/dashboardInterfaces.ts";
 
 export const getMentors = async (): Promise<IMentor[]> => {
-  const { data } = (await axios.get("http://localhost:8000/mentors")).data;
+  const { data } = await axios.get("http://localhost:8000/mentors");
   return data;
 };
 
 export const getMentor = async (id: number): Promise<IMentor> => {
-  const { data } = (await axios.get(`http://localhost:8000/mentors/${id}`))
-    .data;
+  const { data } = await axios.get(`http://localhost:8000/mentors/${id}`);
   return data;
 };
 

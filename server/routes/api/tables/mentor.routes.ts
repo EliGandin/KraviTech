@@ -2,15 +2,16 @@ import { Router, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import multer from "multer";
 
-import { deleteMentor, getAllMentors, getDashboardData, getMentor } from "@/repositories/mentors.repository";
+import { deleteMentor, getDashboardData, getMentor } from "@/repositories/mentors.repository";
 import {
   changeStatusValidator,
   mentorIdValidator,
   updateProfileValidator,
+  getAllMentorsValidator,
 } from "@/middlewares/validators/mentor.validator";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
 import {
-  changeStatusController, getImagesController,
+  changeStatusController, getAllMentorsController, getImagesController,
   putProfileImageController,
   updateProfileController,
 } from "@/controllers/mentors/mentors.controller";
@@ -18,10 +19,18 @@ import {
 const mentorRouter = Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-mentorRouter.get("/", async (req: Request, res: Response) => {
+mentorRouter.get("/", getAllMentorsValidator(), async (req: Request, res: Response) => {
   try {
-    const mentors = await getAllMentors();
-    res.status(StatusCodes.OK).json({ data: mentors });
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
+    const { page, limit } = req.query;
+
+    const mentors = await getAllMentorsController(Number(page) || 1, Number(limit) || 10);
+    res.status(StatusCodes.OK).json(mentors);
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
@@ -31,9 +40,15 @@ mentorRouter.get("/", async (req: Request, res: Response) => {
 
 mentorRouter.get("/:id", async (req: Request, res: Response) => {
   try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
     const { id } = req.params;
     const mentor = await getMentor(Number(id));
-    res.status(StatusCodes.OK).json({ data: mentor });
+    res.status(StatusCodes.OK).json(mentor);
   } catch (error) {
     const e = error as Error;
     console.log(`Error message: ${req.body}: ${e.message}\n${e.stack}`);
@@ -43,6 +58,12 @@ mentorRouter.get("/:id", async (req: Request, res: Response) => {
 
 mentorRouter.delete("/:id", mentorIdValidator(), async (req: Request, res: Response) => {
   try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
+
     const { id } = req.params;
     await deleteMentor(Number(id));
     res.status(StatusCodes.OK).send();
@@ -95,6 +116,11 @@ mentorRouter.put("/UpdateProfile/:id", updateProfileValidator(), async (req: Req
 
 mentorRouter.get("/Dashboard/:id", mentorIdValidator(), async (req: Request, res: Response) => {
   try {
+    const fieldValidationResult = fieldValidation(req);
+    if (fieldValidationResult) {
+      res.status(StatusCodes.BAD_REQUEST).send(fieldValidationResult.message);
+      return;
+    }
 
     const { id } = req.params;
 
@@ -122,7 +148,7 @@ mentorRouter.get("/image/:id", mentorIdValidator(), async (req: Request, res: Re
       res.status(StatusCodes.NO_CONTENT).send();
       return;
     }
-    
+
     res.status(StatusCodes.OK).send(image);
   } catch (error) {
     const e = error as Error;
