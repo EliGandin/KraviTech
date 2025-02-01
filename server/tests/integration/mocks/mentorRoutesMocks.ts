@@ -1,0 +1,1 @@
+export const updateProfileRepositoryMock = jest.fn().mockResolvedValue({});
