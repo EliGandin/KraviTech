@@ -4,7 +4,7 @@ import { jest } from "@jest/globals";
 
 import app from "@/app";
 import { FieldErrors } from "@/globals/errors/fieldErrors";
-import { createMentiMock, createMentorMock, existingEmailValidationMock } from "./mocks/userRoutesMocks";
+import { createMentiMock, createMentorMock, existingEmailValidationMock } from "../mocks/userRoutesMocks";
 import { createMentor } from "@/repositories/mentors.repository";
 import { createMenti } from "@/repositories/mentis.repository";
 import { existingEmailValidation } from "@/globals/validations/existingEmailValidation";

@@ -108,7 +108,21 @@ mentorRouter.put("/UpdateProfile/:id", updateProfileValidator(), async (req: Req
     const { id } = req.params;
     const { name, email, phone_number, position, company, field, experience } = req.body;
 
-    await updateProfileController(Number(id), { name, email, phone_number, position, company, field, experience });
+    const result = await updateProfileController(Number(id), {
+      name,
+      email,
+      phone_number,
+      position,
+      company,
+      field,
+      experience,
+    });
+    
+    if (!result.isValid) {
+      res.status(StatusCodes.BAD_REQUEST).send(result.message);
+      return;
+    }
+
     res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;

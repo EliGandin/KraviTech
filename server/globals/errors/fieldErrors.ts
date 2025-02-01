@@ -11,4 +11,5 @@ export const FieldErrors = {
   INVALID_STATUS: "Invalid status",
   INVALID_TASK_TITLE: "Invalid task title",
   INVALID_TASK_DESCRIPTION: "Invalid task description",
+  NO_FIELDS_MESSAGE: "No fields to update",
 };
