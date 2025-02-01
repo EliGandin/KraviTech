@@ -26,13 +26,13 @@ export const changeMentorValidator = () => {
 };
 
 export const updateProfileValidator = () => {
-  return [param("id").optional().isNumeric().withMessage(FieldErrors.INVALID_ID),
-    body("name").optional().isString().withMessage(FieldErrors.INVALID_NAME),
-    body("email").optional().isEmail().withMessage(FieldErrors.INVALID_EMAIL),
-    body("phone_number").optional().isString().withMessage(FieldErrors.INVALID_PHONE_NUMBER),
-    body("education").optional().isString(),
-    body("experience").optional().isString(),
-    body("goals").optional().isString(),
-    body("comments").optional().isString(),
+  return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID),
+    body("name").optional().isString().notEmpty().withMessage(FieldErrors.INVALID_NAME),
+    body("email").optional().isEmail().notEmpty().withMessage(FieldErrors.INVALID_EMAIL),
+    body("phone_number").optional().isString().notEmpty().withMessage(FieldErrors.INVALID_PHONE_NUMBER),
+    body("education").optional().isString().notEmpty(),
+    body("experience").optional().isString().notEmpty(),
+    body("goals").optional().isString().notEmpty(),
+    body("comments").optional().isString().notEmpty(),
   ];
 };

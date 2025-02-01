@@ -148,7 +148,20 @@ mentiRouter.put("/UpdateProfile/:id", updateProfileValidator(), async (req: Requ
     const { id } = req.params;
     const { name, email, phone_number, education, experience, goals, comments } = req.body;
 
-    await updateProfileController(Number(id), { name, email, phone_number, education, experience, goals, comments });
+    const result = await updateProfileController(Number(id), {
+      name,
+      email,
+      phone_number,
+      education,
+      experience,
+      goals,
+      comments,
+    });
+    if (!result.isValid) {
+      res.status(StatusCodes.BAD_REQUEST).send(result.message);
+      return;
+    }
+
     res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;
