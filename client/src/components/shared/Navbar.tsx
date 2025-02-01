@@ -10,6 +10,8 @@ import {
   Brain,
   ShieldCheck,
   ChevronDown,
+  House,
+  BookOpen,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -44,6 +46,20 @@ const Navbar = () => {
     <nav className="relative w-full bg-zinc-800 px-4 py-2 text-zinc-100 shadow-md">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
+          <Link
+            to="/"
+            className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-zinc-800 px-4 py-2 text-sm font-medium transition-colors hover:bg-zinc-700 hover:text-zinc-100 focus:bg-zinc-700 focus:text-zinc-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+          >
+            <House className="mr-2 h-4 w-4" />
+            Home
+          </Link>
+          <Link
+            to="/about"
+            className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-zinc-800 px-4 py-2 text-sm font-medium transition-colors hover:bg-zinc-700 hover:text-zinc-100 focus:bg-zinc-700 focus:text-zinc-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+          >
+            <BookOpen className="mr-2 h-4 w-4" />
+            About Us
+          </Link>
           {user ? (
             <>
               {navItems.map((item) => (
@@ -70,7 +86,7 @@ const Navbar = () => {
             <Link to="/login">
               <Button
                 variant="outline"
-                className="text-zinc-700 hover:bg-zinc-700 hover:text-zinc-100"
+                className="mr-auto text-zinc-700 hover:bg-zinc-700 hover:text-zinc-100"
               >
                 Login
               </Button>

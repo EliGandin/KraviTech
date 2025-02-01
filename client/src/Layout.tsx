@@ -14,6 +14,7 @@ import MentorProfile from "@/pages/Profile/MentorProfile/MentorProfile.tsx";
 import MentiProfile from "@/pages/Profile/MentiProfile/MentiProfile.tsx";
 import MentorDashboard from "@/pages/Mentors/Dashboard/MentorDashboard.tsx";
 import MentiDashboard from "@/pages/Tasks/MentiDashboard.tsx";
+import AboutPage from "@/pages/AboutPage.tsx";
 
 const Layout = () => {
   return (
@@ -22,6 +23,7 @@ const Layout = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route
           path="/app/mentors/:id/dashboard"
           element={<MentorDashboard />}
