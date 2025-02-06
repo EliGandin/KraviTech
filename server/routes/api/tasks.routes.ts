@@ -15,7 +15,7 @@ import {
   tasksByMentiValidator,
   tasksByMentorValidator,
 } from "@/middlewares/validators/tasks.validator";
-import { changeSubtaskStatusController, changeTaskStatusController } from "@/controllers/tasks/tasks.controller";
+import { changeSubtaskStatusController, changeTaskStatusController } from "@/controllers/tasks.controller";
 
 const taskRouter = Router();
 

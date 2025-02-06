@@ -6,7 +6,7 @@ import app from "@/app";
 import { updateProfile } from "@/repositories/mentors.repository";
 import { FieldErrors } from "@/globals/errors/fieldErrors";
 
-import { updateProfileRepositoryMock } from "@/tests/integration/mocks/mentorRoutesMocks";
+import { updateProfileRepositoryMock } from "@/tests/unit/mocks/mentorRoutesMocks";
 
 // Add all the mocks here
 jest.mock("@/repositories/mentors.repository");

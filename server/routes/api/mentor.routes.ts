@@ -12,7 +12,7 @@ import {
   getImagesController,
   putProfileImageController,
   updateProfileController,
-} from "@/controllers/mentors/mentors.controller";
+} from "@/controllers/mentors.controller";
 import {
   deleteMentor,
   getAllMentors,
@@ -117,7 +117,7 @@ mentorRouter.put("/UpdateProfile/:id", updateProfileValidator(), async (req: Req
       field,
       experience,
     });
-    
+
     if (!result.isValid) {
       res.status(StatusCodes.BAD_REQUEST).send(result.message);
       return;

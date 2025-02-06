@@ -1,4 +1,4 @@
-name: Integration Tests - Server
+name: Unit Tests - Server
 
 on:
   pull_request:
