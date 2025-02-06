@@ -6,7 +6,7 @@ import app from "@/app";
 import { updateProfile } from "@/repositories/mentis.repository";
 import { FieldErrors } from "@/globals/errors/fieldErrors";
 
-import { updateProfileRepositoryMock } from "@/tests/integration/mocks/mentiRoutesMocks";
+import { updateProfileRepositoryMock } from "@/tests/unit/mocks/mentiRoutesMocks";
 
 // Add all the mocks here
 jest.mock("@/repositories/mentis.repository");

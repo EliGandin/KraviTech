@@ -14,7 +14,7 @@ import {
   getImagesController,
   putProfileImageController,
   updateProfileController,
-} from "@/controllers/mentis/mentis.controller";
+} from "@/controllers/mentis.controller";
 import {
   changeMentor,
   changeOperator,
