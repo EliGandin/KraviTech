@@ -1,4 +1,11 @@
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card.tsx";
+import {
   Tabs,
   TabsContent,
   TabsList,
@@ -10,26 +17,29 @@ import PendingUsers from "@/pages/Admin/PendingUsers/PendingUsers.tsx";
 
 const AdminBoard = () => {
   return (
-    <div className="mx-auto mt-4 flex h-[80vh] w-[98vw] flex-col justify-start rounded-xl bg-slate-100 p-4">
-      <div className="mx-auto mt-2 flex flex-col rounded-md border border-slate-950 p-1">
-        <p>Mentis</p>
-        <p>Here is a list of all the mentis</p>
-      </div>
+    <Card className="mx-auto mb-2 mt-4 h-fit w-[95vw] px-4 pt-4">
+      <CardHeader>
+        <CardTitle>Admin Board</CardTitle>
+        <CardDescription>
+          Here is Where you handle user activation and messages
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Tabs defaultValue="PendingUsers" className="mx-auto mt-6">
+          <TabsList className="mx-auto grid w-[40vw] grid-cols-2">
+            <TabsTrigger value="PendingUsers">User Activation</TabsTrigger>
+            <TabsTrigger value="Messages">Messages</TabsTrigger>
+          </TabsList>
+          <TabsContent value="PendingUsers">
+            <PendingUsers />
+          </TabsContent>
 
-      <Tabs defaultValue="PendingUsers" className="mx-auto mt-6">
-        <TabsList className="mx-auto grid w-[40vw] grid-cols-2">
-          <TabsTrigger value="PendingUsers">User Activation</TabsTrigger>
-          <TabsTrigger value="Messages">Messages</TabsTrigger>
-        </TabsList>
-        <TabsContent value="PendingUsers">
-          <PendingUsers />
-        </TabsContent>
-
-        <TabsContent value="Messages">
-          <Messages />
-        </TabsContent>
-      </Tabs>
-    </div>
+          <TabsContent value="Messages">
+            <Messages />
+          </TabsContent>
+        </Tabs>
+      </CardContent>
+    </Card>
   );
 };
 
