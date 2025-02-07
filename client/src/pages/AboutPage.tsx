@@ -10,6 +10,8 @@ import {
 import { Separator } from "@/components/ui/separator.tsx";
 import { Link } from "react-router-dom";
 
+import Footer from "@/components/shared/Footer.tsx";
+
 export default function AboutPage() {
   return (
     <div className="flex min-h-screen flex-col overflow-x-hidden">
@@ -177,13 +179,7 @@ export default function AboutPage() {
         </section>
       </main>
 
-      <footer className="bg-gray-800 py-8 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <p>
-            &copy; {new Date().getFullYear()} KraviTech. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
