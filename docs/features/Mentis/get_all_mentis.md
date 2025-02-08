@@ -3,20 +3,11 @@
 ## Description
 
 ___
-This feature returns all the mentis and there information. Supports Pagination
+This feature returns all the mentis and there information.
+___
 
 * URL: `/Mentis`
 * Method: `GET`
-* Input Parameters:
-
-  | Key     | Data Type | Required |
-            |---------|-----------|----------|
-  | `page`  | `int`     | `No`     |
-  | `limit` | `int`     | `No`     |
-
-* Example Url:
-    * `/Mentis`
-    * `/Mentis?page=1&limit=10`
 
 ___
 
@@ -42,6 +33,5 @@ ___
 
 * Response Codes:
     * `200` - Success
-    * `400` - Invalid input parameters
     * `500` - Internal server error
 
