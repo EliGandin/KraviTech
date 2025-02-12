@@ -63,7 +63,8 @@ CREATE TABLE IF NOT EXISTS messages
     message      VARCHAR NOT NULL,
     status       message_status DEFAULT 'OPEN',
     date         DATE           DEFAULT CURRENT_DATE,
-    operator_id  INTEGER REFERENCES admins (id) ON DELETE SET NULL
+    operator_id  INTEGER REFERENCES admins (id) ON DELETE SET NULL,
+    resolution   VARCHAR        DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tasks
@@ -115,7 +116,6 @@ VALUES ('Yuval Regev', 'yuval@test.com', '0532648574', '$2a$12$0B.EaJM27vxqP7kZb
 INSERT INTO messages (name, email, phone_number, title, message, status, operator_id)
 VALUES ('John Doe', 'john@test.com', '0501234567', 'help', 'I have a question', 'OPEN', 1),
        ('Jane Doe', 'jane@test.com', '0501234567', 'question', 'I have a question', 'OPEN', 1);
-
 INSERT INTO tasks (title, description, status, created_date, in_progress_date, completed_date, menti_id, mentor_id,
                    sub_tasks)
 VALUES ('Learn Python', 'Learn Python basics', 'NEW', '2021-01-01', null, null, 1, 1, '[
