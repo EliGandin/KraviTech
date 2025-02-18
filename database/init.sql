@@ -87,7 +87,10 @@ VALUES ('Amit Cohen', 'amit@test.com', '0505050050', '$2a$12$0B.EaJM27vxqP7kZbzd
        ('Alon Levi', 'alon@test.com', '0524854877', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
         'HARDWARE', 'Hardware Inc.', 'Lead Engineer', 'HIGH', 'ACTIVE', '2021-01-01', null),
        ('Mor Shavit', 'mor@test.com', '0584864877', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
-        'SOFTWARE', 'InnovateSoft', 'CTO', 'HIGH', 'ACTIVE', '2021-01-01', null);
+        'SOFTWARE', 'InnovateSoft', 'CTO', 'HIGH', 'ACTIVE', '2021-01-01', null),
+       ('Test Mentor', 'testmentor@test.com', '0584864877',
+        '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'SOFTWARE', 'InnovateSoft', 'CTO', 'HIGH',
+        'ACTIVE', '2021-01-01', null);
 
 INSERT INTO admins (name, email, phone_number, password, mentor_id)
 VALUES ('Eli Gandin', 'eli@test.com', '0545544477', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
@@ -95,6 +98,8 @@ VALUES ('Eli Gandin', 'eli@test.com', '0545544477', '$2a$12$0B.EaJM27vxqP7kZbzdb
        ('Fiona Green', 'fiona.green@example.com', '0553334444',
         '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', null),
        ('George Harris', 'george.harris@example.com', '0555556666',
+        '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', null),
+       ('Test Admin', 'testadmin@test.com', '0555556666',
         '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', null);
 
 INSERT INTO mentis (name, email, phone_number, password, education, experience, goals, comments, operator_id, mentor_id,
@@ -110,7 +115,10 @@ VALUES ('Yuval Regev', 'yuval@test.com', '0532648574', '$2a$12$0B.EaJM27vxqP7kZb
         '2021-01-01', null),
        ('Avi Rosen', 'avi@test.com', '0556543210', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG',
         'Diploma in Hardware Engineering', 'LOW', 'Learn hardware design', 'Excited about hardware', NULL, 2, 'SUCCESS',
-        '2021-01-01', '2021-02-01');
+        '2021-01-01', '2021-02-01'),
+       ('Test Menti', 'testmenti@test.com', '0556543210',
+        '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Diploma in Hardware Engineering', 'LOW',
+        'Learn hardware design', 'Excited about hardware', 4, 4, 'PENDING', '2021-01-01', null);
 
 INSERT INTO messages (name, email, phone_number, title, message, status, operator_id)
 VALUES ('John Doe', 'john@test.com', '0501234567', 'help', 'I have a question', 'OPEN', 1),
@@ -156,4 +164,5 @@ VALUES ('Learn Python', 'Learn Python basics', 'NEW', '2021-01-01', null, null, 
            "in_progress_date": null,
            "completed_date": null
          }
-       ]')
+       ]'),
+       ('Test Task', 'Test Description', 'NEW', '2021-01-01', null, null, 5, 4, '[]');
