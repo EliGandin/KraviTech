@@ -5,7 +5,7 @@
 ___
 This feature returns the task details.
 
-* URL: `/tasks/TaskDetails/{mentiId}/{taskId}`
+* URL: `/tasks/TaskDetails/{taskId}`
 * Method: `GET`
 
 ___
