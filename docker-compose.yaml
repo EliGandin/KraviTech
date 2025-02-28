@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   web:
     build:
@@ -23,6 +25,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - localstack  # Uses unified LocalStack
     environment:
       DATABASE_NAME: ${DB_NAME:-docker}
       DATABASE_USERNAME: ${DB_USERNAME:-docker}
@@ -30,11 +33,10 @@ services:
       DATABASE_URL: ${DATABASE_URL:-postgresql://docker:1234@db:5432/docker}
       DATABASE_PORT: ${DATABASE_PORT:-5433}
       DEBUG: ${AWS_DEBUG:-0}
-      SERVICES: "s3:4566"
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
-      AWS_ENDPOINT_URL: "http://s3-local:4566"
+      AWS_ENDPOINT_URL: "http://localstack:4566"
 
   db:
     image: postgres:14
@@ -53,29 +55,25 @@ services:
       timeout: 5s
       retries: 5
 
-  s3:
-    container_name: s3-local
-    image: localstack/localstack:s3-latest
+  localstack:
+    container_name: localstack
+    image: localstack/localstack
     ports:
-      - "127.0.0.1:4566:4566"            # LocalStack Gateway
-      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+      - "4566:4566"  # Single entry point for all AWS services
     environment:
-      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
       - DEBUG=${AWS_DEBUG:-0}
-      - SERVICES=s3:4566
+      - SERVICES=s3,dynamodb,lambda  # Run all services in one container
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-test}
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
-      - PERSISTENCE=1
+    #      - PERSISTENCE=1
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
-    depends_on:
-      - api
 
-  populate:
+  s3-populate:
     depends_on:
-      s3:
+      localstack:
         condition: service_healthy
     image: ghcr.io/ido123ziv/openu-web-develop-20995/populate:latest-dev
     build:
@@ -84,26 +82,27 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
-      AWS_ENDPOINT_URL: http://s3-local:4566
+      AWS_ENDPOINT_URL: http://localstack:4566
       BUCKET_NAME: ${BUCKET_NAME:-data}
       IMAGES_DIR: ${IMAGES_DIR:-/aws}
     volumes:
       - ./assets:/aws
     command: [ "python3", "main.py", "--action", "bucket" ]
-  db_populate:
+
+  s3-populate-db:
     depends_on:
-      s3:
+      localstack:
         condition: service_healthy
       db:
         condition: service_healthy
-      populate:
+      s3-populate:
         condition: service_completed_successfully
     image: ghcr.io/ido123ziv/openu-web-develop-20995/populate:latest-dev
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
-      AWS_ENDPOINT_URL: http://s3-local:4566
+      AWS_ENDPOINT_URL: http://localstack:4566
       BUCKET_NAME: ${BUCKET_NAME:-data}
       IMAGES_DIR: ${IMAGES_DIR:-/aws}
       DATABASE_NAME: ${DB_NAME:-docker}
@@ -112,6 +111,23 @@ services:
       DATABASE_URL: ${DATABASE_URL:-postgresql://docker:1234@db:5432/docker}
       DATABASE_PORT: ${DATABASE_PORT:-5433}
     command: [ "python3", "main.py", "--action", "db" ]
+
+  dynamodb-populate:
+    depends_on:
+      localstack:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    #      populate:
+    #        condition: service_completed_successfully
+    build:
+      context: server/aws/dynamo
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
+      AWS_ENDPOINT_URL: "http://localstack:4566"
+    command: [ "python3", "main.py", "--action", "dynamo" ]
 
 volumes:
   postgres_data:

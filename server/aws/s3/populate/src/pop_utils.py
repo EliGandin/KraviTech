@@ -14,7 +14,7 @@ def remove_image_prefix(image_name: str):
     return image_name
 
 
-class db_connection():
+class db_connection:
     def __init__(self) -> None:
         database_url = os.environ.get('DATABASE_URL')
         if not database_url:
@@ -22,11 +22,6 @@ class db_connection():
 
         self._conn = psycopg2.connect(
             database_url
-            #             dbname=os.environ.get('DATABASE_NAME'),
-            #             user=os.environ.get('DATABASE_USERNAME'),
-            #             password=os.environ.get('DATABASE_PASSWORD'),
-            #             host=os.environ.get('DATABASE_URL'),
-            #             port=os.environ.get('DATABASE_PORT')
         )
         self._cursor = self._conn.cursor()
         logging.info("Created a db connection!")
@@ -61,7 +56,7 @@ class db_connection():
         return self.fetchall()
 
 
-class aws_connection():
+class aws_connection:
     def __init__(self) -> None:
         self._session = boto3.session.Session()
         self._s3_client = self._session.client(
@@ -81,12 +76,13 @@ class aws_connection():
     def s3_client(self):
         return self._s3_client
 
-    def upload_file(self, file_name, bucket_name, object_name=None, content_type=None):
+    def upload_file(self, file_name: str, bucket_name: str, object_name=None, content_type=None):
         """Upload a file to an S3 bucket
 
         :param file_name: File to upload
-        :param bucket: Bucket to upload to
+        :param bucket_name: Bucket to upload to
         :param object_name: S3 object name. If not specified then file_name is used
+        :param content_type: content type of the file
         :return: True if file was uploaded, else False
         """
 
@@ -119,7 +115,8 @@ class aws_connection():
             logging.error(str(e))
             return None
 
-    def __get_cors__(self):
+    @staticmethod
+    def __get_cors__():
         with open('cors.json', 'r') as cors_file:
             return json.load(cors_file)
 
