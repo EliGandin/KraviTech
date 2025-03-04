@@ -4,11 +4,12 @@ import { StatusCodes } from "http-status-codes";
 
 import app from "@/app";
 import { addSubtaskMock, addTaskMock } from "@/tests/unit/mocks/taskRoutesMocks";
-import { addSubtask, addTask } from "@/repositories/tasks.repository";
+import { addSubtaskController, addTaskController } from "@/controllers/tasks.controller";
 
+const taskId = "a6cb4f80-e3e3-45eb-9e8b-70d7eb7b53ac";
 
 // Add all the mocks here
-jest.mock("@/repositories/tasks.repository");
+jest.mock("@/controllers/tasks.controller");
 
 describe("Tasks Routes", () => {
   let server: ReturnType<typeof app.listen>;
@@ -17,8 +18,8 @@ describe("Tasks Routes", () => {
       console.log(`Server is running on port ${process.env.TEST_PORT || 8001}`);
 
       // Add all the mocks here
-      (addSubtask as jest.Mock).mockImplementation(addSubtaskMock);
-      (addTask as jest.Mock).mockImplementation(addTaskMock);
+      (addSubtaskController as jest.Mock).mockImplementation(addSubtaskMock);
+      (addTaskController as jest.Mock).mockImplementation(addTaskMock);
     });
   });
 
@@ -34,7 +35,7 @@ describe("Tasks Routes", () => {
   describe("Tasks", () => {
     it("should return 200 when adding tasks", async () => {
       const response = await request(app)
-        .post("/tasks/1")
+        .post(`/tasks/1`)
         .send({
           mentor_id: 1,
           task: {
@@ -48,7 +49,7 @@ describe("Tasks Routes", () => {
 
     it("should return 400 for invalid title", async () => {
       const response = await request(app)
-        .post("/tasks/1")
+        .post(`/tasks/${taskId}`)
         .send({
           mentor_id: 1,
           task: {
@@ -61,7 +62,7 @@ describe("Tasks Routes", () => {
 
     it("should return 400 for invalid description", async () => {
       const response = await request(app)
-        .post("/tasks/1")
+        .post(`/tasks/1`)
         .send({
           mentor_id: 1,
           task: {
@@ -76,7 +77,7 @@ describe("Tasks Routes", () => {
   describe("Subtasks", () => {
     it("should return 200 when adding subtasks", async () => {
       const response = await request(app)
-        .post("/tasks/SubTask/menti/1")
+        .post(`/tasks/SubTask/${taskId}`)
         .send({
           taskId: 1,
           subtask: {
@@ -90,9 +91,8 @@ describe("Tasks Routes", () => {
 
     it("should return 400 for invalid title", async () => {
       const response = await request(app)
-        .post("/tasks/SubTask/menti/1")
+        .post(`/tasks/SubTask/${taskId}`)
         .send({
-          taskId: 1,
           subtask: {
             description: "Test Description",
           },
@@ -103,9 +103,8 @@ describe("Tasks Routes", () => {
 
     it("should return 400 for invalid description", async () => {
       const response = await request(app)
-        .post("/tasks/SubTask/menti/1")
+        .post(`/tasks/SubTask/${taskId}`)
         .send({
-          taskId: 1,
           subtask: {
             title: "Test",
           },

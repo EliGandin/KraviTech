@@ -3,15 +3,15 @@
 ## Description
 
 ___
-This feature allows adding a subtask to an existing task.
+This feature allows adding a subtask to an existing task. Tasks have a list of subtasks. The new subtask id will be
+"father" task UUID + the current date.
 
-* URL: `/tasks/SubTask/menti/{mentiId}`
+* URL: `/tasks/SubTask/{taskId}`
 * Method: `POST`
 * Input Parameters:
 
 | Key       | Data Type | Required |
 |-----------|-----------|----------|
-| `taskId`  | `number`  | `Yes`    |
 | `subtask` | `Subtask` | `Yes`    |
 
 Subtask Object:
@@ -29,7 +29,6 @@ ___
 
     ```json
     {
-        "taskId": 1,
         "subtask": {
             "title": "Learn Python",
             "description": "Learn Python basics"

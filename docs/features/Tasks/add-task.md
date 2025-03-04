@@ -3,7 +3,7 @@
 ## Description
 
 ___
-This feature allows adding a subtask to an existing task.
+This feature allows adding a subtask to an existing task. The new task id will be UUID
 
 * URL: `/tasks/{mentiId}`
 * Method: `POST`

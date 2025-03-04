@@ -31,3 +31,7 @@ export const TaskStatus = {
   IN_PROGRESS: "IN PROGRESS",
   COMPLETED: "COMPLETED",
 };
+
+export const TableNames = {
+  Tasks: "Tasks",
+};

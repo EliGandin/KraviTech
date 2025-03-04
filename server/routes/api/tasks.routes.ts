@@ -4,18 +4,17 @@ import { StatusCodes } from "http-status-codes";
 import { fieldValidation } from "@/globals/validations/fieldValidation";
 
 import {
-  addSubtask,
-  addTask,
-  getTaskDetails,
-  getTasksByMenti,
-  getTasksByMentor,
-} from "@/repositories/tasks.repository";
-import {
   addSubtaskValidator, addTaskValidator, changeTaskStatusValidator, taskDetailsByMentorValidator,
   tasksByMentiValidator,
   tasksByMentorValidator,
 } from "@/middlewares/validators/tasks.validator";
-import { changeSubtaskStatusController, changeTaskStatusController } from "@/controllers/tasks.controller";
+import {
+  addTaskController,
+  changeSubtaskStatusController,
+  changeTaskStatusController,
+  addSubtaskController, getTasksByMentorController,
+} from "@/controllers/tasks.controller";
+import { getTasksByMenti, getTaskDetails } from "@/aws/dynamo/dynamodb";
 
 const taskRouter = Router();
 
@@ -29,7 +28,7 @@ taskRouter.get("/mentor/:id", tasksByMentorValidator(), async (req: Request, res
 
     const { id } = req.params;
 
-    const tasks = await getTasksByMentor(Number(id));
+    const tasks = await getTasksByMentorController(id);
     res.status(StatusCodes.OK).json({ data: tasks });
   } catch (error) {
     const e = error as Error;
@@ -38,7 +37,7 @@ taskRouter.get("/mentor/:id", tasksByMentorValidator(), async (req: Request, res
   }
 });
 
-taskRouter.get("/TaskDetails/:mentiId/:taskId", taskDetailsByMentorValidator(), async (req: Request, res: Response) => {
+taskRouter.get("/TaskDetails/:taskId", taskDetailsByMentorValidator(), async (req: Request, res: Response) => {
   try {
     const fieldValidationResult = fieldValidation(req);
     if (fieldValidationResult) {
@@ -46,9 +45,9 @@ taskRouter.get("/TaskDetails/:mentiId/:taskId", taskDetailsByMentorValidator(), 
       return;
     }
 
-    const { mentiId, taskId } = req.params;
+    const { taskId } = req.params;
 
-    const taskDetails = await getTaskDetails(Number(taskId), Number(mentiId));
+    const taskDetails = await getTaskDetails(taskId);
     res.status(StatusCodes.OK).json({ data: taskDetails });
   } catch (error) {
     const e = error as Error;
@@ -67,7 +66,7 @@ taskRouter.get("/menti/:id", tasksByMentiValidator(), async (req: Request, res: 
 
     const { id } = req.params;
 
-    const tasks = await getTasksByMenti(Number(id));
+    const tasks = await getTasksByMenti(id);
     res.status(StatusCodes.OK).json({ data: tasks });
   } catch (error) {
     const e = error as Error;
@@ -76,7 +75,7 @@ taskRouter.get("/menti/:id", tasksByMentiValidator(), async (req: Request, res: 
   }
 });
 
-taskRouter.post("/SubTask/menti/:id", addSubtaskValidator(), async (req: Request, res: Response) => {
+taskRouter.post("/SubTask/:taskId", addSubtaskValidator(), async (req: Request, res: Response) => {
   try {
     const fieldValidationResult = fieldValidation(req);
     if (fieldValidationResult) {
@@ -84,11 +83,10 @@ taskRouter.post("/SubTask/menti/:id", addSubtaskValidator(), async (req: Request
       return;
     }
 
-    const { id } = req.params;
-    const { taskId } = req.body;
+    const { taskId } = req.params;
     const { subtask } = req.body;
 
-    await addSubtask(Number(id), Number(taskId), subtask);
+    await addSubtaskController(taskId, subtask);
     res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;
@@ -105,12 +103,11 @@ taskRouter.post("/:id", addTaskValidator(), async (req: Request, res: Response) 
       return;
     }
 
-    const { id } = req.params;
+    const { id: menti_id } = req.params;
     const { mentor_id } = req.body;
     const { task } = req.body;
 
-
-    await addTask(Number(id), Number(mentor_id), task);
+    await addTaskController(task, menti_id, mentor_id);
     res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;
@@ -130,7 +127,7 @@ taskRouter.put("/ChangeTaskStatus/:id", changeTaskStatusValidator(), async (req:
     const { id } = req.params;
     const { status } = req.body;
 
-    await changeTaskStatusController(Number(id), status);
+    await changeTaskStatusController(id, status);
     res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;
@@ -150,7 +147,7 @@ taskRouter.put("/ChangeSubtaskStatus/:taskId", async (req: Request, res: Respons
     const { taskId: id } = req.params;
     const { subtaskId, status } = req.body;
 
-    await changeSubtaskStatusController(Number(id), subtaskId, status);
+    await changeSubtaskStatusController(id, subtaskId, status);
     res.status(StatusCodes.OK).send();
   } catch (error) {
     const e = error as Error;

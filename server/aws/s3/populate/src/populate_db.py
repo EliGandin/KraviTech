@@ -55,7 +55,7 @@ def update_image_in_table(images: list, db=db_connection):
         return False
 
 
-def main(bucket_name: str):
+def main(bucket_name: str) -> None:
     aws = aws_connection()
     db = db_connection()
     images = get_images_names_from_s3(aws=aws, bucket_name=bucket_name)

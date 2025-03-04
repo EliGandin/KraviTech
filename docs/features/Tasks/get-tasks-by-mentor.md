@@ -13,7 +13,8 @@ ___
 * Example Response:
 
     ```json
-      [
+  {
+      "data" : [
         {
             "id": 1,
             "title": "Learn Python",
@@ -35,6 +36,7 @@ ___
             "sub_tasks_count": 0
         }
       ]
+  }
     ```
 
 * Response Codes:
