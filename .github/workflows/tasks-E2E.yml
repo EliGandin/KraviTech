@@ -1,5 +1,5 @@
 name: Tasks E2E
-run-name: Running Signup End to End testing on ${{ github.head_ref || github.ref_name }} -> ${{ github.sha }}
+run-name: Running Tasks End to End testing on ${{ github.head_ref || github.ref_name }} -> ${{ github.sha }}
 on:
   pull_request:
     branches: [ "main" ]
