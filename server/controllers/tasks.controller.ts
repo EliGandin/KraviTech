@@ -1,9 +1,21 @@
 import * as crypto from "node:crypto";
 
-// import { changeSubtaskStatus, changeTaskStatus } from "@/repositories/tasks.repository";
 import { SubTask, Task } from "@/globals/types/Task.type";
-import { addSubtask, addTask, changeSubtaskStatus, changeTaskStatus } from "@/aws/dynamo/dynamodb";
 import { TaskStatus } from "@/globals/constants";
+import { addSubtask, addTask, changeSubtaskStatus, changeTaskStatus, getTasksByMentor } from "@/aws/dynamo/dynamodb";
+import { getMentisTaskData } from "@/repositories/tasks.repository";
+import { groupTasksByMenti } from "@/utils/mappers/taskMappers";
+
+export const getTasksByMentorController = async (mentorId: string) => {
+  const data = await getTasksByMentor(mentorId);
+
+  if (!data) {
+    throw new Error(`Tasks not found.`);
+  }
+
+  const mentisData = await getMentisTaskData(Number(mentorId));
+  return groupTasksByMenti(data, mentisData);
+};
 
 export const addTaskController = async (task: Partial<Task>, menti_id: string, mentor_id: string) => {
   const newTask = {

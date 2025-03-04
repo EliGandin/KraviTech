@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { addTask } from "@/services/taskServices.ts";
 import { NewTask } from "@/global/interfaces/tasksInterfaces.ts";
 
-export const useAddTask = (id: number) => {
+export const useAddTask = (id: string) => {
   const queryClient = useQueryClient();
   const { mutate: mutateTask, isPending } = useMutation({
     mutationKey: ["addTask", id],

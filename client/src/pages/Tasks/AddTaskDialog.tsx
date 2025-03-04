@@ -22,14 +22,14 @@ import { AddTaskDialogProps } from "@/global/interfaces/Props/TasksProps.ts";
 const AddTaskDialog = ({ isOpen, onClose, mentiId }: AddTaskDialogProps) => {
   const { id } = useParams();
   const form = useForm<z.infer<typeof TaskSchema>>(taskResolver);
-  const { mutateTask, isPending } = useAddTask(mentiId);
+  const { mutateTask, isPending } = useAddTask(String(mentiId));
 
   function onSubmit(task: z.infer<typeof TaskSchema>) {
     if (!task.title || !task.description) {
       return;
     }
 
-    mutateTask({ mentor_id: Number(id), task });
+    mutateTask({ mentor_id: String(id), task });
     onClose(false);
   }
 

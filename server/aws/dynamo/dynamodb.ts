@@ -5,6 +5,7 @@ import { SubTask, Task } from "@/globals/types/Task.type";
 import { TableNames } from "@/globals/constants";
 
 export const addTask = async (task: Task): Promise<void> => {
+  console.log(task);
   const params = {
     TableName: TableNames.Tasks,
     Item: task,
@@ -13,7 +14,7 @@ export const addTask = async (task: Task): Promise<void> => {
   await docClient.send(new PutCommand(params));
 };
 
-export const getTasksByMentor = async (mentorId: string) => {
+export const getTasksByMentor = async (mentorId: string): Promise<Task[] | undefined> => {
   const id = mentorId.toString();
   const params = {
     TableName: TableNames.Tasks,
@@ -25,7 +26,7 @@ export const getTasksByMentor = async (mentorId: string) => {
   };
 
   const { Items } = await docClient.send(new QueryCommand(params));
-  return Items;
+  return Items as Task[];
 };
 
 export const getTasksByMenti = async (mentiId: string) => {
@@ -53,7 +54,8 @@ export const getTaskDetails = async (taskId: string) => {
   };
 
   const { Items } = await docClient.send(new QueryCommand(params));
-  return Items;
+
+  return Items?.[0].subtasks;
 };
 
 export const addSubtask = async (task_id: string, subtask: SubTask) => {
@@ -110,8 +112,6 @@ export const changeSubtaskStatus = async (
   if (!Array.isArray(subtasks)) {
     throw new Error(`Subtasks attribute not found for task ${task_id}.`);
   }
-
-  console.log(getResult.Item.subtasks);
 
   // Step 2: Find the index of the subtask by its id
   const index = subtasks.findIndex((subtask: SubTask) => subtask.id === subtask_id);

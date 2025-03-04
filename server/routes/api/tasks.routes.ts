@@ -12,9 +12,9 @@ import {
   addTaskController,
   changeSubtaskStatusController,
   changeTaskStatusController,
-  addSubtaskController,
+  addSubtaskController, getTasksByMentorController,
 } from "@/controllers/tasks.controller";
-import { getTasksByMentor, getTasksByMenti, getTaskDetails } from "@/aws/dynamo/dynamodb";
+import { getTasksByMenti, getTaskDetails } from "@/aws/dynamo/dynamodb";
 
 const taskRouter = Router();
 
@@ -28,7 +28,7 @@ taskRouter.get("/mentor/:id", tasksByMentorValidator(), async (req: Request, res
 
     const { id } = req.params;
 
-    const tasks = await getTasksByMentor(id);
+    const tasks = await getTasksByMentorController(id);
     res.status(StatusCodes.OK).json({ data: tasks });
   } catch (error) {
     const e = error as Error;
