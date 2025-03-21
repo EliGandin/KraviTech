@@ -21,7 +21,7 @@ const HomePage = () => {
                 mentors to launch successful careers in the tech industry.
               </p>
               <Button size="lg" asChild>
-                <Link to="/get-started">Get Started</Link>
+                <Link to="/signup">Get Started</Link>
               </Button>
             </div>
           </div>

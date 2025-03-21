@@ -13,3 +13,11 @@ export interface Operator {
   id: number;
   name: string;
 }
+
+export interface NewMessage {
+  name: string;
+  email: string;
+  phone_number: string;
+  title: string;
+  message: string;
+}
