@@ -8,3 +8,11 @@ export type Message = {
   date: string;
   operator_id: number | null;
 }
+
+export type NewMessage = {
+  name: string;
+  email: string;
+  phone_number: string;
+  title: string;
+  message: string;
+}

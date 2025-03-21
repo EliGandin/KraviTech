@@ -169,10 +169,7 @@ export default function AboutPage() {
             </p>
             <div className="flex justify-center space-x-4">
               <Button variant="secondary" asChild>
-                <Link to="/apply">Apply as a Mentee</Link>
-              </Button>
-              <Button variant="secondary" asChild>
-                <Link to="/volunteer">Become a Mentor</Link>
+                <Link to="/signup">Apply as a Menti or Mentor</Link>
               </Button>
             </div>
           </div>

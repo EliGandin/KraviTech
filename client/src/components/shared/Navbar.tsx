@@ -12,6 +12,7 @@ import {
   ChevronDown,
   House,
   BookOpen,
+  Mail,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -59,6 +60,13 @@ const Navbar = () => {
           >
             <BookOpen className="mr-2 h-4 w-4" />
             About Us
+          </Link>
+          <Link
+            to="contact"
+            className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-zinc-800 px-4 py-2 text-sm font-medium transition-colors hover:bg-zinc-700 hover:text-zinc-100 focus:bg-zinc-700 focus:text-zinc-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+          >
+            <Mail className="mr-2 h-4 w-4" />
+            Contact Us
           </Link>
           {user ? (
             <>
