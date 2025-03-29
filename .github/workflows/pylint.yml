@@ -45,7 +45,7 @@ jobs:
         id: pylint
         run: |
           git branch --show-current
-          if ! pylint **/*.py --output-format=text > "output.txt"; then
+          if ! pylint **/*.py; then
             if [[ -f output.txt && -s output.txt ]]; then
               echo "linting found errors!"
               echo "failed=false" >> $GITHUB_OUTPUT
