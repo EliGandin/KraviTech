@@ -1,5 +1,5 @@
 import logging
-from pop_utils import db_connection, aws_connection, remove_image_prefix
+from pop_utils import DbConnection, AwsConnection, remove_image_prefix
 
 UPDATE_QUERY = """
 UPDATE {table_name}
@@ -13,7 +13,7 @@ WHERE "{type_name}" = '{user_id}'
 """
 
 
-def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
+def get_images_names_from_s3(aws: AwsConnection, bucket_name: str) -> list:
     db_images = []
     try:
         files = aws.list_files(bucket_name)
@@ -29,7 +29,7 @@ def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
     return db_images
 
 
-def update_image_in_table(images: list, db=db_connection):
+def update_image_in_table(images: list, db=DbConnection) -> bool:
     try:
         for image in images:
             image_update_query = ""
@@ -51,13 +51,13 @@ def update_image_in_table(images: list, db=db_connection):
                 logging.debug("found row: {}".format(row))
         return True
     except Exception as e:
-        logging.error("unhandled error: {}".format(str(e)))
+        logging.error(f"unhandled error: {e}")
         return False
 
 
 def main(bucket_name: str) -> None:
-    aws = aws_connection()
-    db = db_connection()
+    aws = AwsConnection()
+    db = DbConnection()
     images = get_images_names_from_s3(aws=aws, bucket_name=bucket_name)
     if not images:
         logging.error("Didn't find any images!")
