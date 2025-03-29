@@ -21,7 +21,6 @@ jobs:
       - name: Install pylint
         run: |
           pip install pylint[full]
-          pip install pylint-docparams
 
       - name: Create pylint config
         run: |
