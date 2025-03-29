@@ -26,7 +26,6 @@ jobs:
         id: pylint
         run: |
           pylint **/*.py
-        continue-on-error: true
 
       - name: Add summary
         if: always()
