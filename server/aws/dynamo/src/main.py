@@ -13,11 +13,7 @@ def main(args):
     # images_dir = os.environ.get('IMAGES_DIR')
     # if args.action == "db":
     #     logging.info("updating tasks in SQL DB")
-    #       populate_db(bucket_name)
-    # images_dir = os.environ.get('IMAGES_DIR')
-    # if args.action == "db":
-    #     logging.info("updating tasks in SQL DB")
-    #     # populate_db(bucket_name)
+    #     populate_db(bucket_name)
 
     if args.action == "dynamo":
         logging.info("creating and uploading tasks to dynamo !")
