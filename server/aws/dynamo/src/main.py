@@ -6,10 +6,14 @@ from typing import Final
 
 from populate_dynamo import main as upload_tasks
 
-tasks_table_name: Final[str] = "Tasks"
+TASKS_TABLE_NAME: Final[str] = "Tasks"
 
 
 def main(args):
+    # images_dir = os.environ.get('IMAGES_DIR')
+    # if args.action == "db":
+    #     logging.info("updating tasks in SQL DB")
+    #       populate_db(bucket_name)
     # images_dir = os.environ.get('IMAGES_DIR')
     # if args.action == "db":
     #     logging.info("updating tasks in SQL DB")
@@ -17,7 +21,7 @@ def main(args):
 
     if args.action == "dynamo":
         logging.info("creating and uploading tasks to dynamo !")
-        upload_tasks(tasks_table_name)
+        upload_tasks(TASKS_TABLE_NAME)
 
 
 if __name__ == "__main__":

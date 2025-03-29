@@ -1,6 +1,8 @@
 import json
 import logging
 
+from boto3.resources.base import ServiceResource
+
 from aws_connection import AWSConnection
 
 
@@ -32,7 +34,7 @@ def upload_tasks(table):
         exit(1)
 
 
-def create_table(table_name: str):
+def create_table(table_name: str) -> ServiceResource:
     try:
         aws = AWSConnection()
         table = aws.create_table(table_name)
