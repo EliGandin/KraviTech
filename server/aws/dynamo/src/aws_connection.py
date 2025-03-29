@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import List
+from typing import List, Optional
 
 import boto3
 from boto3 import Session
@@ -35,7 +35,7 @@ class AWSConnection:
         if table_name not in tables:
             raise ValueError(f"Table '{table_name}' not created!")
 
-    def create_table(self, table_name: str):
+    def create_table(self, table_name: str) -> Optional[ServiceResource]:
         tables = self.list_tables()
         if table_name in tables:
             logging.error(f"Table '{table_name}' already exists.")
