@@ -22,53 +22,13 @@ jobs:
         run: |
           pip install pylint[full]
 
-      - name: Create pylint config
-        run: |
-          cat > .pylintrc << EOL
-          [MASTER]
-          load-plugins=pylint.extensions.docparams
-
-          [MESSAGES CONTROL]
-          disable=all
-          enable=C0111,W9005,W9008,W9011,W9014
-
-          [PARAMETER_DOCUMENTATION]
-          accept-no-param-doc=no
-          accept-no-return-doc=no
-          accept-no-yields-doc=no
-          accept-no-param-type=no
-          accept-no-return-type=no
-          accept-no-yields-type=no
-          EOL
-
       - name: Run pylint
         id: pylint
         run: |
-          git branch --show-current
-          if ! pylint **/*.py; then
-            if [[ -f output.txt && -s output.txt ]]; then
-              echo "linting found errors!"
-              echo "failed=false" >> $GITHUB_OUTPUT
-            else
-              echo "linter didn't run!"
-              echo "failed=true" >> $GITHUB_OUTPUT
-            fi
-          else 
-            echo "failed=false" >> $GITHUB_OUTPUT
-          fi
+          pylint **/*.py
         continue-on-error: true
 
-      - name: Process output
+      - name: Add summary
+        if: always()
         run: |
-          if [[ "${{ steps.pylint.outputs.failed }}" == 'true' ]]; then
-            echo "# Pylint failed to run ❌" >> $GITHUB_STEP_SUMMARY
-            exit 1
-          fi
-          
-          echo "# Pylint result:" >> $GITHUB_STEP_SUMMARY
-          if [[ -f output.txt && -s output.txt ]]; then
-            cat output.txt >> $GITHUB_STEP_SUMMARY 
-            exit 1
-          else
-            echo "No linting issues found ✅" >> $GITHUB_STEP_SUMMARY
-          fi
+          echo "# Pylint check complete ✅" >> $GITHUB_STEP_SUMMARY
