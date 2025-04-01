@@ -9,7 +9,7 @@ from aws_connection import AWSConnection
 def main(queue_name: str) -> None:
     connection = AWSConnection()
     sqs_url = create_admin_message_queue(connection, queue_name)
-    populate_admin_messages(connection.sqs, sqs_url)
+    populate_admin_messages(connection.sqs(), sqs_url)
 
 
 def create_admin_message_queue(connection: AWSConnection, queue_name: str) -> str:
@@ -24,13 +24,9 @@ def create_admin_message_queue(connection: AWSConnection, queue_name: str) -> st
         exit(1)
 
 
-# AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 sqs get-queue-attributes --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/admin_messages --attribute-names All
-# AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test aws --endpoint-url=http://localhost:4566 sqs receive-message --queue-url  http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/admin_messages.fifo
-
-
 def populate_admin_messages(sqs: boto3.client, sqs_url: str) -> None:
     try:
-        with open("admin_messages.json", "r") as f:
+        with open("json/admin_messages.json", "r") as f:
             data = json.load(f)
 
         for message in data.get("messages", []):
