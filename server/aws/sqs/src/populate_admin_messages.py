@@ -9,7 +9,7 @@ from aws_connection import AWSConnection
 def main(queue_name: str) -> None:
     connection = AWSConnection()
     sqs_url = create_admin_message_queue(connection, queue_name)
-    populate_admin_messages(connection.sqs(), sqs_url)
+    populate_admin_messages(connection.sqs, sqs_url)
 
 
 def create_admin_message_queue(connection: AWSConnection, queue_name: str) -> str:
