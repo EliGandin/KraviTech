@@ -4,20 +4,19 @@ import os
 import logging
 from typing import Final
 
-from populate_dynamo import main as upload_tasks
+from populate_admin_messages import main as populate_admin_messages
 
-TASKS_TABLE_NAME: Final[str] = "Tasks"
+ADMIN_MESSAGES: Final[str] = "admin_messages"
 
 
 def main(args):
-    # images_dir = os.environ.get('IMAGES_DIR')
-    # if args.action == "db":
-    #     logging.info("updating tasks in SQL DB")
-    #     populate_db(bucket_name)
+    if args.action == "admin-notification":
+        logging.info("creating SQS for admin messages")
+        populate_admin_messages(ADMIN_MESSAGES)
 
-    if args.action == "dynamo":
-        logging.info("creating and uploading tasks to dynamo !")
-        upload_tasks(TASKS_TABLE_NAME)
+    if args.action == "mentor-notifications":
+        logging.info("creating and uploading notifications for mentor !")
+        # upload_tasks(tasks_table_name)
 
 
 if __name__ == "__main__":
@@ -25,7 +24,7 @@ if __name__ == "__main__":
     parser.add_argument('--action', metavar='-a', dest="action",
                         help='which action to do? (what to populate db or tasks?)',
                         required=True,
-                        choices=['db', 'dynamo'])
+                        choices=['admin-notification', 'mentor-notifications'])
     args = parser.parse_args()
     LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
     logging.basicConfig(format='%(levelname)s: %(message)s', level=LOGLEVEL)
