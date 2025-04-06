@@ -2,6 +2,7 @@ import logging
 import os
 import boto3
 from botocore.client import BaseClient
+from botocore.exceptions import ClientError
 
 # Load environment variables once
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID', 'test')
@@ -38,14 +39,23 @@ class LambdaClient:
     def lambda_client(self) -> BaseClient:
         return self._lambda
 
-    def create_function(self, function_name: str, runtime: str, role: str, handler: str, code: dict) -> dict:
-        return self._lambda.create_function(
-            FunctionName=function_name,
-            Runtime=runtime,
-            Role=role,
-            Handler=handler,
-            Code=code
-        )
+    def create_function(self, function_name: str, runtime: str, role: str, handler: str, code: dict):
+        try:
+            response = self._lambda.create_function(
+                FunctionName=function_name,
+                Runtime=runtime,
+                Role=role,
+                Handler=handler,
+                Code=code
+            )
+            function_arn = response["FunctionArn"]
+            waiter = self.lambda_client.get_waiter("function_active_v2")
+            waiter.wait(FunctionName=function_name)
+        except ClientError:
+            logging.error("Failed to create Lambda function. Check if the function already exists.")
+        else:
+            logging.info(f"Lambda function {function_name} created successfully.")
+            return function_arn
 
     def create_event_source_mapping(self, arn: str, func_name: str, batch_size: int) -> dict:
         return self._lambda.create_event_source_mapping(
