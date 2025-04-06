@@ -1,0 +1,33 @@
+name: Pylint
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  pylint:
+    name: Run pylint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Install pylint
+        run: |
+          pip install pylint[full]
+
+      - name: Run pylint
+        id: pylint
+        run: |
+          pylint **/*.py
+
+      - name: Add summary
+        if: always()
+        run: |
+          echo "# Pylint check complete ✅" >> $GITHUB_STEP_SUMMARY

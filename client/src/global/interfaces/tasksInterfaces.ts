@@ -5,7 +5,7 @@ export interface MentorTasks {
 }
 
 export interface MentiTasks {
-  id: number;
+  id: number | string;
   title: string;
   description: string;
   status: string;
@@ -16,7 +16,7 @@ export interface MentiTasks {
 }
 
 export interface Task {
-  id: number;
+  task_id: number | string;
   title: string;
   description: string;
   status: string;
@@ -40,7 +40,7 @@ export interface TaskDetails {
 }
 
 export interface Subtask {
-  taskId: number;
+  taskId: number | string;
   subtask: {
     title: string;
     description: string;
@@ -48,7 +48,7 @@ export interface Subtask {
 }
 
 export interface NewTask {
-  mentor_id: number;
+  mentor_id: number | string;
   task: {
     title: string;
     description: string;

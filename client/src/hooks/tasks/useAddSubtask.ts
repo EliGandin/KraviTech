@@ -4,18 +4,18 @@ import { toast } from "sonner";
 import { addSubtask } from "@/services/taskServices.ts";
 import { Subtask } from "@/global/interfaces/tasksInterfaces.ts";
 
-export const useAddSubtask = (id: number) => {
+export const useAddSubtask = (taskId: string) => {
   const queryClient = useQueryClient();
   const { mutate: mutateSubtask, isPending } = useMutation({
-    mutationKey: ["addSubtask", id],
-    mutationFn: (data: Subtask) => addSubtask(id, data),
+    mutationKey: ["addSubtask", taskId],
+    mutationFn: (data: Subtask) => addSubtask(taskId, data),
     onSuccess: async () => {
       toast.success("Subtask has been added successfully");
       await queryClient.invalidateQueries({
-        queryKey: ["getTasksByMentor", id],
+        queryKey: ["getTasksByMentor", taskId],
       });
       await queryClient.invalidateQueries({
-        queryKey: ["getTasksByMenti", id],
+        queryKey: ["getTasksByMenti", taskId],
       });
     },
     onError: (error) => {

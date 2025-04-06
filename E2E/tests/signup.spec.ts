@@ -1,10 +1,18 @@
 import { test, expect } from "@playwright/test";
+import { Page } from "@playwright/test";
 
-const baseURL = "http://localhost:5172";
+import { login } from "../util/login";
+import { baseURL, TestAdmin } from "../consts";
 
-const admin = {
-  email: "fiona.green@example.com",
-  password: "1234",
+
+// const admin = {
+//   email: "fiona.green@example.com",
+//   password: "1234",
+// };
+const adminApproval = async (page: Page, name: string) => {
+  await page.goto(`${baseURL}/app/admin/board`);
+  await page.getByText(name).click();
+  await page.getByText("Approve").click();
 };
 
 test.describe("Signup Roles", () => {
@@ -41,15 +49,17 @@ test.describe("Signup Roles", () => {
     await page.click("button:has-text('OK')");
 
     // Admin Login
-    await page.goto(`${baseURL}/login`);
-    await page.locator("input[name=\"email\"]").fill(admin.email);
-    await page.locator("input[name=\"password\"]").fill(admin.password);
-    await page.click("button:has-text('Login')");
+    await login(page, TestAdmin.email, TestAdmin.password);
+    // await page.goto(`${baseURL}/login`);
+    // await page.locator("input[name=\"email\"]").fill(admin.email);
+    // await page.locator("input[name=\"password\"]").fill(admin.password);
+    // await page.click("button:has-text('Login')");
 
     // Admin Approval
-    await page.goto(`${baseURL}/app/admin/board`);
-    await page.getByText(menti.name).click();
-    await page.getByText("Approve").click();
+    // await page.goto(`${baseURL}/app/admin/board`);
+    // await page.getByText(menti.name).click();
+    // await page.getByText("Approve").click();
+    await adminApproval(page, menti.name);
 
     // Navigate to Mentis Component
     await page.goto(`${baseURL}/app/mentis`);
@@ -99,15 +109,17 @@ test.describe("Signup Roles", () => {
     // await page.click("button:has-text('OK')");
 
     // Admin Login
-    await page.goto(`${baseURL}/login`);
-    await page.locator("input[name=\"email\"]").fill(admin.email);
-    await page.locator("input[name=\"password\"]").fill(admin.password);
-    await page.click("button:has-text('Login')");
+    await login(page, TestAdmin.email, TestAdmin.password);
+    // await page.goto(`${baseURL}/login`);
+    // await page.locator("input[name=\"email\"]").fill(admin.email);
+    // await page.locator("input[name=\"password\"]").fill(admin.password);
+    // await page.click("button:has-text('Login')");
 
     // Admin Approval
-    await page.goto(`${baseURL}/app/admin/board`);
-    await page.getByText(mentor.name).click();
-    await page.getByText("Approve").click();
+    // await page.goto(`${baseURL}/app/admin/board`);
+    // await page.getByText(mentor.name).click();
+    // await page.getByText("Approve").click();
+    await adminApproval(page, mentor.name);
 
     // Navigate to Mentors Component
     await page.goto(`${baseURL}/app/mentors`);

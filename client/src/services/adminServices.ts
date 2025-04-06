@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { TPendingUsers } from "@/global/interfaces/Props/PendingUserCardProps";
-import { Message } from "@/global/interfaces/Props/MessageProps";
+import { Message, NewMessage } from "@/global/interfaces/Props/MessageProps";
 
 export const getPendingUsers = async (): Promise<TPendingUsers> => {
   const { data } = (await axios.get("http://localhost:8000/admin/pendingusers"))
@@ -32,4 +32,8 @@ export const updateMessage = async (
     id,
     operator_id,
   });
+};
+
+export const postContactMessage = async (data: NewMessage): Promise<void> => {
+  await axios.post("http://localhost:8000/admin/message", data);
 };

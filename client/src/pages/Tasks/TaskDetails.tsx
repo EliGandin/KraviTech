@@ -30,18 +30,13 @@ import { useGetTaskDetails } from "@/hooks/tasks/useGetTaskDetails.ts";
 import { useAddSubtask } from "@/hooks/tasks/useAddSubtask.ts";
 import ChangeStatus from "@/pages/Tasks/ChangeStatus.tsx";
 
-const TaskDetails = ({
-  task,
-  dialogOpen,
-  setDialogOpen,
-  mentiId,
-}: TaskDetailsProps) => {
+const TaskDetails = ({ task, dialogOpen, setDialogOpen }: TaskDetailsProps) => {
   const [isStatusChangeOpen, setIsStatusChangeOpen] = useState<boolean>(false);
   const [selectedSubtaskId, setSelectedSubtaskId] = useState<
     string | undefined
   >(undefined);
-  const { taskDetails, isLoading } = useGetTaskDetails(task.id, mentiId);
-  const { mutateSubtask, isPending } = useAddSubtask(mentiId);
+  const { taskDetails, isLoading } = useGetTaskDetails(String(task.task_id));
+  const { mutateSubtask, isPending } = useAddSubtask(String(task.task_id));
 
   const form = useForm<z.infer<typeof TaskSchema>>(taskResolver);
 
@@ -50,7 +45,7 @@ const TaskDetails = ({
       return;
     }
 
-    mutateSubtask({ taskId: task.id, subtask });
+    mutateSubtask({ taskId: String(task.task_id), subtask });
   }
 
   if (isLoading) return <Loader />;
@@ -199,7 +194,7 @@ const TaskDetails = ({
 
       {isStatusChangeOpen && (
         <ChangeStatus
-          id={task.id}
+          id={task.task_id}
           dialogOpen={isStatusChangeOpen}
           setDialogOpen={setIsStatusChangeOpen}
           subtaskId={selectedSubtaskId}

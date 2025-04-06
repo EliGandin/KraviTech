@@ -24,3 +24,13 @@ export const updateMessageValidator = () => {
       .withMessage(FieldErrors.INVALID_OPERATOR_ID),
   ];
 };
+
+export const newMessageValidator = () => {
+  return [
+    body("name").isString().withMessage(FieldErrors.INVALID_NAME),
+    body("email").isEmail().withMessage(FieldErrors.INVALID_EMAIL),
+    body("phone_number").isString().withMessage(FieldErrors.INVALID_PHONE_NUMBER),
+    body("title").isString(),
+    body("message").isString(),
+  ];
+};

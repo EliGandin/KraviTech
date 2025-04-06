@@ -8,7 +8,7 @@ export const tasksByMentorValidator = () => {
 };
 
 export const taskDetailsByMentorValidator = () => {
-  return [param("taskId").isNumeric().withMessage(FieldErrors.INVALID_ID), param("mentiId").isNumeric().withMessage(FieldErrors.INVALID_ID)];
+  return [param("taskId").isUUID().withMessage(FieldErrors.INVALID_ID)];
 };
 
 export const tasksByMentiValidator = () => {
@@ -16,8 +16,7 @@ export const tasksByMentiValidator = () => {
 };
 
 export const addSubtaskValidator = () => {
-  return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID),
-    body("taskId").isNumeric().withMessage(FieldErrors.INVALID_ID),
+  return [param("taskId").isUUID().withMessage(FieldErrors.INVALID_ID),
     body("subtask")
       .isObject()
       .bail(),
@@ -48,7 +47,7 @@ export const addTaskValidator = () => {
 };
 
 export const changeTaskStatusValidator = () => {
-  return [param("id").isNumeric().withMessage(FieldErrors.INVALID_ID),
+  return [param("id").isUUID().withMessage(FieldErrors.INVALID_ID),
     body("status").isString().custom((value: string) => {
       if (Object.values(TaskStatus).includes(value.toUpperCase())) {
         return true;

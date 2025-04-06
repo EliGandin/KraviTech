@@ -1,20 +1,23 @@
+import os
+import logging
+import json
+from typing import Optional
+
 import psycopg2
 import boto3
-import os
-import json
+from boto3 import Session
 from botocore.exceptions import ClientError
-import logging
 
 IMAGE_FORMATS = ["jpg", "jpeg", "pdf", "bmp", "svg", "gif", "png", "tiff"]
 
 
-def remove_image_prefix(image_name: str):
-    for format in IMAGE_FORMATS:
-        image_name = image_name.replace(f".{format}", "")
+def remove_image_prefix(image_name: str) -> str:
+    for file_type in IMAGE_FORMATS:
+        image_name = image_name.replace(f".{file_type}", "")
     return image_name
 
 
-class db_connection():
+class DbConnection:
     def __init__(self) -> None:
         database_url = os.environ.get('DATABASE_URL')
         if not database_url:
@@ -22,21 +25,16 @@ class db_connection():
 
         self._conn = psycopg2.connect(
             database_url
-            #             dbname=os.environ.get('DATABASE_NAME'),
-            #             user=os.environ.get('DATABASE_USERNAME'),
-            #             password=os.environ.get('DATABASE_PASSWORD'),
-            #             host=os.environ.get('DATABASE_URL'),
-            #             port=os.environ.get('DATABASE_PORT')
         )
         self._cursor = self._conn.cursor()
         logging.info("Created a db connection!")
 
     @property
-    def connection(self):
+    def connection(self) -> psycopg2.extensions.connection:
         return self._conn
 
     @property
-    def cursor(self):
+    def cursor(self) -> psycopg2.extensions.cursor:
         return self._cursor
 
     def commit(self):
@@ -50,18 +48,18 @@ class db_connection():
     def execute(self, sql, params=None):
         self.cursor.execute(sql, params or ())
 
-    def fetchall(self):
+    def fetchall(self) -> list:
         return self.cursor.fetchall()
 
-    def fetchone(self):
+    def fetchone(self) -> Optional[dict]:
         return self.cursor.fetchone()
 
-    def query(self, sql, params=None):
+    def query(self, sql, params=None) -> list:
         self.cursor.execute(sql, params or ())
         return self.fetchall()
 
 
-class aws_connection():
+class AwsConnection:
     def __init__(self) -> None:
         self._session = boto3.session.Session()
         self._s3_client = self._session.client(
@@ -74,19 +72,20 @@ class aws_connection():
         logging.info("created a s3 client connection!")
 
     @property
-    def session(self):
+    def session(self) -> Session:
         return self._session
 
     @property
-    def s3_client(self):
+    def s3_client(self) -> boto3.client:
         return self._s3_client
 
-    def upload_file(self, file_name, bucket_name, object_name=None, content_type=None):
+    def upload_file(self, file_name: str, bucket_name: str, object_name: str = None, content_type: str = None) -> bool:
         """Upload a file to an S3 bucket
 
         :param file_name: File to upload
-        :param bucket: Bucket to upload to
+        :param bucket_name: Bucket to upload to
         :param object_name: S3 object name. If not specified then file_name is used
+        :param content_type: content type of the file
         :return: True if file was uploaded, else False
         """
 
@@ -106,7 +105,7 @@ class aws_connection():
             return False
         return True
 
-    def list_files(self, bucket_name):
+    def list_files(self, bucket_name: str) -> Optional[list]:
         try:
             response = self._s3_client.list_objects_v2(
                 Bucket=bucket_name
@@ -119,11 +118,12 @@ class aws_connection():
             logging.error(str(e))
             return None
 
-    def __get_cors__(self):
+    @staticmethod
+    def __get_cors__():
         with open('cors.json', 'r') as cors_file:
             return json.load(cors_file)
 
-    def create_bucket(self, bucket_name):
+    def create_bucket(self, bucket_name: str) -> Optional[bool]:
         try:
             response = self._s3_client.create_bucket(
                 Bucket=bucket_name
@@ -141,7 +141,7 @@ class aws_connection():
             logging.error(str(e))
             return False
 
-    def create_presigned_url(self, bucket_name, object_name, expiration=3600):
+    def create_presigned_url(self, bucket_name: str, object_name: str, expiration: int = 3600) -> Optional[str]:
         try:
             response = self._s3_client.generate_presigned_url('get_object',
                                                               Params={'Bucket': bucket_name,

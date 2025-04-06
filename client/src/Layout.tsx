@@ -15,6 +15,7 @@ import MentiProfile from "@/pages/Profile/MentiProfile/MentiProfile.tsx";
 import MentorDashboard from "@/pages/Mentors/Dashboard/MentorDashboard.tsx";
 import MentiDashboard from "@/pages/Tasks/MentiDashboard.tsx";
 import AboutPage from "@/pages/AboutPage.tsx";
+import Contact from "@/pages/Contact/Contact.tsx";
 
 const Layout = () => {
   return (
@@ -38,6 +39,7 @@ const Layout = () => {
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Toaster
         toastOptions={{

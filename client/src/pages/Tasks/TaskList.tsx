@@ -40,7 +40,7 @@ const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
           <ul className="space-y-2">
             {tasks?.map((task: Task) => (
               <li
-                key={task.id}
+                key={task.task_id}
                 className="rounded-lg border p-4 hover:bg-gray-50"
               >
                 <div className="mb-2 flex items-center justify-between">
@@ -78,7 +78,6 @@ const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
           task={selectedTask}
           dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
-          mentiId={mentiId}
         />
       )}
 
@@ -86,7 +85,7 @@ const TaskList = ({ mentiId, mentiName, tasks }: TaskListProps) => {
         <AddTaskDialog
           isOpen={isAddTaskDialogOpen}
           onClose={setIsAddTaskDialogOpen}
-          mentiId={mentiId}
+          mentiId={String(mentiId)}
         />
       )}
     </>

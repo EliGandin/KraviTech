@@ -23,29 +23,21 @@ export const getTasksByMenti = async (id: number): Promise<MentiTasks[]> => {
 };
 
 export const getTaskDetails = async (
-  mentiId: number,
-  taskId: number,
+  taskId: string,
 ): Promise<TaskDetails[]> => {
   const { data } = (
-    await axios.get(
-      `http://localhost:8000/tasks/TaskDetails/${mentiId}/${taskId}`,
-    )
+    await axios.get(`http://localhost:8000/tasks/TaskDetails/${taskId}`)
   ).data;
 
-  return data.subTasks;
+  return data;
 };
 
-export const addTask = (mentiId: number, task: NewTask): Promise<void> => {
-  console.log(mentiId);
-
+export const addTask = (mentiId: string, task: NewTask): Promise<void> => {
   return axios.post(`http://localhost:8000/tasks/${mentiId}`, task);
 };
 
-export const addSubtask = async (mentiId: number, subtask: Subtask) => {
-  await axios.post(
-    `http://localhost:8000/tasks/SubTask/menti/${mentiId}`,
-    subtask,
-  );
+export const addSubtask = async (taskId: string, subtask: Subtask) => {
+  await axios.post(`http://localhost:8000/tasks/SubTask/${taskId}`, subtask);
 };
 
 export const changeTaskStatus = (id: number, status: string): Promise<void> => {
