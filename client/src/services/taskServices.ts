@@ -8,16 +8,16 @@ import {
   TaskDetails,
 } from "@/global/interfaces/tasksInterfaces.ts";
 
+const URL = `${import.meta.env.VITE_BACKEND_URL}/tasks`;
+
 export const getTasksByMentor = async (id: number): Promise<MentorTasks[]> => {
-  const { data } = (await axios.get(`http://localhost:8000/tasks/mentor/${id}`))
-    .data;
+  const { data } = (await axios.get(`${URL}/mentor/${id}`)).data;
 
   return data;
 };
 
 export const getTasksByMenti = async (id: number): Promise<MentiTasks[]> => {
-  const { data } = (await axios.get(`http://localhost:8000/tasks/menti/${id}`))
-    .data;
+  const { data } = (await axios.get(`${URL}/menti/${id}`)).data;
 
   return data;
 };
@@ -25,23 +25,21 @@ export const getTasksByMenti = async (id: number): Promise<MentiTasks[]> => {
 export const getTaskDetails = async (
   taskId: string,
 ): Promise<TaskDetails[]> => {
-  const { data } = (
-    await axios.get(`http://localhost:8000/tasks/TaskDetails/${taskId}`)
-  ).data;
+  const { data } = (await axios.get(`${URL}/TaskDetails/${taskId}`)).data;
 
   return data;
 };
 
 export const addTask = (mentiId: string, task: NewTask): Promise<void> => {
-  return axios.post(`http://localhost:8000/tasks/${mentiId}`, task);
+  return axios.post(`${URL}/${mentiId}`, task);
 };
 
 export const addSubtask = async (taskId: string, subtask: Subtask) => {
-  await axios.post(`http://localhost:8000/tasks/SubTask/${taskId}`, subtask);
+  await axios.post(`${URL}/SubTask/${taskId}`, subtask);
 };
 
 export const changeTaskStatus = (id: number, status: string): Promise<void> => {
-  return axios.put(`http://localhost:8000/tasks/ChangeTaskStatus/${id}`, {
+  return axios.put(`${URL}/ChangeTaskStatus/${id}`, {
     status,
   });
 };
@@ -51,7 +49,7 @@ export const changeSubtaskStatus = (
   subtaskId: string,
   status: string,
 ): Promise<void> => {
-  return axios.put(`http://localhost:8000/tasks/ChangeSubtaskStatus/${id}`, {
+  return axios.put(`${URL}/ChangeSubtaskStatus/${id}`, {
     subtaskId,
     status,
   });
