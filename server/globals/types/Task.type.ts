@@ -8,6 +8,7 @@ export type Task = {
   created_date: string;
   in_progress_date?: string | null;
   completed_date?: string | null;
+  due_date: string | Date
   menti_id: number | string;
   mentor_id?: number | string;
   sub_tasks_count: number;

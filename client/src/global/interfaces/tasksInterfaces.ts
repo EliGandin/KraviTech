@@ -23,6 +23,7 @@ export interface Task {
   created_date: Date;
   in_progress_date: Date;
   completed_date: Date;
+  due_date?: Date | string;
   menti_id?: number;
   mentor_id?: number;
   sub_tasks_count: number;
@@ -52,5 +53,6 @@ export interface NewTask {
   task: {
     title: string;
     description: string;
+    due_date: Date;
   };
 }

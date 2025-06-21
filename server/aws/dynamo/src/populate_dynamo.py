@@ -21,6 +21,7 @@ def upload_tasks(table):
                 "status": task.get("status"),
                 "created_date": task.get("created_date"),
                 "in_progress_date": task.get("in_progress_date"),
+                "due_date": task.get("due_date"),
                 "completed_date": task.get("completed_date"),
                 "subtasks": task.get("subtasks", [])
             }
