@@ -33,7 +33,6 @@ const Navbar = () => {
       href: `app/${user?.role}s/${user?.id}/dashboard`,
       icon: LayoutDashboard,
     },
-    { name: "Tables", href: "app/tables", icon: Table },
     { name: "Mentors", href: "app/mentors", icon: Users },
     { name: "Mentis", href: "app/mentis", icon: Brain },
   ];
@@ -120,7 +119,8 @@ const Navbar = () => {
               />
             </button>
             {isOpen && (
-              <div className="absolute right-0 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+              <div
+                className="absolute right-0 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                 <div
                   className="py-1"
                   role="menu"

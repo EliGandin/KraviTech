@@ -4,7 +4,6 @@ import { Toaster } from "@/components/ui/sonner.tsx";
 import Background from "@/components/shared/Background.tsx";
 import Navbar from "@/components/shared/Navbar.tsx";
 import HomePage from "@/pages/HomePage";
-import Tables from "@/pages/Tables";
 import Mentors from "@/pages/Mentors/Mentors.tsx";
 import Mentis from "@/pages/Mentis/Mentis.tsx";
 import Login from "@/pages/Login";
@@ -30,7 +29,6 @@ const Layout = () => {
           element={<MentorDashboard />}
         />
         <Route path="/app/mentis/:id/dashboard" element={<MentiDashboard />} />
-        <Route path="/app/tables" element={<Tables />} />
         <Route path="/app/mentors" element={<Mentors />} />
         <Route path="/app/mentors/:id" element={<MentorProfile />} />
         <Route path="/app/mentis" element={<Mentis />} />
