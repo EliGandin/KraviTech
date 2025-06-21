@@ -31,6 +31,7 @@ export const getTaskDetails = async (
 };
 
 export const addTask = (mentiId: string, task: NewTask): Promise<void> => {
+  console.log(task);
   return axios.post(`${URL}/${mentiId}`, task);
 };
 

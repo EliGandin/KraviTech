@@ -89,7 +89,8 @@ export const getDashboardData = async (id: number): Promise<MentorDashboardData>
                                                     JSON_AGG(
                                                             JSON_BUILD_OBJECT(
                                                                     'task_id', t.id,
-                                                                    'status', t.status
+                                                                    'status', t.status,
+                                                                    'due_date', t.due_date
                                                             )
                                                     )           AS tasks
                                              FROM mentis m

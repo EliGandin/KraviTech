@@ -10,6 +10,7 @@
       "created_date": "2021-01-01",
       "in_progress_date": null,
       "completed_date": null,
+      "due_date": "2021-12-31",
       "subtasks": [
         {
           "id": "a6cb4f80-e3e3-45eb-9e8b-70d7eb7b53ac_1",
@@ -41,6 +42,7 @@
       "created_date": "2021-01-01",
       "in_progress_date": null,
       "completed_date": null,
+      "due_date": "2021-12-31",
       "subtasks": [
         {
           "id": "266d6f25-ecfd-4f5d-99a1-ff4fe82fde91_1",
@@ -70,6 +72,7 @@
       "description": "Learn React basics",
       "status": "NEW",
       "created_date": "2021-01-01",
+      "due_date": "2021-12-31",
       "in_progress_date": null,
       "completed_date": null,
       "subtasks": [
@@ -101,6 +104,7 @@
       "description": "Learn AWS basics",
       "status": "NEW",
       "created_date": "2021-01-01",
+      "due_date": "2021-12-31",
       "in_progress_date": null,
       "completed_date": null,
       "subtasks": [
@@ -132,6 +136,7 @@
       "description": "Test Description",
       "status": "NEW",
       "created_date": "2021-01-01",
+      "due_date": "2021-12-31",
       "in_progress_date": null,
       "completed_date": null,
       "subtasks": [
