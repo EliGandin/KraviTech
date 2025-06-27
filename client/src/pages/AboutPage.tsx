@@ -164,8 +164,8 @@ export default function AboutPage() {
               Join the KraviTech Community
             </h2>
             <p className="mb-8 text-xl">
-              Whether you're a veteran looking to enter tech or a mentor willing
-              to give back, we want to hear from you.
+              Whether you`&apos;`re a veteran looking to enter tech or a mentor
+              willing to give back, we want to hear from you.
             </p>
             <div className="flex justify-center space-x-4">
               <Button variant="secondary" asChild>
