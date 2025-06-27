@@ -5,7 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   LayoutDashboard,
   Home,
-  Table,
   Users,
   Brain,
   ShieldCheck,

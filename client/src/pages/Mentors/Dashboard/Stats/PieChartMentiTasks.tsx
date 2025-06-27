@@ -60,7 +60,7 @@ const PieChartMentiTasks = () => {
     <Card className="flex w-full flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Task Status Distribution</CardTitle>
-        <CardDescription>All Mentis' Tasks</CardDescription>
+        <CardDescription>All Mentis`&apos;` Tasks</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

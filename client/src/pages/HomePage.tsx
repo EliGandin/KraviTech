@@ -78,9 +78,9 @@ const HomePage = () => {
             </h2>
             <div className="mx-auto max-w-3xl rounded-lg bg-white p-8 shadow-md">
               <p className="mb-4 text-lg">
-                "KraviTech was instrumental in helping me transition from
+                `&apos;`KraviTech was instrumental in helping me transition from
                 military service to a successful career in software development.
-                The mentorship and support I received were invaluable."
+                The mentorship and support I received were invaluable.`&apos;`
               </p>
               <div className="flex items-center">
                 <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 font-bold text-white">
