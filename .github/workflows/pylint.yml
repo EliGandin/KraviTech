@@ -8,26 +8,62 @@ on:
 
 jobs:
   pylint:
-    name: Run pylint
+    name: Run Pylint
     runs-on: ubuntu-latest
     permissions:
       contents: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Install pylint
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"  # Change this to match your project
+
+      - name: Install Pylint
         run: |
+          python -m pip install --upgrade pip
           pip install pylint[full]
 
-      - name: Run pylint
+      - name: Run Pylint
         id: pylint
+        continue-on-error: true
         run: |
-          pylint **/*.py
+          OUTPUT_FILE="${RUNNER_TEMP}/pylint_output.txt"
 
-      - name: Add summary
-        if: always()
+          # Run pylint on tracked .py files only
+          FILES=$(git ls-files '*.py')
+
+          if ! pylint $FILES -r n --output-format=text > "$OUTPUT_FILE" 2>&1; then
+            echo "pylint found errors!"
+            echo "failed=true" >> $GITHUB_OUTPUT
+          else
+            echo "failed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: See output
         run: |
+          OUTPUT_FILE="${RUNNER_TEMP}/pylint_output.txt"
+          if [[ "${{ steps.pylint.outputs.failed }}" == 'true' ]]; then
+            echo "# Pylint failed ❌" >> $GITHUB_STEP_SUMMARY
+            if [[ -f "$OUTPUT_FILE" ]]; then
+              echo "## Pylint errors:" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              cat "$OUTPUT_FILE" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+
+              echo "---- Pylint errors (console output) ----"
+              cat "$OUTPUT_FILE"
+              echo "----------------------------------------"
+            else
+              echo "No output file found"
+            fi
+            exit 1
+          fi
+
           echo "# Pylint check complete ✅" >> $GITHUB_STEP_SUMMARY
+          echo "Pylint finished with no errors :rocket:" >> $GITHUB_STEP_SUMMARY
