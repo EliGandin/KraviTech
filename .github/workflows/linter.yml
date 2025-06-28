@@ -23,20 +23,24 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Install dependencies
+      - name: Install dependencies and plugins
         working-directory: ${{ matrix.bundle }}
         run: |
+          # Install project dependencies
           if [[ -f package-lock.json ]]; then
             npm ci
           else
             npm install
           fi
 
-      - name: Extra client setup
-        if: ${{ matrix.bundle == 'client' }}
-        working-directory: client
-        run: |
-          npm install --save-dev eslint-plugin-react eslint-plugin-react-refresh eslint-plugin-react-hooks 
+          # Ensure required ESLint plugins are present
+          npm install --save-dev \
+            eslint \
+            @typescript-eslint/eslint-plugin \
+            @typescript-eslint/parser \
+            eslint-plugin-react \
+            eslint-plugin-react-hooks \
+            eslint-plugin-react-refresh
 
       - name: Run ESLint
         working-directory: ${{ matrix.bundle }}
@@ -44,6 +48,8 @@ jobs:
         continue-on-error: true
         run: |
           OUTPUT_FILE="${RUNNER_TEMP}/eslint_output.txt"
+          
+          # Run eslint and output results
           if ! npx eslint . -f stylish > "$OUTPUT_FILE" 2>&1; then
             echo "failed=true" >> $GITHUB_OUTPUT
           else
@@ -53,6 +59,7 @@ jobs:
       - name: Report Lint Results
         run: |
           OUTPUT_FILE="${RUNNER_TEMP}/eslint_output.txt"
+
           if [[ "${{ steps.lint.outputs.failed }}" == "true" ]]; then
             echo "# ❌ Lint failed in ${{ matrix.bundle }}" >> $GITHUB_STEP_SUMMARY
             if [[ -f "$OUTPUT_FILE" ]]; then
@@ -60,7 +67,9 @@ jobs:
               echo '```' >> $GITHUB_STEP_SUMMARY
               cat "$OUTPUT_FILE" >> $GITHUB_STEP_SUMMARY
               echo '```' >> $GITHUB_STEP_SUMMARY
-              cat "$OUTPUT_FILE"  # Print to console too
+              echo "---- Console ESLint Output ----"
+              cat "$OUTPUT_FILE"
+              echo "--------------------------------"
             fi
             exit 1
           else
