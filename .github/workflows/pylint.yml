@@ -25,9 +25,30 @@ jobs:
       - name: Run pylint
         id: pylint
         run: |
-          pylint **/*.py
+          if ! pylint **/*.py -r n --output-format=text > "output.txt" 2>&1; then
+            if [[ -f output.txt ]]; then
+              echo "pylint found errors!"
+              echo "failed=true" >> $GITHUB_OUTPUT
+            else
+              echo "pylint didn't run!"
+              echo "failed=true" >> $GITHUB_OUTPUT
+            fi
+          else 
+            echo "failed=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
 
-      - name: Add summary
-        if: always()
+      - name: see output
         run: |
+          if [[ "${{ steps.pylint.outputs.failed }}" =~ 'true' ]]; then
+            echo "# Pylint failed ❌" >> $GITHUB_STEP_SUMMARY
+            if [[ -f output.txt ]]; then
+              echo "## Pylint errors:" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              cat output.txt >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+            fi
+            exit 1;
+          fi
           echo "# Pylint check complete ✅" >> $GITHUB_STEP_SUMMARY
+          echo "Pylint finished with no errors :rocket:" >> $GITHUB_STEP_SUMMARY

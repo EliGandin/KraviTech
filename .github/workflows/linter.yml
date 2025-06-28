@@ -39,13 +39,13 @@ jobs:
           if ! npx eslint . -o "output.txt"; then
             if [[ -f output.txt ]]; then
               echo "linting found errors!"
-              echo "failed=false" >> $GITHUB_OUTPUT
+              echo "failed=true" >> $GITHUB_OUTPUT
             else
               echo "linter didn't run!"
               echo "failed=true" >> $GITHUB_OUTPUT
             fi
           else 
-            echo "failed=false >> $GITHUB_OUTPUT
+            echo "failed=false" >> $GITHUB_OUTPUT
           fi
         continue-on-error: true
       - name: see output
